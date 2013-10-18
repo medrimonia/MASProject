@@ -17,6 +17,18 @@ namespace MASProject
             new MASProject().Go();
         }
 
+        private bool updateContent(FrameEvent evt)
+        {
+            environment.mutate(evt.timeSinceLastEvent);
+            return true;
+        }
+
+        protected override void CreateFrameListeners()
+        {
+            base.CreateFrameListeners();
+            mRoot.FrameRenderingQueued += new FrameListener.FrameRenderingQueuedHandler(updateContent);
+        }
+
         protected override void CreateScene()
         {
             environment = new World(mSceneMgr, 5, 0);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mogre;
 
 /* This class will contain every object existing in the world and
@@ -13,6 +14,8 @@ namespace MASProject
         private int worldMaxX =  2000;
         private int worldMinZ = -2000;
         private int worldMaxZ = 2000;
+
+        private List<GraphicalAgent> agents;
 
 
         public int WorldMinX
@@ -40,16 +43,16 @@ namespace MASProject
             get { return WorldMaxZ - WorldMinZ; }
         }
 
-
         public World(SceneManager sm, int nbOgre, int nbRobots)
         {
             // Creating the ground
             addPlane(sm);
 
+            agents = new List<GraphicalAgent>();
             // Creating the ogres
             for (int i = 0; i < nbOgre; i++)
             {
-                OgreFactory.createOgre(sm);
+                agents.Add(OgreFactory.createOgre(sm));
             }
         }
 
@@ -63,6 +66,14 @@ namespace MASProject
 
             Entity groundEnt = sm.CreateEntity("GroundEntity", "ground");
             sm.RootSceneNode.CreateChildSceneNode().AttachObject(groundEnt);
+        }
+
+        public void mutate(float elapsedTime)
+        {
+            foreach (GraphicalAgent a in agents)
+            {
+                a.mutate(elapsedTime);
+            }
         }
     }
 }
