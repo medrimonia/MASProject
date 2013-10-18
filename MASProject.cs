@@ -21,7 +21,7 @@ namespace MASProject
 
         private bool updateContent(FrameEvent evt)
         {
-            environment.mutate(evt.timeSinceLastEvent);
+            environment.mutate(evt.timeSinceLastFrame);
             return true;
         }
 
