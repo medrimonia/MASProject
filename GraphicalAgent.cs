@@ -23,7 +23,7 @@ namespace MASProject
         /* At each step, an agent will perform a mutation according to the
          * elapsed time.
          */
-        public abstract void mutate(double elapsedTime, List<GraphicalAgent> neighbors);
+        public abstract void mutate(float elapsedTime, List<GraphicalAgent> neighbors);
 
         public bool canSee(GraphicalAgent a)
         {
