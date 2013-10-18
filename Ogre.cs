@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mogre;
 
 namespace MASProject
@@ -12,17 +13,15 @@ namespace MASProject
          */
         private Vector3 goal;
 
-        private string entityName;
-        private string nodeName;
-
-        public Ogre(SceneManager sm, int ogreId, Vector3 initialLocation)
+        public Ogre(SceneManager sm, int ogreId, Vector3 initialLocation, float visionRadius)
         {
-            entityName = "OgreHead" + ogreId;
-            nodeName = "OgreHeadNode" + ogreId;
+            string entityName = "OgreHead" + ogreId;
+            string nodeName = "OgreHeadNode" + ogreId;
             ent = sm.CreateEntity(entityName,"ogrehead.mesh");
             node = sm.RootSceneNode.CreateChildSceneNode(nodeName, initialLocation);
             node.AttachObject(ent);
             updateGoal();
+            this.visionRadius = visionRadius;
         }
 
         private void updateGoal()
@@ -30,10 +29,15 @@ namespace MASProject
             goal = OgreFactory.randomLocation();
         }
 
-        public override void mutate(double elapsedTime)
+        public override void mutate(double elapsedTime, List<GraphicalAgent> neighbors)
         {
-            float speed = 0.5f;
+            float speed = 1.5f;
             float minDist = 10;
+            // If close to another ogre, stop
+            if (neighbors.Count != 0)
+            {
+                return;
+            }
             // If we're close to the goal, modify the goal
             if ((goal - node.Position).Length < minDist)
             {
@@ -43,6 +47,16 @@ namespace MASProject
             toGoal.Normalise();            
             toGoal *= speed;
             node.Position += toGoal;
+        }
+
+        public override bool Equals(object obj)
+        {
+            Ogre o = obj as Ogre;
+            if (o != null)
+            {
+                return o.ent.Name.Equals(ent.Name);
+            }
+            return false;
         }
     }
 }

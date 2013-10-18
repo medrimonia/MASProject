@@ -68,11 +68,24 @@ namespace MASProject
             sm.RootSceneNode.CreateChildSceneNode().AttachObject(groundEnt);
         }
 
+        public List<GraphicalAgent> neighborHood(GraphicalAgent a)
+        {
+            List<GraphicalAgent> neighbors = new List<GraphicalAgent>();
+            foreach (GraphicalAgent a2 in agents)
+            {
+                if (!a.Equals(a2) && a.canSee(a2))
+                {
+                    neighbors.Add(a2);
+                }
+            }
+            return neighbors;
+        }
+
         public void mutate(float elapsedTime)
         {
             foreach (GraphicalAgent a in agents)
             {
-                a.mutate(elapsedTime);
+                a.mutate(elapsedTime, neighborHood(a));
             }
         }
     }
