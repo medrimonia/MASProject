@@ -5,7 +5,7 @@ namespace MASProject
 {
     class OgreFactory
     {
-        private static Random posGenerator = new Random();
+        private static Random rndGen = new Random();
         private static int nbOgresCreated = 0;
 
         /* This value is used to see the heads as "on" the plane and not
@@ -23,15 +23,16 @@ namespace MASProject
 
         public static Vector3 randomLocation()
         {
-            int xPos = posGenerator.Next(minX, maxX);
-            int zPos = posGenerator.Next(minZ, maxZ);
+            int xPos = rndGen.Next(minX, maxX);
+            int zPos = rndGen.Next(minZ, maxZ);
             return new Vector3(xPos, defaultY, zPos);
         }
 
 
         public static Ogre createOgre(SceneManager sm)
         {
-            return new Ogre(sm, nbOgresCreated++, randomLocation(), defaultVisionRadius);
+            float age = Ogre.Longevity * (float)rndGen.NextDouble();
+            return new Ogre(sm, nbOgresCreated++, randomLocation(), defaultVisionRadius, age);
         }
     }
 }
