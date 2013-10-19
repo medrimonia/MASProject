@@ -49,9 +49,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Factories\GraphicalObjectFactory.cs" />
     <Compile Include="GraphicalAgent.cs" />
     <Compile Include="Ogre.cs" />
-    <Compile Include="OgreFactory.cs" />
+    <Compile Include="Factories\OgreFactory.cs" />
+    <Compile Include="Utils\WorldUtils.cs" />
+    <Compile Include="Stone.cs" />
+    <Compile Include="Factories\StoneFactory.cs" />
     <Compile Include="World.cs" />
     <Compile Include="MASProject.cs" />
   </ItemGroup>
@@ -94,6 +98,9 @@
       <HintPath>bin\Debug\MOIS.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GraphicalObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

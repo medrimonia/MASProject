@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mogre;
+using MASProject.Factories;
+using MASProject.Utils;
 
 /* This class will contain every object existing in the world and
  * will allow to access them easily.
@@ -10,49 +12,22 @@ namespace MASProject
 {
     class World
     {
-        private int worldMinX = -2000;
-        private int worldMaxX =  2000;
-        private int worldMinZ = -2000;
-        private int worldMaxZ = 2000;
 
-        private List<GraphicalAgent> agents;
+        private OgreFactory oFactory;
 
-
-        public int WorldMinX
-        {
-            get { return worldMinX; }
-        }
-        public int WorldMaxX
-        {
-            get { return worldMaxX; }
-        }
-        public int WorldMinZ
-        {
-            get { return worldMinZ; }
-        }
-        public int WorldMaxZ
-        {
-            get { return worldMaxZ; }
-        }
-        public int WorldWidth
-        {
-            get { return WorldMaxX - WorldMinX; }
-        }
-        public int WorldDepth
-        {
-            get { return WorldMaxZ - WorldMinZ; }
-        }
+        private List<GraphicalObject> objects;
 
         public World(SceneManager sm, int nbOgre, int nbRobots)
         {
+            oFactory = new OgreFactory();
             // Creating the ground
             addPlane(sm);
 
-            agents = new List<GraphicalAgent>();
+            objects = new List<GraphicalObject>();
             // Creating the ogres
             for (int i = 0; i < nbOgre; i++)
             {
-                agents.Add(OgreFactory.createOgre(sm));
+                objects.Add(oFactory.create(sm));
             }
         }
 
@@ -62,20 +37,20 @@ namespace MASProject
             //TODO size of plane should be related to max locations of objects
             MeshManager.Singleton.CreatePlane("ground",
     ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, plane,
-    WorldWidth, WorldDepth, 20, 20, true, 1, 5, 5, Vector3.UNIT_Z);
+    WorldUtils.Width, WorldUtils.Depth, 20, 20, true, 1, 5, 5, Vector3.UNIT_Z);
 
             Entity groundEnt = sm.CreateEntity("GroundEntity", "ground");
             sm.RootSceneNode.CreateChildSceneNode().AttachObject(groundEnt);
         }
 
-        public List<GraphicalAgent> neighborHood(GraphicalAgent a)
+        public List<GraphicalObject> neighborHood(GraphicalAgent a)
         {
-            List<GraphicalAgent> neighbors = new List<GraphicalAgent>();
-            foreach (GraphicalAgent a2 in agents)
+            List<GraphicalObject> neighbors = new List<GraphicalObject>();
+            foreach (GraphicalObject o in objects)
             {
-                if (!a.Equals(a2) && a.canSee(a2))
+                if (!a.Equals(o) && a.canSee(o))
                 {
-                    neighbors.Add(a2);
+                    neighbors.Add(o);
                 }
             }
             return neighbors;
@@ -83,10 +58,15 @@ namespace MASProject
 
         public void mutate(float elapsedTime)
         {
-            foreach (GraphicalAgent a in agents)
+            foreach (GraphicalAgent a in objects)
             {
-                a.mutate(elapsedTime, neighborHood(a));
+                if (a != null)
+                {
+                    a.mutate(elapsedTime, neighborHood(a));
+                }
             }
         }
+
+
     }
 }

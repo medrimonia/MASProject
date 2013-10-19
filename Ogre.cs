@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mogre;
+using MASProject.Utils;
 
 namespace MASProject
 {
@@ -16,11 +17,13 @@ namespace MASProject
         /* Each ogre head has it's own age [s] */
         private float age;
 
+
+
         /* After a certain age, ogreHeads stop growing [s] */
         private static float fullSizeAge = 30f;
         /* The time an ogre is expected to live [s] */
         public static float longevity = 50;
-        private static float minSize = 5f;
+        private static float minSize = 60f;
         private static float maxSize = 60f;
 
         public static float Longevity
@@ -65,7 +68,7 @@ namespace MASProject
 
         private void updateGoal()
         {
-            goal = OgreFactory.randomLocation();
+            goal = WorldUtils.RandomLocation;
         }
 
         private void moveMutation(float elapsedTime)
@@ -83,7 +86,7 @@ namespace MASProject
             node.Position += toGoal;
         }
 
-        public override void mutate(float elapsedTime, List<GraphicalAgent> neighbors)
+        public override void mutate(float elapsedTime, List<GraphicalObject> neighbors)
         {
             // Age Mutation
             age += elapsedTime;
