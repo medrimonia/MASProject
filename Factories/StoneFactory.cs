@@ -1,5 +1,6 @@
 ﻿using System;
 using Mogre;
+using MASProject.Utils;
 
 namespace MASProject.Factories
 {
@@ -7,7 +8,7 @@ namespace MASProject.Factories
     {
         public override GraphicalObject create(SceneManager sm)
         {
-            return null;
+            return new Stone(sm, nbObjectsCreated++, WorldUtils.RandomLocation);
         }
     }
 }

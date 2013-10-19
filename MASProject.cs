@@ -11,6 +11,7 @@ namespace MASProject
     class MASProject : BaseApplication
     {
         private static int NB_OGREHEADS = 25;
+        private static int NB_STONES = 25;
 
         protected World environment;
 
@@ -33,7 +34,7 @@ namespace MASProject
 
         protected override void CreateScene()
         {
-            environment = new World(mSceneMgr, NB_OGREHEADS, 0);
+            environment = new World(mSceneMgr, NB_OGREHEADS, 0, NB_STONES);
         }
     }
 }

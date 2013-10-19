@@ -14,12 +14,14 @@ namespace MASProject
     {
 
         private OgreFactory oFactory;
+        private StoneFactory sFactory;
 
         private List<GraphicalObject> objects;
 
-        public World(SceneManager sm, int nbOgre, int nbRobots)
+        public World(SceneManager sm, int nbOgre, int nbRobots, int nbStones)
         {
             oFactory = new OgreFactory();
+            sFactory = new StoneFactory();
             // Creating the ground
             addPlane(sm);
 
@@ -29,12 +31,16 @@ namespace MASProject
             {
                 objects.Add(oFactory.create(sm));
             }
+            // Creating the stones
+            for (int i = 0; i < nbStones; i++)
+            {
+                objects.Add(sFactory.create(sm));
+            }
         }
 
         private void addPlane(SceneManager sm)
         {
             Plane plane = new Plane(Vector3.UNIT_Y, 0);
-            //TODO size of plane should be related to max locations of objects
             MeshManager.Singleton.CreatePlane("ground",
     ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, plane,
     WorldUtils.Width, WorldUtils.Depth, 20, 20, true, 1, 5, 5, Vector3.UNIT_Z);
@@ -58,8 +64,9 @@ namespace MASProject
 
         public void mutate(float elapsedTime)
         {
-            foreach (GraphicalAgent a in objects)
+            foreach (GraphicalObject o in objects)
             {
+                GraphicalAgent a = o as GraphicalAgent;
                 if (a != null)
                 {
                     a.mutate(elapsedTime, neighborHood(a));
