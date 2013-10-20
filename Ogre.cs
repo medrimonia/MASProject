@@ -76,7 +76,7 @@ namespace MASProject
         private void moveMutation(float elapsedTime)
         {
             float speed = 1.5f;
-            float minDist = 10;
+            float minDist = 100;
             // If we're close to the goal, modify the goal
             if ((goal - node.Position).Length < minDist)
             {
@@ -111,11 +111,42 @@ namespace MASProject
             }
             if (carriedStone == null && nearbyStones.Count > 0)
             {
+                captureMutation(w, nearbyStones);
+            }
+            if (carriedStone != null)
+            {
+                dropMutation(w, nearbyStones);
+            }
+            //TODO avoid collision
+            moveMutation(elapsedTime);
+        }
+
+        /* An idea found on this page: http://liris.cnrs.fr/simon.gay/index.php?page=sma&lang=en
+         * is that we can use a probability inversely proportional to the amount of resources for
+         * taking an object and a probability proportional to the amount of resources for dropping
+         * the resource
+         */
+        
+        /* This methods capture a stone with a probability inversely
+         * proportional to the number of available stones.
+         * nearbyStones must 
+         */
+        private void captureMutation(World w, List<Stone> nearbyStones)
+        {
+            if (nearbyStones.Count == 0) return;
+            double neededScore = 1f - 1f / nearbyStones.Count;
+            if (WorldUtils.RndGen.NextDouble() > neededScore)
+            {
                 captureStone(w, nearbyStones[0]);
             }
-            else
+        }
+
+        private void dropMutation(World w, List<Stone> nearbyStones)
+        {
+            double neededScore = System.Math.Pow(0.95f, nearbyStones.Count);
+            if (WorldUtils.RndGen.NextDouble() > neededScore)
             {
-                moveMutation(elapsedTime);
+                releaseStone(w);
             }
         }
 
@@ -125,6 +156,15 @@ namespace MASProject
             node.AddChild(s.Node);
             s.Node.SetPosition(0, BoundingBox.Maximum.y,0);
             carriedStone = s;
+        }
+
+        private void releaseStone(World w)
+        {
+            node.RemoveChild(carriedStone.Node);
+            //TODO add random to it
+            carriedStone.Node.SetPosition(node.Position.x, carriedStone.BoundingBox.Minimum.y, node.Position.z);
+            w.acquireObject(carriedStone);
+            carriedStone = null;
         }
 
         public override bool Equals(object obj)

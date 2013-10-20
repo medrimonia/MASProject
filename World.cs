@@ -66,6 +66,10 @@ namespace MASProject
 
         public void mutate(float elapsedTime)
         {
+            //TODO shuffle objects at each mutation
+            /* using ToArray because some objects might be removed during the
+             * loop
+             */
             foreach (GraphicalObject o in objects.ToArray())
             {
                 GraphicalAgent a = o as GraphicalAgent;
@@ -80,6 +84,12 @@ namespace MASProject
         {
             sm.RootSceneNode.RemoveChild(o.Node);
             objects.Remove(o);
+        }
+
+        public void acquireObject(GraphicalObject o)
+        {
+            sm.RootSceneNode.AddChild(o.Node);
+            objects.Add(o);
         }
 
     }
