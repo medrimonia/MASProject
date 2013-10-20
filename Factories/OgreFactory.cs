@@ -9,7 +9,7 @@ namespace MASProject.Factories
         //TODO: add "blind" ogres?
         private float defaultVisionRadius ;
 
-        public OgreFactory(float visionRadius = 100) : base()
+        public OgreFactory(float visionRadius = 150) : base()
         {
             defaultVisionRadius = visionRadius;
         }

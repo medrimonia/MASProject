@@ -75,7 +75,7 @@ namespace MASProject
 
         private void moveMutation(float elapsedTime)
         {
-            float speed = 1.5f;
+            float speed = 11.5f;
             float minDist = 100;
             // If we're close to the goal, modify the goal
             if ((goal - node.Position).Length < minDist)
@@ -109,13 +109,13 @@ namespace MASProject
                     nearbyStones.Add(s);
                 }
             }
-            if (carriedStone == null && nearbyStones.Count > 0)
-            {
-                captureMutation(w, nearbyStones);
-            }
             if (carriedStone != null)
             {
                 dropMutation(w, nearbyStones);
+            }
+            else if (nearbyStones.Count > 0)
+            {
+                captureMutation(w, nearbyStones);
             }
             //TODO avoid collision
             moveMutation(elapsedTime);
@@ -134,7 +134,7 @@ namespace MASProject
         private void captureMutation(World w, List<Stone> nearbyStones)
         {
             if (nearbyStones.Count == 0) return;
-            double neededScore = 1f - 1f / nearbyStones.Count;
+            double neededScore = 1f - System.Math.Pow(0.2f, nearbyStones.Count);
             if (WorldUtils.RndGen.NextDouble() > neededScore)
             {
                 captureStone(w, nearbyStones[0]);
@@ -143,10 +143,23 @@ namespace MASProject
 
         private void dropMutation(World w, List<Stone> nearbyStones)
         {
-            double neededScore = System.Math.Pow(0.95f, nearbyStones.Count);
+            double neededScore = System.Math.Pow(0.2f, nearbyStones.Count);
+            float totalX = 0;
+            float totalZ = 0;
+            //TODO use a barycenter function
+            foreach (Stone s in nearbyStones)
+            {
+                totalX += s.Position.x;
+                totalZ += s.Position.z;
+            }
+            //TODO use parameters
+            float avgX = totalX / nearbyStones.Count;
+            float avgZ = totalZ / nearbyStones.Count;
+            Vector3 center = new Vector3(avgX, carriedStone.BoundingBox.Minimum.y, avgZ);
+            Vector3 droppingPosition = WorldUtils.getRandomPosition(center, 20, 20);
             if (WorldUtils.RndGen.NextDouble() > neededScore)
             {
-                releaseStone(w);
+                releaseStone(w, droppingPosition);
             }
         }
 
@@ -158,11 +171,10 @@ namespace MASProject
             carriedStone = s;
         }
 
-        private void releaseStone(World w)
+        private void releaseStone(World w, Vector3 droppingPosition)
         {
             node.RemoveChild(carriedStone.Node);
-            //TODO add random to it
-            carriedStone.Node.SetPosition(node.Position.x, carriedStone.BoundingBox.Minimum.y, node.Position.z);
+            carriedStone.Node.Position = droppingPosition;
             w.acquireObject(carriedStone);
             carriedStone = null;
         }

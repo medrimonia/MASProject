@@ -43,5 +43,13 @@ namespace MASProject.Utils
                 return new Vector3(xPos, 0, zPos);
             }
         }
+
+        public static Vector3 getRandomPosition(Vector3 center, float deltaX, float deltaZ)
+        {
+            Vector3 copy = new Vector3(center.x, center.y, center.z);
+            copy.x += (float)(rndGen.NextDouble() - 0.5) * deltaX;
+            copy.z += (float)(rndGen.NextDouble() - 0.5) * deltaZ;
+            return copy;
+        }
     }
 }
