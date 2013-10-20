@@ -8,6 +8,16 @@ namespace MASProject
         protected SceneNode node;
         protected Entity ent;
 
+        public SceneNode Node
+        {
+            get { return node; }
+        }
+
+        public Entity Entity
+        {
+            get { return ent; }
+        }
+
         public Vector3 Position
         {
             get { return node.Position; }
@@ -16,6 +26,11 @@ namespace MASProject
         public AxisAlignedBox BoundingBox
         {
             get { return ent.BoundingBox; }
+        }
+
+        public void removeFromWorld(World w)
+        {
+            
         }
 
 	}

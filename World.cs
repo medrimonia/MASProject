@@ -17,13 +17,15 @@ namespace MASProject
         private StoneFactory sFactory;
 
         private List<GraphicalObject> objects;
+        private SceneManager sm;
 
         public World(SceneManager sm, int nbOgre, int nbRobots, int nbStones)
         {
+            this.sm = sm;
             oFactory = new OgreFactory();
             sFactory = new StoneFactory();
             // Creating the ground
-            addPlane(sm);
+            addPlane();
 
             objects = new List<GraphicalObject>();
             // Creating the ogres
@@ -38,7 +40,7 @@ namespace MASProject
             }
         }
 
-        private void addPlane(SceneManager sm)
+        private void addPlane()
         {
             Plane plane = new Plane(Vector3.UNIT_Y, 0);
             MeshManager.Singleton.CreatePlane("ground",
@@ -64,16 +66,21 @@ namespace MASProject
 
         public void mutate(float elapsedTime)
         {
-            foreach (GraphicalObject o in objects)
+            foreach (GraphicalObject o in objects.ToArray())
             {
                 GraphicalAgent a = o as GraphicalAgent;
                 if (a != null)
                 {
-                    a.mutate(elapsedTime, neighborHood(a));
+                    a.mutate(elapsedTime, this);
                 }
             }
         }
 
+        public void releaseObject(GraphicalObject o)
+        {
+            sm.RootSceneNode.RemoveChild(o.Node);
+            objects.Remove(o);
+        }
 
     }
 }

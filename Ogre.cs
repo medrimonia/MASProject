@@ -17,6 +17,8 @@ namespace MASProject
         /* Each ogre head has it's own age [s] */
         private float age;
 
+        private Stone carriedStone;
+
 
 
         /* After a certain age, ogreHeads stop growing [s] */
@@ -48,6 +50,7 @@ namespace MASProject
             age = originalAge;
             string entityName = "OgreHead" + ogreId;
             string nodeName = "OgreHeadNode" + ogreId;
+            carriedStone = null;
             ent = sm.CreateEntity(entityName, "ogrehead.mesh");
             node = sm.RootSceneNode.CreateChildSceneNode(nodeName, initialLocation);
             node.AttachObject(ent);
@@ -63,7 +66,6 @@ namespace MASProject
             // Fixing the head on the ground whatever the height might be
             float wishedY = -ent.BoundingBox.Minimum.y * ratio;
             node.SetPosition(node.Position.x, wishedY, node.Position.z);
-
         }
 
         private void updateGoal()
@@ -86,16 +88,43 @@ namespace MASProject
             node.Position += toGoal;
         }
 
-        public override void mutate(float elapsedTime, List<GraphicalObject> neighbors)
+        public override void mutate(float elapsedTime, World w)
         {
             // Age Mutation
             age += elapsedTime;
             updateSize();
             // If close to another ogre, stop
-            if (neighbors.Count == 0)
+            List<Ogre> nearbyOgres = new List<Ogre>();
+            List<Stone> nearbyStones = new List<Stone>();
+            foreach (GraphicalObject n in w.neighborHood(this))
+            {
+                Ogre o = n as Ogre;
+                Stone s = n as Stone;
+                if (o != null)
+                {
+                    nearbyOgres.Add(o);
+                }
+                if (s != null)
+                {
+                    nearbyStones.Add(s);
+                }
+            }
+            if (carriedStone == null && nearbyStones.Count > 0)
+            {
+                captureStone(w, nearbyStones[0]);
+            }
+            else
             {
                 moveMutation(elapsedTime);
             }
+        }
+
+        private void captureStone(World w, Stone s)
+        {
+            w.releaseObject(s);
+            node.AddChild(s.Node);
+            s.Node.SetPosition(0, BoundingBox.Maximum.y,0);
+            carriedStone = s;
         }
 
         public override bool Equals(object obj)
