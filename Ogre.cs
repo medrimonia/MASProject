@@ -134,7 +134,7 @@ namespace MASProject
         private void captureMutation(World w, List<Stone> nearbyStones)
         {
             if (nearbyStones.Count == 0) return;
-            double neededScore = 1f - System.Math.Pow(0.2f, nearbyStones.Count);
+            double neededScore = 1f - System.Math.Pow(0.9f, nearbyStones.Count);
             if (WorldUtils.RndGen.NextDouble() > neededScore)
             {
                 captureStone(w, nearbyStones[0]);
@@ -143,7 +143,7 @@ namespace MASProject
 
         private void dropMutation(World w, List<Stone> nearbyStones)
         {
-            double neededScore = System.Math.Pow(0.2f, nearbyStones.Count);
+            double neededScore = System.Math.Pow(0.9f, nearbyStones.Count);
             float totalX = 0;
             float totalZ = 0;
             //TODO use a barycenter function
