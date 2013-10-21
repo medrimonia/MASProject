@@ -1,48 +1,48 @@
-TODO:
+ï»¿TODO:
 
 @Ludo
 - Placement sans recouvrement (Pas d'intersect entre les BoundingBox)
 
 @Ludo
-- Mesure du temps de qualité
-	- D'où vient le temps passé? affichage ou traitement des agents
+- Mesure du temps de qualitÃ©
+	- D'oÃ¹ vient le temps passÃ© affichage ou traitement des agents
 		- Garabage collector
 
 @Fab
 - Robots
-	- Modèle dynamique
+	- ModÃ¨le dynamique
 
 @Fab
-- Modèle social
-	- Autorité ("élire" un chef)
+- ModÃ¨le social
+	- AutoritÃ© ("Ã©lire" un chef)
 		- Recherche d'algo
-		- Pouvoir de persuasion aléatoire
-	- Différents comportement en fonction du status
-	- Mise à jour dynamique des groupes
+		- Pouvoir de persuasion alÃ©atoire
+	- DiffÃ©rents comportement en fonction du status
+	- Mise Ã  jour dynamique des groupes
 
 @Ludo
 - Communication
-	- Stocker le point avec la plus grande densité connue
+	- Stocker le point avec la plus grande densitÃ© connue
 		- Indiquer les tas
-	- Tâches collaboratives
+	- TÃ¢ches collaboratives
 		- Indiquer un besoin d'aide
 
 @Ludo		
-- Comportement sexué pour les ogres
-	- Reproduction dans une certaine tranche d'âge
-	- Proba de mort à un certain âge
-	- Communication : Séduction
+- Comportement sexuÃ© pour les ogres
+	- Reproduction dans une certaine tranche d'Ã¢ge
+	- Proba de mort Ã  un certain Ã¢ge
+	- Communication : SÃ©duction
 		- Cri de l'amour!
-			- Réponse + choix
+			- RÃ©ponse + choix
 
 @Voir
-- Différentes ressources à trier
-	- Différentes pierres etc?
-		- Des pierres lourdes nécessitant plusieurs groupes / individus
+- DiffÃ©rentes ressources Ã  trier
+	- DiffÃ©rentes pierres etc?
+		- Des pierres lourdes nÃ©cessitant plusieurs groupes / individus
 
 @Fab
 - Facteur nourriture
-	- Dropée aléatoirement
+	- DropÃ©e alÃ©atoirement
 	- Besoin de nourriture pour survivre
 		- Chasse
-	- Éventuellement répartition des rôles
+	- Ã‰ventuellement rÃ©partition des rÃ´les
