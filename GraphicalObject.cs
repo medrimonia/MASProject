@@ -25,7 +25,12 @@ namespace MASProject
 
         public AxisAlignedBox BoundingBox
         {
-            get { return ent.BoundingBox; }
+            get {
+                AxisAlignedBox b =  new AxisAlignedBox(ent.BoundingBox);
+                b.TransformAffine(Matrix4.GetScale(node.GetScale()));
+                b.TransformAffine(Matrix4.GetTrans(-node.Position));
+                return b;
+            }
         }
 
         public void removeFromWorld(World w)
