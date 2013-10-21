@@ -75,7 +75,7 @@ namespace MASProject
 
         private void moveMutation(float elapsedTime)
         {
-            float speed = 11.5f;
+            float speed = 1.5f;
             float minDist = 100;
             // If we're close to the goal, modify the goal
             if ((goal - node.Position).Length < minDist)
@@ -154,10 +154,9 @@ namespace MASProject
             float avgX = totalX / nearbyStones.Count;
             float avgZ = totalZ / nearbyStones.Count;
             Vector3 center = new Vector3(avgX, carriedStone.BoundingBox.Minimum.y, avgZ);
-            Vector3 droppingPosition = WorldUtils.getRandomPosition(center, 20, 20);
             if (WorldUtils.RndGen.NextDouble() > neededScore)
             {
-                releaseStone(w, droppingPosition);
+                releaseStone(w, center);
             }
         }
 
@@ -172,7 +171,8 @@ namespace MASProject
         private void releaseStone(World w, Vector3 droppingPosition)
         {
             node.RemoveChild(carriedStone.Node);
-            carriedStone.Node.Position = droppingPosition;
+            float randomDist = 50;
+            WorldUtils.placeRandomly(carriedStone, droppingPosition, randomDist, randomDist, w.neighborhood(droppingPosition, randomDist));
             w.acquire(carriedStone);
             carriedStone = null;
         }

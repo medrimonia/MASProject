@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mogre;
 
 namespace MASProject.Utils
@@ -26,7 +27,7 @@ namespace MASProject.Utils
 
         public static float Depth
         {
-            get { return max.x - min.x; }
+            get { return max.z - min.z; }
         }
 
         public static Random RndGen
@@ -50,6 +51,43 @@ namespace MASProject.Utils
             copy.x += (float)(rndGen.NextDouble() - 0.5) * deltaX;
             copy.z += (float)(rndGen.NextDouble() - 0.5) * deltaZ;
             return copy;
+        }
+
+        public static void placeRandomly(
+            GraphicalObject toPlace, Vector3 wishedCenter, float deltaX, float deltaZ, List<GraphicalObject> objects = null)
+        {
+            if (objects == null)
+            {
+                toPlace.Node.Position = getRandomPosition(wishedCenter, deltaX, deltaZ);
+            }
+            int nbTries = 0;
+            bool collide = true;
+            //TODO handle case nbTries become big
+            while (nbTries < 100 && collide)
+            {
+                toPlace.Node.Position = getRandomPosition(wishedCenter, deltaX, deltaZ);
+                collide = false;
+                foreach(GraphicalObject o in objects)
+                {
+                    if (!toPlace.Equals(o) && o.BoundingBox.Intersects(toPlace.BoundingBox))
+                    {
+                        /*
+                        Utils.DebugUtils.writeMessage(o.Entity.Name + " collides with " + toPlace.Entity.Name);
+                        Utils.DebugUtils.writeMessage("\t" + o.Entity.Name + " position" + o.Position);
+                        Utils.DebugUtils.writeMessage("\t" + toPlace.Entity.Name + " position" + toPlace.Position);
+                        Utils.DebugUtils.writeMessage(o.Entity.Name + " bb.min.x " + o.BoundingBox);
+                        Utils.DebugUtils.writeMessage(toPlace.Entity.Name + " bb.min.x " + toPlace.BoundingBox);
+                         */
+                        collide = true;
+                        break;
+                    }
+                }
+                nbTries++;
+            }
+            if (collide)
+            {
+                Utils.DebugUtils.writeMessage("Failed to place randomly with clearance after " + nbTries);
+            }
         }
     }
 }

@@ -16,8 +16,7 @@ namespace MASProject
         private OgreFactory oFactory;
         private StoneFactory sFactory;
 
-        private List<Ogre> ogres;
-        private List<Stone> stones;
+        private List<GraphicalObject> objects;
         private SceneManager sm;
 
         public World(SceneManager sm, int nbOgre, int nbRobots, int nbStones)
@@ -28,17 +27,20 @@ namespace MASProject
             // Creating the ground
             addPlane();
 
-            ogres = new List<Ogre>();
+            objects = new List<GraphicalObject>();
             // Creating the ogres
             for (int i = 0; i < nbOgre; i++)
             {
-                ogres.Add((Ogre)oFactory.create(sm));
+                GraphicalObject o = oFactory.create(sm);
+                objects.Add(o);
+                WorldUtils.placeRandomly(o, Vector3.ZERO, WorldUtils.Width, WorldUtils.Depth, objects);
             }
-            stones = new List<Stone>();
             // Creating the stones
             for (int i = 0; i < nbStones; i++)
             {
-                stones.Add((Stone)sFactory.create(sm));
+                GraphicalObject o = sFactory.create(sm);
+                objects.Add(o);
+                WorldUtils.placeRandomly(o, Vector3.ZERO, WorldUtils.Width / 2, WorldUtils.Depth / 2, objects);
             }
         }
 
@@ -47,18 +49,32 @@ namespace MASProject
             Plane plane = new Plane(Vector3.UNIT_Y, 0);
             MeshManager.Singleton.CreatePlane("ground",
     ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, plane,
-    WorldUtils.Width, WorldUtils.Depth, 20, 20, true, 1, 5, 5, Vector3.UNIT_Z);
+    WorldUtils.Width / 2, WorldUtils.Depth / 2, 20, 20, true, 1, 5, 5, Vector3.UNIT_Z);
 
             Entity groundEnt = sm.CreateEntity("GroundEntity", "ground");
             sm.RootSceneNode.CreateChildSceneNode().AttachObject(groundEnt);
         }
 
+        public List<GraphicalObject> neighborhood(Vector3 position, float maxDist)
+        {
+            List<GraphicalObject> neighbors = new List<GraphicalObject>();
+            foreach (GraphicalObject o in objects)
+            {
+                if ((o.Position - position).Length < maxDist)
+                {
+                    neighbors.Add(o);
+                }
+            }
+            return neighbors;
+        }
+
         public List<Ogre> nearbyOgres(GraphicalAgent a, float maxDist)
         {
             List<Ogre> neighbors = new List<Ogre>();
-            foreach (Ogre o in ogres)
+            foreach (GraphicalObject obj in objects)
             {
-                if (!a.Equals(o) && a.canSee(o))
+                Ogre o = obj as Ogre;
+                if (o != null && !a.Equals(o) && (o.Position - a.Position).Length < maxDist && o is Ogre)
                 {
                     neighbors.Add(o);
                 }
@@ -69,9 +85,10 @@ namespace MASProject
         public List<Stone> nearbyStones(GraphicalAgent a, float maxDist)
         {
             List<Stone> neighbors = new List<Stone>();
-            foreach (Stone s in stones)
+            foreach (GraphicalObject o in objects)
             {
-                if (!a.Equals(s) && a.canSee(s))
+                Stone s = o as Stone;
+                if (s != null && !a.Equals(s) && (s.Position - a.Position).Length < maxDist)
                 {
                     neighbors.Add(s);
                 }
@@ -85,25 +102,29 @@ namespace MASProject
             /* using ToArray because some objects might be removed during the
              * loop
              */
-            foreach (Ogre o in ogres.ToArray())
+            foreach (GraphicalObject o in objects.ToArray())
             {
-                DateTime agentStart = DateTime.Now;
-                o.mutate(elapsedTime, this);
-                TimeSpan agentDuration = DateTime.Now - agentStart;
-                Utils.DebugUtils.writeMessage("\tAgent time :" + agentDuration.ToString());
+                GraphicalAgent a = o as GraphicalAgent;
+                if (a != null)
+                {
+                    DateTime agentStart = DateTime.Now;
+                    a.mutate(elapsedTime, this);
+                    TimeSpan agentDuration = DateTime.Now - agentStart;
+                    Utils.DebugUtils.writeMessage("\tAgent time :" + agentDuration.ToString());
+                }
             }
         }
 
-        public void release(Stone s)
+        public void release(GraphicalObject o)
         {
-            sm.RootSceneNode.RemoveChild(s.Node);
-            stones.Remove(s);
+            sm.RootSceneNode.RemoveChild(o.Node);
+            objects.Remove(o);
         }
 
-        public void acquire(Stone s)
+        public void acquire(GraphicalObject o)
         {
-            sm.RootSceneNode.AddChild(s.Node);
-            stones.Add(s);
+            sm.RootSceneNode.AddChild(o.Node);
+            objects.Add(o);
         }
 
     }
