@@ -1,0 +1,48 @@
+TODO:
+
+@Ludo
+- Placement sans recouvrement (Pas d'intersect entre les BoundingBox)
+
+@Ludo
+- Mesure du temps de qualité
+	- D'où vient le temps passé? affichage ou traitement des agents
+		- Garabage collector
+
+@Fab
+- Robots
+	- Modèle dynamique
+
+@Fab
+- Modèle social
+	- Autorité ("élire" un chef)
+		- Recherche d'algo
+		- Pouvoir de persuasion aléatoire
+	- Différents comportement en fonction du status
+	- Mise à jour dynamique des groupes
+
+@Ludo
+- Communication
+	- Stocker le point avec la plus grande densité connue
+		- Indiquer les tas
+	- Tâches collaboratives
+		- Indiquer un besoin d'aide
+
+@Ludo		
+- Comportement sexué pour les ogres
+	- Reproduction dans une certaine tranche d'âge
+	- Proba de mort à un certain âge
+	- Communication : Séduction
+		- Cri de l'amour!
+			- Réponse + choix
+
+@Voir
+- Différentes ressources à trier
+	- Différentes pierres etc?
+		- Des pierres lourdes nécessitant plusieurs groupes / individus
+
+@Fab
+- Facteur nourriture
+	- Dropée aléatoirement
+	- Besoin de nourriture pour survivre
+		- Chasse
+	- Éventuellement répartition des rôles
