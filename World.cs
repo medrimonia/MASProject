@@ -16,7 +16,8 @@ namespace MASProject
         private OgreFactory oFactory;
         private StoneFactory sFactory;
 
-        private List<GraphicalObject> objects;
+        private List<Ogre> ogres;
+        private List<Stone> stones;
         private SceneManager sm;
 
         public World(SceneManager sm, int nbOgre, int nbRobots, int nbStones)
@@ -27,16 +28,17 @@ namespace MASProject
             // Creating the ground
             addPlane();
 
-            objects = new List<GraphicalObject>();
+            ogres = new List<Ogre>();
             // Creating the ogres
             for (int i = 0; i < nbOgre; i++)
             {
-                objects.Add(oFactory.create(sm));
+                ogres.Add((Ogre)oFactory.create(sm));
             }
+            stones = new List<Stone>();
             // Creating the stones
             for (int i = 0; i < nbStones; i++)
             {
-                objects.Add(sFactory.create(sm));
+                stones.Add((Stone)sFactory.create(sm));
             }
         }
 
@@ -51,14 +53,27 @@ namespace MASProject
             sm.RootSceneNode.CreateChildSceneNode().AttachObject(groundEnt);
         }
 
-        public List<GraphicalObject> neighborHood(GraphicalAgent a)
+        public List<Ogre> nearbyOgres(GraphicalAgent a, float maxDist)
         {
-            List<GraphicalObject> neighbors = new List<GraphicalObject>();
-            foreach (GraphicalObject o in objects)
+            List<Ogre> neighbors = new List<Ogre>();
+            foreach (Ogre o in ogres)
             {
                 if (!a.Equals(o) && a.canSee(o))
                 {
                     neighbors.Add(o);
+                }
+            }
+            return neighbors;
+        }
+
+        public List<Stone> nearbyStones(GraphicalAgent a, float maxDist)
+        {
+            List<Stone> neighbors = new List<Stone>();
+            foreach (Stone s in stones)
+            {
+                if (!a.Equals(s) && a.canSee(s))
+                {
+                    neighbors.Add(s);
                 }
             }
             return neighbors;
@@ -70,26 +85,25 @@ namespace MASProject
             /* using ToArray because some objects might be removed during the
              * loop
              */
-            foreach (GraphicalObject o in objects.ToArray())
+            foreach (Ogre o in ogres.ToArray())
             {
-                GraphicalAgent a = o as GraphicalAgent;
-                if (a != null)
-                {
-                    a.mutate(elapsedTime, this);
-                }
+                DateTime agentStart = DateTime.Now;
+                o.mutate(elapsedTime, this);
+                TimeSpan agentDuration = DateTime.Now - agentStart;
+                Utils.DebugUtils.writeMessage("\tAgent time :" + agentDuration.ToString());
             }
         }
 
-        public void releaseObject(GraphicalObject o)
+        public void release(Stone s)
         {
-            sm.RootSceneNode.RemoveChild(o.Node);
-            objects.Remove(o);
+            sm.RootSceneNode.RemoveChild(s.Node);
+            stones.Remove(s);
         }
 
-        public void acquireObject(GraphicalObject o)
+        public void acquire(Stone s)
         {
-            sm.RootSceneNode.AddChild(o.Node);
-            objects.Add(o);
+            sm.RootSceneNode.AddChild(s.Node);
+            stones.Add(s);
         }
 
     }

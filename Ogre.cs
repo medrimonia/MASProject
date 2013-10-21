@@ -93,32 +93,30 @@ namespace MASProject
             // Age Mutation
             age += elapsedTime;
             updateSize();
-            // If close to another ogre, stop
-            List<Ogre> nearbyOgres = new List<Ogre>();
-            List<Stone> nearbyStones = new List<Stone>();
-            foreach (GraphicalObject n in w.neighborHood(this))
-            {
-                Ogre o = n as Ogre;
-                Stone s = n as Stone;
-                if (o != null)
-                {
-                    nearbyOgres.Add(o);
-                }
-                if (s != null)
-                {
-                    nearbyStones.Add(s);
-                }
-            }
+            DateTime startLoop = DateTime.Now;
+            List<Ogre> nearbyOgres = w.nearbyOgres(this, this.visionRadius);
+            List<Stone> nearbyStones = w.nearbyStones(this, this.visionRadius);
+            TimeSpan loopDuration = DateTime.Now - startLoop;
+            Utils.DebugUtils.writeMessage("\t\tloopDuration : " + loopDuration.ToString());
             if (carriedStone != null)
             {
+                DateTime start = DateTime.Now;
                 dropMutation(w, nearbyStones);
+                TimeSpan duration = DateTime.Now - start;
+                DebugUtils.writeMessage("\t\tdropMutation : " + duration.ToString());
             }
             else if (nearbyStones.Count > 0)
             {
+                DateTime start = DateTime.Now;
                 captureMutation(w, nearbyStones);
+                TimeSpan duration = DateTime.Now - start;
+                DebugUtils.writeMessage("\t\tcaptureMutation : " + duration.ToString());
             }
             //TODO avoid collision
+            DateTime start2 = DateTime.Now;
             moveMutation(elapsedTime);
+            TimeSpan duration2 = DateTime.Now - start2;
+            DebugUtils.writeMessage("\t\tMoveMutation : " + duration2.ToString());
         }
 
         /* An idea found on this page: http://liris.cnrs.fr/simon.gay/index.php?page=sma&lang=en
@@ -165,7 +163,7 @@ namespace MASProject
 
         private void captureStone(World w, Stone s)
         {
-            w.releaseObject(s);
+            w.release(s);
             node.AddChild(s.Node);
             s.Node.SetPosition(0, BoundingBox.Maximum.y,0);
             carriedStone = s;
@@ -175,7 +173,7 @@ namespace MASProject
         {
             node.RemoveChild(carriedStone.Node);
             carriedStone.Node.Position = droppingPosition;
-            w.acquireObject(carriedStone);
+            w.acquire(carriedStone);
             carriedStone = null;
         }
 

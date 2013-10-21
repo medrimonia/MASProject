@@ -11,7 +11,7 @@ namespace MASProject
     class MASProject : BaseApplication
     {
         private static int NB_OGREHEADS = 15;
-        private static int NB_STONES = 100;
+        private static int NB_STONES = 200;
 
         protected World environment;
 
@@ -22,7 +22,11 @@ namespace MASProject
 
         private bool updateContent(FrameEvent evt)
         {
+            DateTime start = DateTime.Now;
             environment.mutate(evt.timeSinceLastFrame);
+            DateTime end = DateTime.Now;
+            TimeSpan duration = end - start;
+            Utils.DebugUtils.writeMessage("WorldMutation : " + duration.ToString());
             return true;
         }
 

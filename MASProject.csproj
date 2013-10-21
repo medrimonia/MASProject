@@ -53,6 +53,7 @@
     <Compile Include="GraphicalAgent.cs" />
     <Compile Include="Ogre.cs" />
     <Compile Include="Factories\OgreFactory.cs" />
+    <Compile Include="Utils\DebugUtils.cs" />
     <Compile Include="Utils\WorldUtils.cs" />
     <Compile Include="Stone.cs" />
     <Compile Include="Factories\StoneFactory.cs" />
