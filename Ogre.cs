@@ -156,8 +156,9 @@ namespace MASProject
         private void captureMutation(World w, List<Stone> nearbyStones)
         {
             if (nearbyStones.Count == 0) return;
-            double neededScore = 1f - System.Math.Pow(0.9f, nearbyStones.Count);
-            if (WorldUtils.RndGen.NextDouble() > neededScore)
+            double neededScore = 1f - System.Math.Pow(0.95f, nearbyStones.Count);
+            double toHighestDensity = (Position - highestStoneDensity).Length;
+            if (WorldUtils.RndGen.NextDouble() > neededScore || toHighestDensity > 500)
             {
                 foreach (Stone s in nearbyStones)
                 {
@@ -173,7 +174,7 @@ namespace MASProject
 
         private void dropMutation(World w, List<Stone> nearbyStones)
         {
-            double neededScore = System.Math.Pow(0.9f, nearbyStones.Count);
+            double neededScore = System.Math.Pow(0.95f, nearbyStones.Count);
             float totalX = 0;
             float totalZ = 0;
             //TODO use a barycenter function
