@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mogre;
+using MASProject.Communication;
 using MASProject.Utils;
 
 namespace MASProject
@@ -49,6 +50,7 @@ namespace MASProject
         }
 
         public Ogre(SceneManager sm, int ogreId, Vector3 initialLocation, float visionRadius, float originalAge=0f)
+            : base()
         {
             age = originalAge;
             string entityName = "OgreHead" + ogreId;
@@ -87,6 +89,47 @@ namespace MASProject
             }
         }
 
+        private void treatMessage(DensityMessage m)
+        {
+            if (m.Density > highestStoneDensity)
+            {
+                highestStoneDensity = m.Density;
+                highestStoneDensityPos = m.Position;
+            }
+        }
+
+        private void treatMessage(Message m)
+        {
+            switch (m.Type)
+            {
+                case MessageType.DensityMessage:
+                    treatMessage((DensityMessage)m);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void treatReceivedMessages()
+        {
+            while (messagesBuffer.Count > 0)
+            {
+                treatMessage(messagesBuffer.Dequeue());
+            }
+        }
+
+        private void communicationMutation(List<Ogre> nearbyOgres)
+        {
+            Utils.DebugUtils.writeMessage("CommunicationMutation");
+            foreach (Ogre o in nearbyOgres)
+            {
+                if (!o.Equals(this))
+                {
+                    o.receiveMessage(new DensityMessage(highestStoneDensityPos, highestStoneDensity));
+                }
+            }
+        }
+
         private void moveMutation(float elapsedTime)
         {
             float speed = 5f;
@@ -107,30 +150,19 @@ namespace MASProject
             // Age Mutation
             age += elapsedTime;
             updateSize();
-            DateTime startLoop = DateTime.Now;
             List<Ogre> nearbyOgres = w.nearbyOgres(this, this.visionRadius);
             List<Stone> nearbyStones = w.nearbyStones(this, this.visionRadius);
-            TimeSpan loopDuration = DateTime.Now - startLoop;
-            Utils.DebugUtils.writeMessage("\t\tloopDuration : " + loopDuration.ToString());
             if (carriedStone != null)
             {
-                DateTime start = DateTime.Now;
                 dropMutation(w, nearbyStones);
-                TimeSpan duration = DateTime.Now - start;
-                DebugUtils.writeMessage("\t\tdropMutation : " + duration.ToString());
             }
             else if (nearbyStones.Count > 0)
             {
-                DateTime start = DateTime.Now;
                 captureMutation(w, nearbyStones);
-                TimeSpan duration = DateTime.Now - start;
-                DebugUtils.writeMessage("\t\tcaptureMutation : " + duration.ToString());
             }
             //TODO avoid collision
-            DateTime start2 = DateTime.Now;
             moveMutation(elapsedTime);
-            TimeSpan duration2 = DateTime.Now - start2;
-            DebugUtils.writeMessage("\t\tMoveMutation : " + duration2.ToString());
+            communicationMutation(nearbyOgres);
         }
 
         private void updateStoneDensity(List<Stone> nearbyStone)

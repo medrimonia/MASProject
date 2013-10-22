@@ -8,8 +8,8 @@ namespace MASProject.Communication
         private float density;
         private Vector3 position;
 
-        public DensityMessage(MessageType t, Vector3 position, float density)
-            : base(t)
+        public DensityMessage(Vector3 position, float density)
+            : base(MessageType.DensityMessage)
         {
             this.position = position;
             this.density = density;

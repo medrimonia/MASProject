@@ -31,12 +31,7 @@ namespace MASProject
                 b.TransformAffine(Matrix4.GetTrans(-node.Position));
                 return b;
             }
-        }
-
-        public void removeFromWorld(World w)
-        {
-            
-        }
+       }
 
 	}
 }
