@@ -17,9 +17,12 @@ namespace MASProject
         /* Each ogre head has it's own age [s] */
         private float age;
 
+
+        private float highestStoneDensity;
+        private Vector3 highestStoneDensityPos;
         private Stone carriedStone;
 
-
+        private float gripRadius;
 
         /* After a certain age, ogreHeads stop growing [s] */
         private static float fullSizeAge = 30f;
@@ -56,6 +59,9 @@ namespace MASProject
             node.AttachObject(ent);
             updateGoal();
             this.visionRadius = visionRadius;
+            highestStoneDensity = 0;
+            highestStoneDensityPos = Vector3.ZERO;
+            gripRadius = visionRadius / 3;
         }
 
         private void updateSize()
@@ -70,12 +76,20 @@ namespace MASProject
 
         private void updateGoal()
         {
-            goal = WorldUtils.RandomLocation;
+            float dist = (node.Position - highestStoneDensityPos).Length;
+            if (dist > 1500 && carriedStone != null)
+            {
+                goal = highestStoneDensityPos;
+            }
+            else
+            {
+                goal = WorldUtils.RandomLocation;
+            }
         }
 
         private void moveMutation(float elapsedTime)
         {
-            float speed = 1.5f;
+            float speed = 5f;
             float minDist = 100;
             // If we're close to the goal, modify the goal
             if ((goal - node.Position).Length < minDist)
@@ -119,6 +133,16 @@ namespace MASProject
             DebugUtils.writeMessage("\t\tMoveMutation : " + duration2.ToString());
         }
 
+        private void updateStoneDensity(List<Stone> nearbyStone)
+        {
+            float density = (float)(nearbyStone.Count / System.Math.Pow(visionRadius, 2));
+            if (density > highestStoneDensity)
+            {
+                highestStoneDensity = density;
+                highestStoneDensityPos = node.Position;
+            }
+        }
+
         /* An idea found on this page: http://liris.cnrs.fr/simon.gay/index.php?page=sma&lang=en
          * is that we can use a probability inversely proportional to the amount of resources for
          * taking an object and a probability proportional to the amount of resources for dropping
@@ -135,7 +159,15 @@ namespace MASProject
             double neededScore = 1f - System.Math.Pow(0.9f, nearbyStones.Count);
             if (WorldUtils.RndGen.NextDouble() > neededScore)
             {
-                captureStone(w, nearbyStones[0]);
+                foreach (Stone s in nearbyStones)
+                {
+                    if ((s.Position - Position).Length < gripRadius)
+                    {
+                        captureStone(w, s);
+                        updateGoal();
+                        break;
+                    }
+                }
             }
         }
 
@@ -157,6 +189,7 @@ namespace MASProject
             if (WorldUtils.RndGen.NextDouble() > neededScore)
             {
                 releaseStone(w, center);
+                updateGoal();
             }
         }
 

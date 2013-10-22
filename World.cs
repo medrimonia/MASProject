@@ -40,7 +40,7 @@ namespace MASProject
             {
                 GraphicalObject o = sFactory.create(sm);
                 objects.Add(o);
-                WorldUtils.placeRandomly(o, Vector3.ZERO, WorldUtils.Width / 2, WorldUtils.Depth / 2, objects);
+                WorldUtils.placeRandomly(o, Vector3.ZERO, WorldUtils.Width, WorldUtils.Depth, objects);
             }
         }
 
@@ -49,7 +49,7 @@ namespace MASProject
             Plane plane = new Plane(Vector3.UNIT_Y, 0);
             MeshManager.Singleton.CreatePlane("ground",
     ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, plane,
-    WorldUtils.Width / 2, WorldUtils.Depth / 2, 20, 20, true, 1, 5, 5, Vector3.UNIT_Z);
+    WorldUtils.Width, WorldUtils.Depth, 20, 20, true, 1, 5, 5, Vector3.UNIT_Z);
 
             Entity groundEnt = sm.CreateEntity("GroundEntity", "ground");
             sm.RootSceneNode.CreateChildSceneNode().AttachObject(groundEnt);
