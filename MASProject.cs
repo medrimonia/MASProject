@@ -10,7 +10,7 @@ namespace MASProject
 {
     class MASProject : BaseApplication
     {
-        private static int NB_OGREHEADS = 15;
+        private static int NB_OGREHEADS = 25;
         private static int NB_STONES = 200;
 
         protected World environment;

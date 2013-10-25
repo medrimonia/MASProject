@@ -49,6 +49,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Communication\DensityMessage.cs" />
+    <Compile Include="Communication\Message.cs" />
     <Compile Include="Factories\GraphicalObjectFactory.cs" />
     <Compile Include="GraphicalAgent.cs" />
     <Compile Include="Ogre.cs" />
