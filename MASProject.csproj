@@ -96,6 +96,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\Mogre.TutorialFramework.dll</HintPath>
     </Reference>
+    <Reference Include="MogreFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\MogreFramework.dll</HintPath>
+    </Reference>
     <Reference Include="MOIS, Version=1.1.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\MOIS.dll</HintPath>
