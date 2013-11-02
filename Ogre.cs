@@ -40,7 +40,7 @@ namespace MASProject
         public static float longevity = 50;
         private static float minSize = 60f;
         private static float maxSize = 60f;
-        private float pregnancyStart = 0;
+        private float pregnancyStart;
         private bool isPregnant = false;
 
         public static float Longevity
@@ -178,7 +178,7 @@ namespace MASProject
             node.Position += toGoal;
         }
 
-        private void deathMutation(float elapsedTime)
+        private void deathMutation(World w, float elapsedTime)
         {
             // probability of dying during the elapsed time is :
             // integral{from : t=age - elapsedTime, to : t = age} p(t)
@@ -197,8 +197,17 @@ namespace MASProject
             double dice = WorldUtils.RndGen.NextDouble();
             if (dice < pDie)
             {
-                //TODO : DIIIIIIIIIIIIIIIIIIIIE!!!!!!
+                die(w);
             }
+        }
+
+        private void die(World w)
+        {
+            if (carriedStone != null)
+            {
+                releaseStone(w, Position);
+            }
+            w.release(this);
         }
 
         public override void mutate(float elapsedTime, World w)
@@ -219,7 +228,7 @@ namespace MASProject
             //TODO avoid collision
             moveMutation(elapsedTime);
             communicationMutation(nearbyOgres);
-            deathMutation(elapsedTime);
+            deathMutation(w, elapsedTime);
         }
 
         private void updateStoneDensity(List<Stone> nearbyStone)
