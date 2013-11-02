@@ -6,6 +6,12 @@ using MASProject.Utils;
 
 namespace MASProject
 {
+    public enum OgreGender
+    {
+        Male,
+        Female
+    }
+
     class Ogre : GraphicalAgent
     {
 
@@ -18,6 +24,7 @@ namespace MASProject
         /* Each ogre head has it's own age [s] */
         private float age;
 
+        private OgreGender gender;
 
         private float highestStoneDensity;
         private Vector3 highestStoneDensityPos;
@@ -27,10 +34,14 @@ namespace MASProject
 
         /* After a certain age, ogreHeads stop growing [s] */
         private static float fullSizeAge = 30f;
+        private static float fertilityStart = 20f;
+        private static float menopauseStart = 40f;//[s]
         /* The time an ogre is expected to live [s] */
         public static float longevity = 50;
         private static float minSize = 60f;
         private static float maxSize = 60f;
+        private float pregnancyStart = 0;
+        private bool isPregnant = false;
 
         public static float Longevity
         {
@@ -49,10 +60,11 @@ namespace MASProject
             }
         }
 
-        public Ogre(SceneManager sm, int ogreId, Vector3 initialLocation, float visionRadius, float originalAge=0f)
+        public Ogre(SceneManager sm, int ogreId, Vector3 initialLocation, float visionRadius, OgreGender gender, float originalAge=0f)
             : base()
         {
             age = originalAge;
+            this.gender = gender;
             string entityName = "OgreHead" + ogreId;
             string nodeName = "OgreHeadNode" + ogreId;
             carriedStone = null;
@@ -130,6 +142,27 @@ namespace MASProject
             }
         }
 
+        private bool Fertile
+        {
+            get { return !isPregnant && age > fertilityStart && age < menopauseStart; }
+        }
+
+        private void loveMutation()
+        {
+            switch (gender)
+            {
+                case OgreGender.Female:
+                    if (Fertile)
+                    {
+                        //TODO send message each half second as example
+                    }
+                    break;
+                case OgreGender.Male:
+                    //TODO try to copulate with every women of the neighborhood
+                    break;
+            }
+        }
+
         private void moveMutation(float elapsedTime)
         {
             float speed = 5f;
@@ -143,6 +176,29 @@ namespace MASProject
             toGoal.Normalise();
             toGoal *= speed;
             node.Position += toGoal;
+        }
+
+        private void deathMutation(float elapsedTime)
+        {
+            // probability of dying during the elapsed time is :
+            // integral{from : t=age - elapsedTime, to : t = age} p(t)
+            // We know that
+            // integral{from : t=0, to : t=maxAge} p(t) = 1
+            // We have to choose a function p(t) respecting that condition
+            // if we choose p(t) to be in a form as : p(t) = a * t^3,
+            // We got P(t) = a /4 * t^4 + K
+            // P(maxAge) - P(0) = 1
+            // maxAge ^4 * a/4 + K - K = 1
+            // -> a = 4 / maxAge ^4
+            double lastAge = age - elapsedTime;
+            double PNow = System.Math.Pow(age / longevity, 4);
+            double PBefore = System.Math.Pow(lastAge / longevity, 4);
+            double pDie = PNow - PBefore;
+            double dice = WorldUtils.RndGen.NextDouble();
+            if (dice < pDie)
+            {
+                //TODO : DIIIIIIIIIIIIIIIIIIIIE!!!!!!
+            }
         }
 
         public override void mutate(float elapsedTime, World w)
@@ -163,6 +219,7 @@ namespace MASProject
             //TODO avoid collision
             moveMutation(elapsedTime);
             communicationMutation(nearbyOgres);
+            deathMutation(elapsedTime);
         }
 
         private void updateStoneDensity(List<Stone> nearbyStone)

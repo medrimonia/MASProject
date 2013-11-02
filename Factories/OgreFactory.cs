@@ -17,7 +17,12 @@ namespace MASProject.Factories
         public override GraphicalObject create(SceneManager sm)
         {
             float age = Ogre.Longevity * (float)WorldUtils.RndGen.NextDouble();
-            return new Ogre(sm, nbObjectsCreated++, WorldUtils.RandomLocation, defaultVisionRadius, age);
+            OgreGender g = OgreGender.Female;
+            if (Utils.WorldUtils.RndGen.NextDouble() < 0.5)
+            {
+                g = OgreGender.Male;
+            }
+            return new Ogre(sm, nbObjectsCreated++, WorldUtils.RandomLocation, defaultVisionRadius, g, age);
         }
     }
 }
