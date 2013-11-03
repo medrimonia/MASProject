@@ -49,12 +49,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Robot.cs" />
     <Compile Include="Communication\DensityMessage.cs" />
     <Compile Include="Communication\Message.cs" />
     <Compile Include="Factories\GraphicalObjectFactory.cs" />
     <Compile Include="GraphicalAgent.cs" />
+    <Compile Include="MoveDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Ogre.cs" />
     <Compile Include="Factories\OgreFactory.cs" />
+    <Compile Include="Factories\RobotFactory.cs" />
     <Compile Include="Utils\DebugUtils.cs" />
     <Compile Include="Utils\WorldUtils.cs" />
     <Compile Include="Stone.cs" />
@@ -86,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mogre, Version=1.7.1.0, Culture=neutral, processorArchitecture=x86">
@@ -105,6 +111,8 @@
       <HintPath>bin\Debug\MOIS.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GraphicalObject.cs" />

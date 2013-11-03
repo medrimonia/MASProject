@@ -15,6 +15,7 @@ namespace MASProject
 
         private OgreFactory oFactory;
         private StoneFactory sFactory;
+        private RobotFactory rFactory;
 
         private List<GraphicalObject> objects;
         private SceneManager sm;
@@ -24,6 +25,7 @@ namespace MASProject
             this.sm = sm;
             oFactory = new OgreFactory();
             sFactory = new StoneFactory();
+            rFactory = new RobotFactory();
             // Creating the ground
             addPlane();
 
@@ -41,6 +43,12 @@ namespace MASProject
                 GraphicalObject o = sFactory.create(sm);
                 objects.Add(o);
                 WorldUtils.placeRandomly(o, Vector3.ZERO, WorldUtils.Width, WorldUtils.Depth, objects);
+            }
+            for (int i = 0; i < nbRobots; i++)
+            {
+                GraphicalObject r = rFactory.create(sm);
+                objects.Add(r);
+                WorldUtils.placeRandomly(r, Vector3.ZERO, WorldUtils.Width, WorldUtils.Depth, objects);
             }
         }
 
