@@ -10,13 +10,14 @@ namespace MASProject
 {
     class MASProject : BaseApplication
     {
-        private static int NB_OGREHEADS = 25;
+        private static int NB_OGREHEADS = 5;
         private static int NB_STONES = 200;
 
         protected World environment;
 
         public static void Main()
         {
+            Utils.DebugUtils.writeMessage("Starting");
             new MASProject().Go();
         }
 
@@ -26,7 +27,7 @@ namespace MASProject
             environment.mutate(evt.timeSinceLastFrame);
             DateTime end = DateTime.Now;
             TimeSpan duration = end - start;
-            Utils.DebugUtils.writeMessage("WorldMutation : " + duration.ToString());
+            //Utils.DebugUtils.writeMessage("WorldMutation : " + duration.ToString());
             return true;
         }
 

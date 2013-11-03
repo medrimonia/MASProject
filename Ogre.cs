@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Mogre;
 using MASProject.Communication;
 using MASProject.Utils;
+using MASProject.Behavior;
 
 namespace MASProject
 {
@@ -34,14 +35,12 @@ namespace MASProject
 
         /* After a certain age, ogreHeads stop growing [s] */
         private static float fullSizeAge = 30f;
-        private static float fertilityStart = 20f;
-        private static float menopauseStart = 40f;//[s]
         /* The time an ogre is expected to live [s] */
         public static float longevity = 50;
-        private static float minSize = 60f;
+        private static float minSize = 20f;
         private static float maxSize = 60f;
-        private float pregnancyStart;
-        private bool isPregnant = false;
+
+        private SexualBehavior sexualBehavior;
 
         public static float Longevity
         {
@@ -76,6 +75,22 @@ namespace MASProject
             highestStoneDensity = 0;
             highestStoneDensityPos = Vector3.ZERO;
             gripRadius = visionRadius / 3;
+            switch (gender)
+            {
+                case OgreGender.Female:
+                    sexualBehavior = new FemaleSexualBehavior();
+                    Utils.DebugUtils.writeMessage("Ogre Female created | age : " + age);
+                    break;
+                case OgreGender.Male:
+                    sexualBehavior = new MaleSexualBehavior();
+                    Utils.DebugUtils.writeMessage("Ogre Male created   | age : " + age);
+                    break;
+            }
+        }
+
+        public double Age
+        {
+            get { return age; }
         }
 
         private void updateSize()
@@ -101,6 +116,17 @@ namespace MASProject
             }
         }
 
+        private void treatMessage(LoveCall m)
+        {
+            if (sexualBehavior.readyToInseminate(age))
+            {
+                if (carriedStone != null)
+                {
+                    goal = m.Source;
+                }
+            }
+        }
+
         private void treatMessage(DensityMessage m)
         {
             if (m.Density > highestStoneDensity)
@@ -118,6 +144,7 @@ namespace MASProject
                     treatMessage((DensityMessage)m);
                     break;
                 default:
+                    treatMessage((LoveCall)m);
                     break;
             }
         }
@@ -132,7 +159,6 @@ namespace MASProject
 
         private void communicationMutation(List<Ogre> nearbyOgres)
         {
-            Utils.DebugUtils.writeMessage("CommunicationMutation");
             foreach (Ogre o in nearbyOgres)
             {
                 if (!o.Equals(this))
@@ -142,25 +168,19 @@ namespace MASProject
             }
         }
 
-        private bool Fertile
+        private void loveMutation(World w)
         {
-            get { return !isPregnant && age > fertilityStart && age < menopauseStart; }
+            sexualBehavior.apply(w, this);
         }
 
-        private void loveMutation()
+        public bool isFertile()
         {
-            switch (gender)
-            {
-                case OgreGender.Female:
-                    if (Fertile)
-                    {
-                        //TODO send message each half second as example
-                    }
-                    break;
-                case OgreGender.Male:
-                    //TODO try to copulate with every women of the neighborhood
-                    break;
-            }
+            return sexualBehavior.readyForPregnancy(age);
+        }
+
+        public void inseminate()
+        {
+            sexualBehavior.inseminate(age);
         }
 
         private void moveMutation(float elapsedTime)
@@ -226,9 +246,13 @@ namespace MASProject
                 captureMutation(w, nearbyStones);
             }
             //TODO avoid collision
-            moveMutation(elapsedTime);
+            if (!sexualBehavior.readyForPregnancy(age))
+            {
+                moveMutation(elapsedTime);
+            }
             communicationMutation(nearbyOgres);
             deathMutation(w, elapsedTime);
+            loveMutation(w);
         }
 
         private void updateStoneDensity(List<Stone> nearbyStone)

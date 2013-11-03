@@ -24,5 +24,16 @@ namespace MASProject.Factories
             }
             return new Ogre(sm, nbObjectsCreated++, WorldUtils.RandomLocation, defaultVisionRadius, g, age);
         }
+
+        public GraphicalObject createBaby(SceneManager sm)
+        {
+            float age = 0;
+            OgreGender g = OgreGender.Female;
+            if (Utils.WorldUtils.RndGen.NextDouble() < 0.5)
+            {
+                g = OgreGender.Male;
+            }
+            return new Ogre(sm, nbObjectsCreated++, WorldUtils.RandomLocation, defaultVisionRadius, g, 0);
+        }
     }
 }

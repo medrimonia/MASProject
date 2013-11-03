@@ -10,6 +10,7 @@ namespace MASProject.Utils
         public static void writeMessage(string msg)
         {
             debugFile.WriteLine(msg);
+            debugFile.Flush();
         }
     }
 }

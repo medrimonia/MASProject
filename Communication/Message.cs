@@ -7,7 +7,8 @@ namespace MASProject.Communication
 {
     public enum MessageType
     {
-        DensityMessage
+        DensityMessage,
+        LoveCall
     };
 
     abstract class Message
