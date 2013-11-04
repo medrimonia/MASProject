@@ -5,10 +5,15 @@ using MogreFramework;
 using MASProject.Communication;
 using MASProject.Utils;
 
+
+
+
 namespace MASProject
 {
     class Robot : GraphicalAgent
-    {
+    {   
+        private static float GRIP_RADIUS = 300;
+
         private LinkedList<Vector3> mWalkList = null; // A doubly linked containing the waypoints -> une par robot
         private AnimationState mAnimationState = null; //The AnimationState the moving object
         private float mDistance = 0.0f;              //The distance the object has left to travel
@@ -16,7 +21,10 @@ namespace MASProject
         private Vector3 mDestination = Vector3.ZERO; // The destination the object is moving towards
         private float age;
 
-        float mWalkSpeed = 50.0f;  // The speed at which the object is moving
+        private float lowestStoneDensity;
+        private Vector3 lowestStonePosition;
+
+        float mWalkSpeed = 150.0f;  // The speed at which the object is moving
 
         public Robot(SceneManager sm, int robotId, Vector3 initialLocation, Vector3 initialGoal)
         {
@@ -34,8 +42,6 @@ namespace MASProject
             node.AttachObject(ent);
 
             mAnimationState = ent.GetAnimationState("Idle");
-//            mAnimationState.Loop = true;
-//            mAnimationState.Enabled = true;
 
             addGoal(initialGoal);
             updateGoal();
@@ -46,11 +52,25 @@ namespace MASProject
         {
             // Age Mutation
             age += elapsedTime;
+
+            List<Stone> nearbyStones = w.nearbyStones(this, this.visionRadius);
+
+            if (carriedStone != null)
+            {
+                dropMutation(w, nearbyStones);
+            }
+            else if (nearbyStones.Count > 0)
+            {
+                captureMutation(w, nearbyStones);
+            }
             if (mDistance <= 0.0f)
             {
                 if (nextLocation())
                 {
+                    
+                    addGoal(WorldUtils.RandomLocation);
                     TurnNextLocation();
+                    
                 }
                 else
                 {
@@ -63,6 +83,47 @@ namespace MASProject
             }
             mAnimationState.AddTime(elapsedTime * mWalkSpeed / 20);
             
+        }
+
+        private void dropMutation(World w, List<Stone> nearbyStones)
+        {
+            double neededScore = System.Math.Pow(0.95f, nearbyStones.Count);
+            float totalX = 0;
+            float totalZ = 0;
+            //TODO use a barycenter function
+            foreach (Stone s in nearbyStones)
+            {
+                totalX += s.Position.x;
+                totalZ += s.Position.z;
+            }
+            //TODO use parameters
+            float avgX = totalX / nearbyStones.Count;
+            float avgZ = totalZ / nearbyStones.Count;
+            Vector3 center = new Vector3(avgX, carriedStone.BoundingBox.Minimum.y, avgZ);
+            if (WorldUtils.RndGen.NextDouble() > neededScore)
+            {
+                releaseStone(w, center);
+                updateGoal();
+            }
+        }
+
+        private void captureMutation(World w, List<Stone> nearbyStones)
+        {
+            if (nearbyStones.Count == 0) return;
+            double neededScore = 1f - System.Math.Pow(0.95f, nearbyStones.Count);
+            double toLowestDensity = (Position - lowestStoneDensity).Length;
+            if (WorldUtils.RndGen.NextDouble() > neededScore || toLowestDensity > 500)
+            {
+                foreach (Stone s in nearbyStones)
+                {
+                    if ((s.Position - Position).Length < GRIP_RADIUS)
+                    {
+                        captureStone(w, s);
+                        updateGoal();
+                        break;
+                    }
+                }
+            }
         }
         public void moveMutation(float elapsedTime)
         {

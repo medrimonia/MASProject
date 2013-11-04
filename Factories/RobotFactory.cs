@@ -6,7 +6,7 @@ namespace MASProject.Factories
 {
     class RobotFactory : GraphicalObjectFactory
     {
-      
+
         public RobotFactory() : base()
         {
         }

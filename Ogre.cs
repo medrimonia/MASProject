@@ -29,7 +29,7 @@ namespace MASProject
 
         private float highestStoneDensity;
         private Vector3 highestStoneDensityPos;
-        private Stone carriedStone;
+
 
         private float gripRadius;
         /* This member contains a smoothed value of the size of the ogre neighborhood */
@@ -324,7 +324,8 @@ namespace MASProject
             //TODO use parameters
             float avgX = totalX / nearbyStones.Count;
             float avgZ = totalZ / nearbyStones.Count;
-            Vector3 center = new Vector3(avgX, carriedStone.BoundingBox.Minimum.y, avgZ);
+            float avgY = carriedStone.BoundingBox.Minimum.y + carriedStone.BoundingBox.HalfSize.y * 2;
+            Vector3 center = new Vector3(avgX, avgY, avgZ);
             if (WorldUtils.RndGen.NextDouble() > neededScore)
             {
                 releaseStone(w, center);
@@ -332,22 +333,9 @@ namespace MASProject
             }
         }
 
-        private void captureStone(World w, Stone s)
-        {
-            w.release(s);
-            node.AddChild(s.Node);
-            s.Node.SetPosition(0, BoundingBox.Maximum.y,0);
-            carriedStone = s;
-        }
 
-        private void releaseStone(World w, Vector3 droppingPosition)
-        {
-            node.RemoveChild(carriedStone.Node);
-            float randomDist = 50;
-            WorldUtils.placeRandomly(carriedStone, droppingPosition, randomDist, randomDist, w.neighborhood(droppingPosition, randomDist));
-            w.acquire(carriedStone);
-            carriedStone = null;
-        }
+
+       
 
         public override bool Equals(object obj)
         {

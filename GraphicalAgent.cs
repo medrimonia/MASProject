@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using Mogre;
 using MASProject.Communication;
+using MASProject.Utils;
 
 namespace MASProject
 {
     abstract class GraphicalAgent : GraphicalObject
     {
         protected float visionRadius;
+        protected Stone carriedStone;
 
         protected Queue<Message> messagesBuffer;
 
@@ -29,6 +31,23 @@ namespace MASProject
         public void receiveMessage(Message m)
         {
             messagesBuffer.Enqueue(m);
+        }
+
+        protected void captureStone(World w, Stone s)
+        {
+            w.release(s);
+            node.AddChild(s.Node);
+            s.Node.SetPosition(0, BoundingBox.Maximum.y, 0);
+            carriedStone = s;
+        }
+
+        protected void releaseStone(World w, Vector3 droppingPosition)
+        {
+            node.RemoveChild(carriedStone.Node);
+            float randomDist = 50;
+            WorldUtils.placeRandomly(carriedStone, droppingPosition, randomDist, randomDist, w.neighborhood(droppingPosition, randomDist));
+            w.acquire(carriedStone);
+            carriedStone = null;
         }
     }
 }
