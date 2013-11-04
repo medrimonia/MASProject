@@ -7,6 +7,16 @@ namespace MASProject.Behavior
 {
     abstract class SexualBehavior
     {
+        /* The behavior is active, if a male is going toward a female or
+         * if a female is waiting for male to come.
+         */
+        private bool sexualActivity;
+
+        public bool Activity
+        {
+            get { return sexualActivity; }
+            set { sexualActivity = value; }
+        }
         public virtual bool readyForPregnancy(Ogre o){
             return false;
         }

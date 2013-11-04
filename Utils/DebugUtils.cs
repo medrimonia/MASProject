@@ -12,5 +12,10 @@ namespace MASProject.Utils
             debugFile.WriteLine(msg);
             debugFile.Flush();
         }
+
+        public static void writeMessage(GraphicalObject o, string msg)
+        {
+            debugFile.WriteLine(o.Entity.Name + " : " + msg);
+        }
     }
 }
