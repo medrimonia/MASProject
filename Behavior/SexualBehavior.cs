@@ -7,7 +7,7 @@ namespace MASProject.Behavior
 {
     abstract class SexualBehavior
     {
-        public virtual bool readyForPregnancy(double age){
+        public virtual bool readyForPregnancy(Ogre o){
             return false;
         }
 
