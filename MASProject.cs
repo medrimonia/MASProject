@@ -1,6 +1,8 @@
 ﻿using Mogre;
 using Mogre.TutorialFramework;
+using MogreFramework;
 using System;
+using System.Windows.Forms;
 
 /* Our project is entirely based on the tutorial that can be found at
  * http://www.ogre3d.org/tikiwiki/Mogre+Wiki+Tutorial+Framework
@@ -12,6 +14,7 @@ namespace MASProject
     {
         private static int NB_OGREHEADS = 10;
         private static int NB_STONES = 200;
+        private static int NB_ROBOTS = 10;
 
         protected World environment;
 
@@ -19,7 +22,11 @@ namespace MASProject
 
         public static void Main()
         {
+<<<<<<< HEAD
+
+=======
             Utils.DebugUtils.writeMessage("Starting");
+>>>>>>> f8ddf8cba60c210bea0489a288c56c90a91dabec
             new MASProject().Go();
         }
 
@@ -41,7 +48,7 @@ namespace MASProject
 
         protected override void CreateScene()
         {
-            environment = new World(mSceneMgr, NB_OGREHEADS, 0, NB_STONES);
+            environment = new World(mSceneMgr, NB_OGREHEADS, NB_ROBOTS, NB_STONES);
         }
     }
 }
