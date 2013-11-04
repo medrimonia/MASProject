@@ -52,6 +52,14 @@ namespace MASProject
             }
         }
 
+        public void createBabyOgre(Vector3 pos)
+        {
+            GraphicalObject baby = oFactory.createBaby(sm);
+            objects.Add(baby);
+            //TODO parameters to choose spawning dist
+            WorldUtils.placeRandomly(baby, pos, 25, 25, objects);
+        }
+
         private void addPlane()
         {
             Plane plane = new Plane(Vector3.UNIT_Y, 0);
@@ -106,6 +114,7 @@ namespace MASProject
 
         public void mutate(float elapsedTime)
         {
+            elapsedTime /= 3;
             //TODO shuffle objects at each mutation
             /* using ToArray because some objects might be removed during the
              * loop
@@ -118,7 +127,7 @@ namespace MASProject
                     DateTime agentStart = DateTime.Now;
                     a.mutate(elapsedTime, this);
                     TimeSpan agentDuration = DateTime.Now - agentStart;
-                    Utils.DebugUtils.writeMessage("\tAgent time :" + agentDuration.ToString());
+                    //Utils.DebugUtils.writeMessage("\tAgent time :" + agentDuration.ToString());
                 }
             }
         }

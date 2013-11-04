@@ -50,7 +50,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Robot.cs" />
+    <Compile Include="Behavior\FemaleSexualBehavior.cs" />
+    <Compile Include="Behavior\MaleSexualBehavior.cs" />
+    <Compile Include="Behavior\SexualBehavior.cs" />
     <Compile Include="Communication\DensityMessage.cs" />
+    <Compile Include="Communication\LoveCall.cs" />
     <Compile Include="Communication\Message.cs" />
     <Compile Include="Factories\GraphicalObjectFactory.cs" />
     <Compile Include="GraphicalAgent.cs" />

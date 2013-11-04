@@ -3,9 +3,16 @@ using System.Collections.Generic;
 using Mogre;
 using MASProject.Communication;
 using MASProject.Utils;
+using MASProject.Behavior;
 
 namespace MASProject
 {
+    public enum OgreGender
+    {
+        Male,
+        Female
+    }
+
     class Ogre : GraphicalAgent
     {
 
@@ -18,6 +25,7 @@ namespace MASProject
         /* Each ogre head has it's own age [s] */
         private float age;
 
+        private OgreGender gender;
 
         private float highestStoneDensity;
         private Vector3 highestStoneDensityPos;
@@ -29,8 +37,10 @@ namespace MASProject
         private static float fullSizeAge = 30f;
         /* The time an ogre is expected to live [s] */
         public static float longevity = 50;
-        private static float minSize = 60f;
+        private static float minSize = 20f;
         private static float maxSize = 60f;
+
+        private SexualBehavior sexualBehavior;
 
         public static float Longevity
         {
@@ -49,10 +59,11 @@ namespace MASProject
             }
         }
 
-        public Ogre(SceneManager sm, int ogreId, Vector3 initialLocation, float visionRadius, float originalAge=0f)
+        public Ogre(SceneManager sm, int ogreId, Vector3 initialLocation, float visionRadius, OgreGender gender, float originalAge=0f)
             : base()
         {
             age = originalAge;
+            this.gender = gender;
             string entityName = "OgreHead" + ogreId;
             string nodeName = "OgreHeadNode" + ogreId;
             carriedStone = null;
@@ -64,6 +75,22 @@ namespace MASProject
             highestStoneDensity = 0;
             highestStoneDensityPos = Vector3.ZERO;
             gripRadius = visionRadius / 3;
+            switch (gender)
+            {
+                case OgreGender.Female:
+                    sexualBehavior = new FemaleSexualBehavior();
+                    Utils.DebugUtils.writeMessage("Ogre Female created | age : " + age);
+                    break;
+                case OgreGender.Male:
+                    sexualBehavior = new MaleSexualBehavior();
+                    Utils.DebugUtils.writeMessage("Ogre Male created   | age : " + age);
+                    break;
+            }
+        }
+
+        public double Age
+        {
+            get { return age; }
         }
 
         private void updateSize()
@@ -89,6 +116,17 @@ namespace MASProject
             }
         }
 
+        private void treatMessage(LoveCall m)
+        {
+            if (sexualBehavior.readyToInseminate(age))
+            {
+                if (carriedStone != null)
+                {
+                    goal = m.Source;
+                }
+            }
+        }
+
         private void treatMessage(DensityMessage m)
         {
             if (m.Density > highestStoneDensity)
@@ -106,6 +144,7 @@ namespace MASProject
                     treatMessage((DensityMessage)m);
                     break;
                 default:
+                    treatMessage((LoveCall)m);
                     break;
             }
         }
@@ -120,7 +159,6 @@ namespace MASProject
 
         private void communicationMutation(List<Ogre> nearbyOgres)
         {
-            Utils.DebugUtils.writeMessage("CommunicationMutation");
             foreach (Ogre o in nearbyOgres)
             {
                 if (!o.Equals(this))
@@ -128,6 +166,21 @@ namespace MASProject
                     o.receiveMessage(new DensityMessage(highestStoneDensityPos, highestStoneDensity));
                 }
             }
+        }
+
+        private void loveMutation(World w)
+        {
+            sexualBehavior.apply(w, this);
+        }
+
+        public bool isFertile()
+        {
+            return sexualBehavior.readyForPregnancy(age);
+        }
+
+        public void inseminate()
+        {
+            sexualBehavior.inseminate(age);
         }
 
         private void moveMutation(float elapsedTime)
@@ -143,6 +196,38 @@ namespace MASProject
             toGoal.Normalise();
             toGoal *= speed;
             node.Position += toGoal;
+        }
+
+        private void deathMutation(World w, float elapsedTime)
+        {
+            // probability of dying during the elapsed time is :
+            // integral{from : t=age - elapsedTime, to : t = age} p(t)
+            // We know that
+            // integral{from : t=0, to : t=maxAge} p(t) = 1
+            // We have to choose a function p(t) respecting that condition
+            // if we choose p(t) to be in a form as : p(t) = a * t^3,
+            // We got P(t) = a /4 * t^4 + K
+            // P(maxAge) - P(0) = 1
+            // maxAge ^4 * a/4 + K - K = 1
+            // -> a = 4 / maxAge ^4
+            double lastAge = age - elapsedTime;
+            double PNow = System.Math.Pow(age / longevity, 4);
+            double PBefore = System.Math.Pow(lastAge / longevity, 4);
+            double pDie = PNow - PBefore;
+            double dice = WorldUtils.RndGen.NextDouble();
+            if (dice < pDie)
+            {
+                die(w);
+            }
+        }
+
+        private void die(World w)
+        {
+            if (carriedStone != null)
+            {
+                releaseStone(w, Position);
+            }
+            w.release(this);
         }
 
         public override void mutate(float elapsedTime, World w)
@@ -161,8 +246,13 @@ namespace MASProject
                 captureMutation(w, nearbyStones);
             }
             //TODO avoid collision
-            moveMutation(elapsedTime);
+            if (!sexualBehavior.readyForPregnancy(age))
+            {
+                moveMutation(elapsedTime);
+            }
             communicationMutation(nearbyOgres);
+            deathMutation(w, elapsedTime);
+            loveMutation(w);
         }
 
         private void updateStoneDensity(List<Stone> nearbyStone)

@@ -12,7 +12,7 @@ namespace MASProject
 {
     class MASProject : BaseApplication
     {
-        private static int NB_OGREHEADS = 25;
+        private static int NB_OGREHEADS = 5;
         private static int NB_STONES = 200;
         private static int NB_ROBOTS = 10;
 
@@ -20,7 +20,11 @@ namespace MASProject
 
         public static void Main()
         {
+<<<<<<< HEAD
 
+=======
+            Utils.DebugUtils.writeMessage("Starting");
+>>>>>>> f8ddf8cba60c210bea0489a288c56c90a91dabec
             new MASProject().Go();
         }
 
@@ -30,7 +34,7 @@ namespace MASProject
             environment.mutate(evt.timeSinceLastFrame);
             DateTime end = DateTime.Now;
             TimeSpan duration = end - start;
-            Utils.DebugUtils.writeMessage("WorldMutation : " + duration.ToString());
+            //Utils.DebugUtils.writeMessage("WorldMutation : " + duration.ToString());
             return true;
         }
 
