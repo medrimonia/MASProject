@@ -10,10 +10,12 @@ namespace MASProject
 {
     class MASProject : BaseApplication
     {
-        private static int NB_OGREHEADS = 5;
+        private static int NB_OGREHEADS = 10;
         private static int NB_STONES = 200;
 
         protected World environment;
+
+        //TODO add a frame displaying the number of each object
 
         public static void Main()
         {

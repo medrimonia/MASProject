@@ -14,6 +14,7 @@ namespace MASProject.Behavior
         private static float fertilityStart = 10f;//[s]
         private static float menopauseStart = 40f;//[s]
         private static float loveCallRange = 1500f;
+        private static float densityThreshold = 1f;
 
         public FemaleSexualBehavior()
         {
@@ -21,9 +22,9 @@ namespace MASProject.Behavior
             isPregnant = false;
         }
 
-        public override bool readyForPregnancy(double age)
+        public override bool readyForPregnancy(Ogre o)
         {
-            return !isPregnant && age > fertilityStart && age < menopauseStart;
+            return !isPregnant && o.Age > fertilityStart && o.Age < menopauseStart && o.SmoothedDensity < densityThreshold;
         }
 
         private void giveBirth(World w, Ogre o)
@@ -36,10 +37,10 @@ namespace MASProject.Behavior
 
         public override void apply(World w, Ogre o)
         {
-            if (readyForPregnancy(o.Age) && (o.Age - lastLoveCall) > 1.0 / loveCallFrequency)
+            if (readyForPregnancy(o) && (o.Age - lastLoveCall) > 1.0 / loveCallFrequency)
             {
                 Utils.DebugUtils.writeMessage("Calling for Love");
-                Message m = new LoveCall(o);
+                Message m = new LoveCall(o);//TODO love call seems to be launched but doesn't attract it seems
                 foreach (Ogre n in w.nearbyOgres(o, loveCallRange))
                 {
                     n.receiveMessage(m);

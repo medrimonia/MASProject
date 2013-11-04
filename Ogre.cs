@@ -32,6 +32,11 @@ namespace MASProject
         private Stone carriedStone;
 
         private float gripRadius;
+        /* This member contains a smoothed value of the size of the ogre neighborhood */
+        private float smoothedDensity;
+        /* Discount parameter, at each step, densityDisc will be :
+         * newVal = newVal * (1 - densityDisc) + oldVal * densityDisc */
+        private static float densityDisc = 0.99f;
 
         /* After a certain age, ogreHeads stop growing [s] */
         private static float fullSizeAge = 30f;
@@ -45,6 +50,11 @@ namespace MASProject
         public static float Longevity
         {
             get { return longevity; }
+        }
+
+        public float SmoothedDensity
+        {
+            get { return smoothedDensity; }
         }
 
         private float WishedHeight
@@ -91,6 +101,11 @@ namespace MASProject
         public double Age
         {
             get { return age; }
+        }
+
+        private void updateDensity(int nbNeighbors)
+        {
+            smoothedDensity = nbNeighbors * (1 - densityDisc) + smoothedDensity * densityDisc;
         }
 
         private void updateSize()
@@ -175,7 +190,7 @@ namespace MASProject
 
         public bool isFertile()
         {
-            return sexualBehavior.readyForPregnancy(age);
+            return sexualBehavior.readyForPregnancy(this);
         }
 
         public void inseminate()
@@ -237,6 +252,7 @@ namespace MASProject
             updateSize();
             List<Ogre> nearbyOgres = w.nearbyOgres(this, this.visionRadius);
             List<Stone> nearbyStones = w.nearbyStones(this, this.visionRadius);
+            updateDensity(nearbyOgres.Count);
             if (carriedStone != null)
             {
                 dropMutation(w, nearbyStones);
@@ -246,7 +262,7 @@ namespace MASProject
                 captureMutation(w, nearbyStones);
             }
             //TODO avoid collision
-            if (!sexualBehavior.readyForPregnancy(age))
+            if (!sexualBehavior.readyForPregnancy(this))
             {
                 moveMutation(elapsedTime);
             }
