@@ -20,11 +20,9 @@ namespace MASProject
 
         public static void Main()
         {
-<<<<<<< HEAD
 
-=======
             Utils.DebugUtils.writeMessage("Starting");
->>>>>>> f8ddf8cba60c210bea0489a288c56c90a91dabec
+
             new MASProject().Go();
         }
 

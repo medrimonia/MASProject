@@ -58,9 +58,6 @@
     <Compile Include="Communication\Message.cs" />
     <Compile Include="Factories\GraphicalObjectFactory.cs" />
     <Compile Include="GraphicalAgent.cs" />
-    <Compile Include="MoveDemo.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Ogre.cs" />
     <Compile Include="Factories\OgreFactory.cs" />
     <Compile Include="Factories\RobotFactory.cs" />
