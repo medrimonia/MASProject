@@ -22,14 +22,22 @@ namespace MASProject
 
         public static void Main()
         {
-
             Utils.DebugUtils.writeMessage("Starting");
 
             new MASProject().Go();
         }
 
+
+        private void updateAdditionalInfo()
+        {
+            mDebugOverlay.AdditionalInfo = "nbOgres : " + environment.OgresCount + " ";
+            mDebugOverlay.AdditionalInfo += "[M : " + environment.MaleOgresCount + " ";
+            mDebugOverlay.AdditionalInfo += "F : " + environment.FemaleOgresCount + "]";
+        }
+
         private bool updateContent(FrameEvent evt)
         {
+            updateAdditionalInfo();
             DateTime start = DateTime.Now;
             environment.mutate(evt.timeSinceLastFrame);
             DateTime end = DateTime.Now;

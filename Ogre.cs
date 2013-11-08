@@ -47,6 +47,16 @@ namespace MASProject
 
         private SexualBehavior sexualBehavior;
 
+        public bool IsFemale
+        {
+            get { return gender == OgreGender.Female; }
+        }
+
+        public bool IsMale
+        {
+            get { return gender == OgreGender.Female; }
+        }
+
         public static float Longevity
         {
             get { return longevity; }

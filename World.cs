@@ -52,6 +52,90 @@ namespace MASProject
             }
         }
 
+        public List<GraphicalObject> Ogres
+        {
+            get
+            {
+                List<GraphicalObject> result = new List<GraphicalObject>();
+                foreach (GraphicalObject o in objects)
+                {
+                    if (o is Ogre){
+                        result.Add(o);
+                    }
+                }
+                return result;
+            }
+        }
+
+        public List<GraphicalObject> Stones
+        {
+            get
+            {
+                List<GraphicalObject> result = new List<GraphicalObject>();
+                foreach (GraphicalObject o in objects)
+                {
+                    if (o is Stone)
+                    {
+                        result.Add(o);
+                    }
+                }
+                return result;
+            }
+        }
+
+        public List<GraphicalObject> Robot
+        {
+            get
+            {
+                List<GraphicalObject> result = new List<GraphicalObject>();
+                foreach (GraphicalObject o in objects)
+                {
+                    if (o is Robot)
+                    {
+                        result.Add(o);
+                    }
+                }
+                return result;
+            }
+        }
+        
+        public int OgresCount
+        {
+            get { return Ogres.Count; }
+        }
+
+        public int FemaleOgresCount
+        {
+            get
+            {
+                int n = 0;
+                foreach (Ogre o in Ogres)
+                {
+                    if (o.IsFemale)
+                    {
+                        n++;
+                    }
+                }
+                return n;
+            }
+        }
+
+        public int MaleOgresCount
+        {
+            get
+            {
+                int n = 0;
+                foreach (Ogre o in Ogres)
+                {
+                    if (o.IsMale)
+                    {
+                        n++;
+                    }
+                }
+                return n;
+            }
+        }
+
         public void createBabyOgre(Vector3 pos)
         {
             GraphicalObject baby = oFactory.createBaby(sm);
