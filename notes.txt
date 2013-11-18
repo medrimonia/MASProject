@@ -21,14 +21,6 @@
 	- Tâches collaboratives
 		- Indiquer un besoin d'aide
 
-@Ludo		
-- Comportement sexué pour les ogres
-	- Reproduction dans une certaine tranche d'âge
-	- Proba de mort à un certain âge
-	- Communication : Séduction
-		- Cri de l'amour!
-			- Réponse + choix
-
 @Voir
 - Différentes ressources à trier
 	- Différentes pierres etc?
@@ -61,3 +53,11 @@ OK:
 - Communication
 	- Stocker le point avec la plus grande densité connue
 		- Indiquer les tas
+
+@Ludo		
+- Comportement sexué pour les ogres
+	- Reproduction dans une certaine tranche d'âge
+	- Proba de mort à un certain âge
+	- Communication : Séduction
+		- Cri de l'amour!
+			- Réponse + choix

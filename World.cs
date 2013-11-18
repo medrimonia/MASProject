@@ -12,6 +12,7 @@ namespace MASProject
 {
     class World
     {
+        private GraphicalObject trackedObject;
 
         private OgreFactory oFactory;
         private StoneFactory sFactory;
@@ -26,6 +27,7 @@ namespace MASProject
             oFactory = new OgreFactory();
             sFactory = new StoneFactory();
             rFactory = new RobotFactory();
+            trackedObject = null;
             // Creating the ground
             addPlane();
 
@@ -50,6 +52,11 @@ namespace MASProject
                 objects.Add(r);
                 WorldUtils.placeRandomly(r, Vector3.ZERO, WorldUtils.Width, WorldUtils.Depth, objects);
             }
+        }
+
+        public GraphicalObject TrackedObject
+        {
+            get {return trackedObject;}
         }
 
         public List<GraphicalObject> Ogres
@@ -226,6 +233,7 @@ namespace MASProject
         {
             sm.RootSceneNode.AddChild(o.Node);
             objects.Add(o);
+            trackedObject = o;
         }
 
     }

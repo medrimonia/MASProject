@@ -16,6 +16,9 @@ namespace MASProject
         private static int NB_STONES = 100;
         private static int NB_ROBOTS = 10;
 
+        Light overallLight;
+        Light mainSpot;
+
         protected World environment;
 
         //TODO add a frame displaying the number of each object
@@ -35,6 +38,20 @@ namespace MASProject
             mDebugOverlay.AdditionalInfo += "F : " + environment.FemaleOgresCount + "]";
         }
 
+        private void updateLights()
+        {
+            GraphicalObject tracked = environment.TrackedObject;
+            if (tracked == null)
+            {
+                mainSpot.Visible = false;
+                return;
+            }
+            mainSpot.Visible = true;
+            Vector3 direction = tracked.Position - mainSpot.Position;
+            direction.Normalise();
+            mainSpot.Direction = direction;
+        }
+
         private bool updateContent(FrameEvent evt)
         {
             updateAdditionalInfo();
@@ -43,6 +60,7 @@ namespace MASProject
             DateTime end = DateTime.Now;
             TimeSpan duration = end - start;
             //Utils.DebugUtils.writeMessage("WorldMutation : " + duration.ToString());
+            updateLights();
             return true;
         }
 
@@ -55,6 +73,23 @@ namespace MASProject
         protected override void CreateScene()
         {
             environment = new World(mSceneMgr, NB_OGREHEADS, NB_ROBOTS, NB_STONES);
+            // Initializing lights
+            mSceneMgr.AmbientLight = ColourValue.Black;
+            mSceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_STENCIL_MODULATIVE;
+            // Adding a global light
+            overallLight = mSceneMgr.CreateLight("overallLight");
+            overallLight.Type = Light.LightTypes.LT_DIRECTIONAL;
+            overallLight.DiffuseColour = new ColourValue(.25f, .25f, .25f);
+            overallLight.SpecularColour = new ColourValue(.25f, .25f, .25f);
+            overallLight.Direction = new Vector3(0, -1, 1);
+            // Spot Light
+            mainSpot = mSceneMgr.CreateLight("mainSpot");
+            mainSpot.Type = Light.LightTypes.LT_SPOTLIGHT;
+            mainSpot.DiffuseColour = new ColourValue(1f, 1f, 1f);
+            mainSpot.SpecularColour = new ColourValue(1f, 1f, 1f);
+            mainSpot.Direction = new Vector3(0, -1, 0);
+            mainSpot.Position = new Vector3(0, 600, 0);
+            mainSpot.SetSpotlightRange(new Degree(10), new Degree(20));
         }
     }
 }
