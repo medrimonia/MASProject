@@ -54,7 +54,7 @@ namespace MASProject
 
         public bool IsMale
         {
-            get { return gender == OgreGender.Female; }
+            get { return gender == OgreGender.Male; }
         }
 
         public static float Longevity
