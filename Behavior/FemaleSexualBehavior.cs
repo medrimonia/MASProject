@@ -39,17 +39,14 @@ namespace MASProject.Behavior
         {
             if (readyForPregnancy(o) && (o.Age - lastLoveCall) > 1.0 / loveCallFrequency)
             {
-                Utils.DebugUtils.writeMessage("Calling for Love");
+                Activity = true;
+                Utils.DebugUtils.writeMessage("Calling for Love" + o.Position);
                 Message m = new LoveCall(o);//TODO love call seems to be launched but doesn't attract it seems
                 foreach (Ogre n in w.nearbyOgres(o, loveCallRange))
                 {
                     n.receiveMessage(m);
                 }
                 lastLoveCall = o.Age;
-            }
-            if (isPregnant)
-            {
-                Utils.DebugUtils.writeMessage("Pregnancy time : " + (o.Age - pregnancyStart));
             }
             if (isPregnant && o.Age - pregnancyStart > pregnancyDuration)
             {
@@ -61,6 +58,7 @@ namespace MASProject.Behavior
         {
             pregnancyStart = age;
             isPregnant = true;
+            Activity = false;
         }
     }
 }

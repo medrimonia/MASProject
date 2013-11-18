@@ -47,6 +47,16 @@ namespace MASProject
 
         private SexualBehavior sexualBehavior;
 
+        public bool IsFemale
+        {
+            get { return gender == OgreGender.Female; }
+        }
+
+        public bool IsMale
+        {
+            get { return gender == OgreGender.Female; }
+        }
+
         public static float Longevity
         {
             get { return longevity; }
@@ -89,11 +99,11 @@ namespace MASProject
             {
                 case OgreGender.Female:
                     sexualBehavior = new FemaleSexualBehavior();
-                    Utils.DebugUtils.writeMessage("Ogre Female created | age : " + age);
+                    Utils.DebugUtils.writeMessage(ent.Name + " : Ogre Female created | age : " + age);
                     break;
                 case OgreGender.Male:
                     sexualBehavior = new MaleSexualBehavior();
-                    Utils.DebugUtils.writeMessage("Ogre Male created   | age : " + age);
+                    Utils.DebugUtils.writeMessage(ent.Name + " : Ogre Male created   | age : " + age);
                     break;
             }
         }
@@ -133,12 +143,12 @@ namespace MASProject
 
         private void treatMessage(LoveCall m)
         {
+            Utils.DebugUtils.writeMessage(ent.Name + " : Treating a loveCall");
             if (sexualBehavior.readyToInseminate(age))
             {
-                if (carriedStone != null)
-                {
-                    goal = m.Source;
-                }
+                goal = m.Source;
+                sexualBehavior.Activity = true;
+                Utils.DebugUtils.writeMessage(this, "Aiming for Sex : " + goal);
             }
         }
 
@@ -201,11 +211,12 @@ namespace MASProject
         private void moveMutation(float elapsedTime)
         {
             float speed = 5f;
-            float minDist = 100;
+            float minDist = MaleSexualBehavior.LoveDist;
             // If we're close to the goal, modify the goal
             if ((goal - node.Position).Length < minDist)
             {
                 updateGoal();
+                sexualBehavior.Activity = false;
             }
             Vector3 toGoal = (goal - node.Position);
             toGoal.Normalise();
@@ -247,19 +258,24 @@ namespace MASProject
 
         public override void mutate(float elapsedTime, World w)
         {
+            treatReceivedMessages();
             // Age Mutation
             age += elapsedTime;
             updateSize();
             List<Ogre> nearbyOgres = w.nearbyOgres(this, this.visionRadius);
             List<Stone> nearbyStones = w.nearbyStones(this, this.visionRadius);
             updateDensity(nearbyOgres.Count);
-            if (carriedStone != null)
+            // When a ogre has a sexual objectives, he cares about nothing else
+            if (!sexualBehavior.Activity)
             {
-                dropMutation(w, nearbyStones);
-            }
-            else if (nearbyStones.Count > 0)
-            {
-                captureMutation(w, nearbyStones);
+                if (carriedStone != null)
+                {
+                    dropMutation(w, nearbyStones);
+                }
+                else if (nearbyStones.Count > 0)
+                {
+                    captureMutation(w, nearbyStones);
+                }
             }
             //TODO avoid collision
             if (!sexualBehavior.readyForPregnancy(this))
