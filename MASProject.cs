@@ -10,6 +10,13 @@ using System.Windows.Forms;
 
 namespace MASProject
 {
+    public enum LightningMode
+    {
+        Day,
+        Night,
+        Cycle
+    }
+
     class MASProject : BaseApplication
     {
         private static int NB_OGREHEADS = 0;
@@ -19,6 +26,7 @@ namespace MASProject
         // lights
         private Light overallLight;
         private Light mainSpot;
+        private LightningMode lightMode;
         //Input handling
         private MOIS.InputManager inputMgr;
         private MOIS.Keyboard lightKeyboard;
@@ -45,15 +53,20 @@ namespace MASProject
         private void updateLights()
         {
             GraphicalObject tracked = environment.TrackedObject;
-            if (tracked == null)
+            mainSpot.Visible = tracked != null;
+            // Update Direction
+            if (tracked != null)
             {
-                mainSpot.Visible = false;
-                return;
+                Vector3 direction = tracked.Position - mainSpot.Position;
+                direction.Normalise();
+                mainSpot.Direction = direction;
             }
-            mainSpot.Visible = true;
-            Vector3 direction = tracked.Position - mainSpot.Position;
-            direction.Normalise();
-            mainSpot.Direction = direction;
+            // Update Luminosity
+            switch (lightMode)
+            {
+                case LightningMode.Day: overallLight.DiffuseColour = new ColourValue(1f, 1f, 1f); break;
+                case LightningMode.Night: overallLight.DiffuseColour = new ColourValue(0.1f, 0.1f, 0.1f); break;
+            }
         }
 
         protected bool OnLightKeyPressed(MOIS.KeyEvent arg)
@@ -64,6 +77,10 @@ namespace MASProject
                 case MOIS.KeyCode.KC_TAB://next ogre
                     environment.trackNext();
                     break;
+                case MOIS.KeyCode.KC_D:
+                    lightMode = LightningMode.Day; break;
+                case MOIS.KeyCode.KC_N:
+                    lightMode = LightningMode.Night; break;
             }
             return true;
         }
@@ -124,6 +141,7 @@ namespace MASProject
             mainSpot.Direction = new Vector3(0, -1, 0);
             mainSpot.Position = new Vector3(0, 600, 0);
             mainSpot.SetSpotlightRange(new Degree(10), new Degree(20));
+            lightMode = LightningMode.Day;
         }
     }
 }

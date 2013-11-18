@@ -117,5 +117,8 @@
   <ItemGroup>
     <Compile Include="GraphicalObject.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Lightning\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
