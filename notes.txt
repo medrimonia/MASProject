@@ -9,6 +9,10 @@
 	- Autorité ("élire" un chef)
 		- Recherche d'algo
 		- Pouvoir de persuasion aléatoire
+		- age d'éligibilité
+		- candidat?
+		- Tous le monde se connait?
+		- Taux de conviction en fonction du voisinage et des actions?
 	- Différents comportement en fonction du status
 	- Mise à jour dynamique des groupes
 

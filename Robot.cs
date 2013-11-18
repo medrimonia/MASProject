@@ -21,8 +21,8 @@ namespace MASProject
         private Vector3 mDestination = Vector3.ZERO; // The destination the object is moving towards
         private float age;
 
-        private float lowestStoneDensity;
-        private Vector3 lowestStonePosition;
+        private float highestStoneDensity;
+        private Vector3 highestStoneDensityPos;
 
         float mWalkSpeed = 150.0f;  // The speed at which the object is moving
 
@@ -34,6 +34,8 @@ namespace MASProject
             mWalkList = new LinkedList<Vector3>();
 
             age = 0f;
+            visionRadius = 100;
+
 
             ent = sm.CreateEntity(entityName, "robot.mesh");
 
@@ -65,6 +67,7 @@ namespace MASProject
             }
             if (mDistance <= 0.0f)
             {
+                
                 if (nextLocation())
                 {
                     
@@ -81,6 +84,7 @@ namespace MASProject
             {
                 moveMutation(elapsedTime);
             }
+            captureMutation(w, nearbyStones);
             mAnimationState.AddTime(elapsedTime * mWalkSpeed / 20);
             
         }
@@ -98,8 +102,9 @@ namespace MASProject
             }
             //TODO use parameters
             float avgX = totalX / nearbyStones.Count;
+            float avgY = carriedStone.BoundingBox.Minimum.y + carriedStone.BoundingBox.HalfSize.y * 2;
             float avgZ = totalZ / nearbyStones.Count;
-            Vector3 center = new Vector3(avgX, carriedStone.BoundingBox.Minimum.y, avgZ);
+            Vector3 center = new Vector3(avgX, avgY, avgZ);
             if (WorldUtils.RndGen.NextDouble() > neededScore)
             {
                 releaseStone(w, center);
@@ -111,8 +116,8 @@ namespace MASProject
         {
             if (nearbyStones.Count == 0) return;
             double neededScore = 1f - System.Math.Pow(0.95f, nearbyStones.Count);
-            double toLowestDensity = (Position - lowestStoneDensity).Length;
-            if (WorldUtils.RndGen.NextDouble() > neededScore || toLowestDensity > 500)
+            double tohighestDensity = (Position - highestStoneDensity).Length;
+            if (WorldUtils.RndGen.NextDouble() > neededScore || tohighestDensity > 500)
             {
                 foreach (Stone s in nearbyStones)
                 {
@@ -123,6 +128,16 @@ namespace MASProject
                         break;
                     }
                 }
+            }
+        }
+
+        private void updateStoneDensity(List<Stone> nearbyStone)
+        {
+            float density = (float)(nearbyStone.Count / System.Math.Pow(visionRadius, 2));
+            if (density > highestStoneDensity)
+            {
+                highestStoneDensity = density;
+                highestStoneDensityPos = node.Position;
             }
         }
         public void moveMutation(float elapsedTime)
@@ -139,7 +154,9 @@ namespace MASProject
 
         private void updateGoal()
         {
-            
+            mWalkList.RemoveFirst();
+            addGoal(WorldUtils.RandomLocation);
+            TurnNextLocation();
 
         }
 
