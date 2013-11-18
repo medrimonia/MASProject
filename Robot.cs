@@ -12,7 +12,7 @@ namespace MASProject
 {
     class Robot : GraphicalAgent
     {   
-        private static float GRIP_RADIUS = 300;
+        private static float GRIP_RADIUS = 100;
 
         private LinkedList<Vector3> mWalkList = null; // A doubly linked containing the waypoints -> une par robot
         private AnimationState mAnimationState = null; //The AnimationState the moving object
@@ -24,7 +24,7 @@ namespace MASProject
         private float highestStoneDensity;
         private Vector3 highestStoneDensityPos;
 
-        float mWalkSpeed = 150.0f;  // The speed at which the object is moving
+        float mWalkSpeed = 750.0f;  // The speed at which the object is moving
 
         public Robot(SceneManager sm, int robotId, Vector3 initialLocation, Vector3 initialGoal)
         {
@@ -36,7 +36,7 @@ namespace MASProject
             age = 0f;
             visionRadius = 100;
 
-
+            carriedStone = null;
             ent = sm.CreateEntity(entityName, "robot.mesh");
 
             // Create the Robot's SceneNode
@@ -57,17 +57,17 @@ namespace MASProject
 
             List<Stone> nearbyStones = w.nearbyStones(this, this.visionRadius);
 
-            if (carriedStone != null)
-            {
-                dropMutation(w, nearbyStones);
-            }
-            else if (nearbyStones.Count > 0)
+            
+            if (carriedStone == null & nearbyStones.Count > 0)
             {
                 captureMutation(w, nearbyStones);
             }
             if (mDistance <= 0.0f)
             {
-                
+                if (carriedStone != null)
+                {
+                dropMutation(w, nearbyStones);
+                }
                 if (nextLocation())
                 {
                     
@@ -84,7 +84,7 @@ namespace MASProject
             {
                 moveMutation(elapsedTime);
             }
-            captureMutation(w, nearbyStones);
+            
             mAnimationState.AddTime(elapsedTime * mWalkSpeed / 20);
             
         }
@@ -92,6 +92,7 @@ namespace MASProject
         private void dropMutation(World w, List<Stone> nearbyStones)
         {
             double neededScore = System.Math.Pow(0.95f, nearbyStones.Count);
+            float density = (float)(nearbyStones.Count / System.Math.Pow(visionRadius, 2));
             float totalX = 0;
             float totalZ = 0;
             //TODO use a barycenter function
@@ -102,10 +103,10 @@ namespace MASProject
             }
             //TODO use parameters
             float avgX = totalX / nearbyStones.Count;
-            float avgY = carriedStone.BoundingBox.Minimum.y + carriedStone.BoundingBox.HalfSize.y * 2;
-            float avgZ = totalZ / nearbyStones.Count;
+            float avgY = -carriedStone.BoundingBox.Minimum.y;//+ carriedStone.BoundingBox.HalfSize.y * 2;
+            float avgZ = -totalZ / nearbyStones.Count;
             Vector3 center = new Vector3(avgX, avgY, avgZ);
-            if (WorldUtils.RndGen.NextDouble() > neededScore)
+            if (WorldUtils.RndGen.NextDouble() > neededScore || density < 100)
             {
                 releaseStone(w, center);
                 updateGoal();
