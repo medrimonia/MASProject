@@ -59,6 +59,17 @@ namespace MASProject
             get {return trackedObject;}
         }
 
+        public void trackNext()
+        {
+            List<GraphicalObject> ogres = Ogres;
+            int index = 0;
+            if (trackedObject != null)
+            {
+                index = (ogres.IndexOf(trackedObject) + 1) % ogres.Count;
+            }
+            trackedObject = ogres[index];
+        }
+
         public List<GraphicalObject> Ogres
         {
             get
@@ -233,7 +244,6 @@ namespace MASProject
         {
             sm.RootSceneNode.AddChild(o.Node);
             objects.Add(o);
-            trackedObject = o;
         }
 
     }

@@ -16,10 +16,14 @@ namespace MASProject
         private static int NB_STONES = 100;
         private static int NB_ROBOTS = 10;
 
-        Light overallLight;
-        Light mainSpot;
+        // lights
+        private Light overallLight;
+        private Light mainSpot;
+        //Input handling
+        private MOIS.InputManager inputMgr;
+        private MOIS.Keyboard lightKeyboard;
 
-        protected World environment;
+        private World environment;
 
         //TODO add a frame displaying the number of each object
 
@@ -52,8 +56,27 @@ namespace MASProject
             mainSpot.Direction = direction;
         }
 
-        private bool updateContent(FrameEvent evt)
+        protected bool OnLightKeyPressed(MOIS.KeyEvent arg)
         {
+
+            switch (arg.key)
+            {
+                case MOIS.KeyCode.KC_TAB://next ogre
+                    environment.trackNext();
+                    break;
+            }
+            return true;
+        }
+
+        protected bool processBufferedInput(FrameEvent evt)
+        {
+            lightKeyboard.Capture();
+            return true;
+        }
+
+        private bool updateContent(FrameEvent evt)
+        {    
+            processBufferedInput(evt);
             updateAdditionalInfo();
             DateTime start = DateTime.Now;
             environment.mutate(evt.timeSinceLastFrame);
@@ -62,6 +85,17 @@ namespace MASProject
             //Utils.DebugUtils.writeMessage("WorldMutation : " + duration.ToString());
             updateLights();
             return true;
+        }
+
+        protected override void InitializeInput()
+        {
+            base.InitializeInput();
+
+            int windowHandle;
+            mWindow.GetCustomAttribute("WINDOW", out windowHandle);
+            inputMgr = MOIS.InputManager.CreateInputSystem((uint)windowHandle);
+            lightKeyboard = (MOIS.Keyboard)inputMgr.CreateInputObject(MOIS.Type.OISKeyboard, true);
+            lightKeyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(OnLightKeyPressed);
         }
 
         protected override void CreateFrameListeners()
