@@ -102,11 +102,11 @@ namespace MASProject
                 totalZ += s.Position.z;
             }
             //TODO use parameters
-            float avgX = totalX / nearbyStones.Count;
-            float avgY = -carriedStone.BoundingBox.Minimum.y;//+ carriedStone.BoundingBox.HalfSize.y * 2;
-            float avgZ = -totalZ / nearbyStones.Count;
+            float avgX = this.Position.x; //totalX / nearbyStones.Count;
+            float avgY = this.Position.y + carriedStone.BoundingBox.HalfSize.y;//carriedStone.BoundingBox.Minimum.y;
+            float avgZ = this.Position.z; //-totalZ / nearbyStones.Count;
             Vector3 center = new Vector3(avgX, avgY, avgZ);
-            if (WorldUtils.RndGen.NextDouble() > neededScore || density < 100)
+            if (WorldUtils.RndGen.NextDouble() > neededScore || density < 200)
             {
                 releaseStone(w, center);
                 updateGoal();
