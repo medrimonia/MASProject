@@ -53,7 +53,6 @@ namespace MASProject.Input
         /* This update needs to be performed once all objects have been moved */
         public void finalUpdate()
         {
-            DebugUtils.writeMessage("Updating lights");
             lightMgr.updateLights();
         }
 

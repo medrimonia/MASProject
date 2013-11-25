@@ -47,6 +47,9 @@ namespace MASProject
             float randomDist = 50;
             WorldUtils.placeRandomly(carriedStone, droppingPosition, randomDist, randomDist, w.neighborhood(droppingPosition, randomDist));
             w.acquire(carriedStone);
+            DebugUtils.writeMessage("----");
+            DebugUtils.writeMessage("Agent at : " + Position);
+            DebugUtils.writeMessage("Dropped stone at " + carriedStone.Position);
             carriedStone = null;
         }
     }

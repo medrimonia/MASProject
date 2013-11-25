@@ -46,6 +46,7 @@ namespace MASProject
                 GraphicalObject o = sFactory.create(sm);
                 objects.Add(o);
                 WorldUtils.placeRandomly(o, Vector3.ZERO, WorldUtils.Width, WorldUtils.Depth, objects);
+                o.placeOnGround();
             }
             for (int i = 0; i < nbRobots; i++)
             {
@@ -246,6 +247,7 @@ namespace MASProject
         {
             sm.RootSceneNode.AddChild(o.Node);
             objects.Add(o);
+            o.placeOnGround();
         }
 
     }

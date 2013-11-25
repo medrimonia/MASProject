@@ -20,7 +20,7 @@ namespace MASProject
 
         public Vector3 Position
         {
-            get { return node.Position; }
+            get { return BoundingBox.Center; }
         }
 
         public AxisAlignedBox BoundingBox
@@ -28,10 +28,23 @@ namespace MASProject
             get {
                 AxisAlignedBox b =  new AxisAlignedBox(ent.BoundingBox);
                 b.TransformAffine(Matrix4.GetScale(node.GetScale()));
-                b.TransformAffine(Matrix4.GetTrans(-node.Position));
+                b.TransformAffine(Matrix4.GetTrans(node.Position));
                 return b;
             }
        }
+
+        public void placeOnGround()
+        {
+            Utils.DebugUtils.writeMessage("----");
+            Utils.DebugUtils.writeMessage("BB, before placing :" + BoundingBox);
+            Utils.DebugUtils.writeMessage("BB center, before placing :" + BoundingBox.Center);
+            Utils.DebugUtils.writeMessage("Pos y :" + Position.y);
+            Utils.DebugUtils.writeMessage("BB min y :" + BoundingBox.Minimum.y);
+            Utils.DebugUtils.writeMessage("BB hs y :" + BoundingBox.HalfSize.y);
+            float yWished = Position.y - BoundingBox.Minimum.y;
+            Node.SetPosition(Position.x, yWished, Position.z);
+            Utils.DebugUtils.writeMessage("BB, after placing :" + BoundingBox);
+        }
 
 	}
 }
