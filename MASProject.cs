@@ -3,6 +3,7 @@ using Mogre.TutorialFramework;
 using MogreFramework;
 using System;
 using System.Windows.Forms;
+using MASProject.Input;
 
 /* Our project is entirely based on the tutorial that can be found at
  * http://www.ogre3d.org/tikiwiki/Mogre+Wiki+Tutorial+Framework
@@ -10,12 +11,6 @@ using System.Windows.Forms;
 
 namespace MASProject
 {
-    public enum LightningMode
-    {
-        Day,
-        Night,
-        Cycle
-    }
 
     class MASProject : BaseApplication
     {
@@ -23,15 +18,8 @@ namespace MASProject
         private static int NB_STONES = 100;
         private static int NB_ROBOTS = 10;
 
-        // lights
-        private Light overallLight;
-        private Light mainSpot;
-        private LightningMode lightMode;
-        //Input handling
-        private MOIS.InputManager inputMgr;
-        private MOIS.Keyboard lightKeyboard;
-
         private World environment;
+        private InputManager inputMgr;
 
         //TODO add a frame displaying the number of each object
 
@@ -43,6 +31,11 @@ namespace MASProject
         }
 
 
+        public MASProject() : base()
+        {
+            inputMgr = new InputManager();
+        }
+
         private void updateAdditionalInfo()
         {
             mDebugOverlay.AdditionalInfo = "nbOgres : " + environment.OgresCount + " ";
@@ -50,57 +43,16 @@ namespace MASProject
             mDebugOverlay.AdditionalInfo += "F : " + environment.FemaleOgresCount + "]";
         }
 
-        private void updateLights()
-        {
-            GraphicalObject tracked = environment.TrackedObject;
-            mainSpot.Visible = tracked != null;
-            // Update Direction
-            if (tracked != null)
-            {
-                Vector3 direction = tracked.Position - mainSpot.Position;
-                direction.Normalise();
-                mainSpot.Direction = direction;
-            }
-            // Update Luminosity
-            switch (lightMode)
-            {
-                case LightningMode.Day: overallLight.DiffuseColour = new ColourValue(1f, 1f, 1f); break;
-                case LightningMode.Night: overallLight.DiffuseColour = new ColourValue(0.1f, 0.1f, 0.1f); break;
-            }
-        }
-
-        protected bool OnLightKeyPressed(MOIS.KeyEvent arg)
-        {
-
-            switch (arg.key)
-            {
-                case MOIS.KeyCode.KC_TAB://next ogre
-                    environment.trackNext();
-                    break;
-                case MOIS.KeyCode.KC_D:
-                    lightMode = LightningMode.Day; break;
-                case MOIS.KeyCode.KC_N:
-                    lightMode = LightningMode.Night; break;
-            }
-            return true;
-        }
-
-        protected bool processBufferedInput(FrameEvent evt)
-        {
-            lightKeyboard.Capture();
-            return true;
-        }
-
         private bool updateContent(FrameEvent evt)
-        {    
-            processBufferedInput(evt);
+        {
+            inputMgr.processBufferedInput(evt);
             updateAdditionalInfo();
             DateTime start = DateTime.Now;
             environment.mutate(evt.timeSinceLastFrame);
             DateTime end = DateTime.Now;
             TimeSpan duration = end - start;
             //Utils.DebugUtils.writeMessage("WorldMutation : " + duration.ToString());
-            updateLights();
+            inputMgr.finalUpdate();
             return true;
         }
 
@@ -108,11 +60,7 @@ namespace MASProject
         {
             base.InitializeInput();
 
-            int windowHandle;
-            mWindow.GetCustomAttribute("WINDOW", out windowHandle);
-            inputMgr = MOIS.InputManager.CreateInputSystem((uint)windowHandle);
-            lightKeyboard = (MOIS.Keyboard)inputMgr.CreateInputObject(MOIS.Type.OISKeyboard, true);
-            lightKeyboard.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(OnLightKeyPressed);
+            inputMgr.initializeInput(mWindow);
         }
 
         protected override void CreateFrameListeners()
@@ -127,21 +75,7 @@ namespace MASProject
             // Initializing lights
             mSceneMgr.AmbientLight = ColourValue.Black;
             mSceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_STENCIL_MODULATIVE;
-            // Adding a global light
-            overallLight = mSceneMgr.CreateLight("overallLight");
-            overallLight.Type = Light.LightTypes.LT_DIRECTIONAL;
-            overallLight.DiffuseColour = new ColourValue(.25f, .25f, .25f);
-            overallLight.SpecularColour = new ColourValue(.25f, .25f, .25f);
-            overallLight.Direction = new Vector3(0, -1, 1);
-            // Spot Light
-            mainSpot = mSceneMgr.CreateLight("mainSpot");
-            mainSpot.Type = Light.LightTypes.LT_SPOTLIGHT;
-            mainSpot.DiffuseColour = new ColourValue(1f, 1f, 1f);
-            mainSpot.SpecularColour = new ColourValue(1f, 1f, 1f);
-            mainSpot.Direction = new Vector3(0, -1, 0);
-            mainSpot.Position = new Vector3(0, 600, 0);
-            mainSpot.SetSpotlightRange(new Degree(10), new Degree(20));
-            lightMode = LightningMode.Day;
+            inputMgr.initializeScene(environment, mSceneMgr);
         }
     }
 }
