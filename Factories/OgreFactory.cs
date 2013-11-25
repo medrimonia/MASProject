@@ -33,7 +33,7 @@ namespace MASProject.Factories
             {
                 g = OgreGender.Male;
             }
-            return new Ogre(sm, nbObjectsCreated++, WorldUtils.RandomLocation, defaultVisionRadius, g, 0);
+            return new Ogre(sm, nbObjectsCreated++, WorldUtils.RandomLocation, defaultVisionRadius, g, age);
         }
     }
 }

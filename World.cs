@@ -23,6 +23,7 @@ namespace MASProject
 
         public World(SceneManager sm, int nbOgre, int nbRobots, int nbStones)
         {
+            DebugUtils.writeMessage("Creating world");
             this.sm = sm;
             oFactory = new OgreFactory();
             sFactory = new StoneFactory();
@@ -52,6 +53,7 @@ namespace MASProject
                 objects.Add(r);
                 WorldUtils.placeRandomly(r, Vector3.ZERO, WorldUtils.Width, WorldUtils.Depth, objects);
             }
+            DebugUtils.writeMessage("World created");
         }
 
         public GraphicalObject TrackedObject
