@@ -103,10 +103,10 @@ namespace MASProject
             }
             //TODO use parameters
             float avgX = totalX / nearbyStones.Count;
-            float avgY = carriedStone.BoundingBox.Minimum.y + carriedStone.BoundingBox.HalfSize.y * 2;
+            float avgY = 0;
             float avgZ = totalZ / nearbyStones.Count;
             Vector3 center = new Vector3(avgX, avgY, avgZ);
-            if (WorldUtils.RndGen.NextDouble() > neededScore || density < 100)
+            if (WorldUtils.RndGen.NextDouble() > neededScore || density < 200)
             {
                 releaseStone(w, center);
                 updateGoal();

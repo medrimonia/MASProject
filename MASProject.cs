@@ -16,7 +16,7 @@ namespace MASProject
     {
         private static int NB_OGREHEADS = 10;
         private static int NB_STONES = 100;
-        private static int NB_ROBOTS = 0;
+        private static int NB_ROBOTS = 10;
 
         private World environment;
         private InputManager inputMgr;
