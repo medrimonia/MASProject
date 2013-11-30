@@ -1,8 +1,16 @@
 ﻿TODO:
 
-@Fab
-- Robots
-	- Modèle dynamique
+- Brouillard
+  - Avec gestion
+    -> +/-/off
+
+- Nature du sol
+  -> Différents sols avec itérations ?
+
+- World
+  -> Ciel etc,
+  -> Paramètres
+
 
 @Fab
 - Modèle social
@@ -36,11 +44,16 @@
 - Camera:
 	- Poursuite de certains ogres(3rd person ou 1st person)
 
+OK:
+
+@Ludo
 - Lumières:
 	- Gestion des lumières, mobiles
 		- Avec interaction?
 
-OK:
+@Fab
+- Robots
+	- Modèle dynamique
 
 @Ludo
 - Placement sans recouvrement (Pas d'intersect entre les BoundingBox)
