@@ -80,6 +80,7 @@ namespace MASProject
             inputMgr.initializeScene(environment, mSceneMgr);
             // Adding overlays
             Overlays.Helper.Init(mWindow);
+            mSceneMgr.SetSkyDome(true, "Examples/CloudySky", 5, 8);
         }
     }
 }

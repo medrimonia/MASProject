@@ -123,6 +123,7 @@
     <Compile Include="GraphicalObject.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Fog\" />
     <Folder Include="Lightning\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
