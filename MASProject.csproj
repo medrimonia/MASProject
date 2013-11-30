@@ -49,6 +49,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Input\CommandDatabase.cs" />
+    <Compile Include="Input\CommandHelper.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Input\LightManager.cs" />
     <Compile Include="Overlays\HelperOverlay.cs" />

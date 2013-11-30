@@ -4,12 +4,13 @@ using MogreFramework;
 using System;
 using System.Windows.Forms;
 using MASProject.Utils;
+using System.Collections.Generic;
 
 namespace MASProject.Input
 {
     class InputManager
     {
-        private enum InputMode
+        public enum InputMode
         {
             None,
             Light
@@ -64,6 +65,9 @@ namespace MASProject.Input
                 case MOIS.KeyCode.KC_H:
                     Overlays.Helper.Toggle();
                     break;
+                case MOIS.KeyCode.KC_X:
+                    mode = InputMode.None;
+                    break;
             }
             #endregion
 
@@ -78,6 +82,7 @@ namespace MASProject.Input
                 }
             }
             #endregion
+            Overlays.Helper.Update(mode);
             return true;
         }
 

@@ -1,6 +1,8 @@
 ﻿using Mogre;
 using Mogre.TutorialFramework;
 using MogreFramework;
+using MASProject.Input;
+
 
 namespace MASProject.Overlays
 {
@@ -28,6 +30,15 @@ namespace MASProject.Overlays
 
             var messageBody = OverlayManager.Singleton.GetOverlayElement(BodyName);
             messageBody.Caption = "Hello World!";
+        }
+
+        public static void Update(InputManager.InputMode mode)
+        {
+            var messageBody = OverlayManager.Singleton.GetOverlayElement(BodyName);
+            messageBody.Caption = "";
+            foreach (CommandHelper c in CommandDatabase.getCommands(mode)){
+                messageBody.Caption += c.ToString() + '\n';
+            }
         }
 
         public static void Toggle()
