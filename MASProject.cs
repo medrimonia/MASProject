@@ -20,6 +20,7 @@ namespace MASProject
 
         private World environment;
         private InputManager inputMgr;
+        private Overlays.Helper helper;
 
         //TODO add a frame displaying the number of each object
 
@@ -77,6 +78,8 @@ namespace MASProject
             mSceneMgr.AmbientLight = ColourValue.Black;
             mSceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_STENCIL_MODULATIVE;
             inputMgr.initializeScene(environment, mSceneMgr);
+            // Adding overlays
+            Overlays.Helper.Init(mWindow);
         }
     }
 }

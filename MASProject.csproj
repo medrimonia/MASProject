@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Input\LightManager.cs" />
+    <Compile Include="Overlays\HelperOverlay.cs" />
     <Compile Include="Robot.cs" />
     <Compile Include="Behavior\FemaleSexualBehavior.cs" />
     <Compile Include="Behavior\MaleSexualBehavior.cs" />

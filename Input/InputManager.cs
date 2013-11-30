@@ -58,27 +58,35 @@ namespace MASProject.Input
 
         protected bool treatKeyPressed(MOIS.KeyEvent arg)
         {
-
+            #region Treating keys always activated
             switch (arg.key)
             {
                 case MOIS.KeyCode.KC_H:
-                    //Show help
-                    break;
-                case MOIS.KeyCode.KC_L:
-                    mode = InputMode.Light;
+                    Overlays.Helper.Toggle();
                     break;
             }
+            #endregion
+
+            #region Treating keys on no mode
+            if (mode == InputMode.None)
+            {
+                switch (arg.key)
+                {
+                    case MOIS.KeyCode.KC_L:
+                        mode = InputMode.Light;
+                        break;
+                }
+            }
+            #endregion
             return true;
         }
 
         protected bool OnKeyPressed(MOIS.KeyEvent arg)
         {
             DebugUtils.writeMessage("On key pressed");
-
+            treatKeyPressed(arg);
             switch (mode)
             {
-                case InputMode.None:
-                    return treatKeyPressed(arg);
                 case InputMode.Light:
                     return lightMgr.treatKeyPressed(arg);
             }
