@@ -84,5 +84,10 @@ namespace MASProject.Input
             }
             return true;
         }
+
+        public ColourValue AmbientLight
+        {
+            get { return lightMgr.AmbientLight; }
+        }
     }
 }

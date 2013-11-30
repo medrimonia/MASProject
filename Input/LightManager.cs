@@ -26,7 +26,6 @@ namespace MASProject.Input
         private static float nightIntensity = 0.1f;
 
         // lights
-        private Light overallLight;
         private Light mainSpot;
         private LightningMode lightMode;
         private float hour;
@@ -82,6 +81,11 @@ namespace MASProject.Input
             }
         }
 
+        public ColourValue AmbientLight
+        {
+            get { return new ColourValue(LightIntensity, LightIntensity, LightIntensity); }
+        }
+
         /// <summary>
         /// Update the content of the light manager, including overall lights and spot
         /// </summary>
@@ -98,8 +102,6 @@ namespace MASProject.Input
                 direction.Normalise();
                 mainSpot.Direction = direction;
             }
-            // Update Luminosity
-            overallLight.DiffuseColour = new ColourValue(LightIntensity, LightIntensity, LightIntensity);
         }
 
         public bool treatKeyPressed(MOIS.KeyEvent arg)
@@ -121,12 +123,6 @@ namespace MASProject.Input
 
         public void initalizeScene(World w, SceneManager mSceneMgr){
             environment = w;
-            // Adding a global light
-            overallLight = mSceneMgr.CreateLight("overallLight");
-            overallLight.Type = Light.LightTypes.LT_DIRECTIONAL;
-            overallLight.DiffuseColour = new ColourValue(.25f, .25f, .25f);
-            overallLight.SpecularColour = new ColourValue(.25f, .25f, .25f);
-            overallLight.Direction = new Vector3(0, -1, 1);
             // Spot Light
             mainSpot = mSceneMgr.CreateLight("mainSpot");
             mainSpot.Type = Light.LightTypes.LT_SPOTLIGHT;

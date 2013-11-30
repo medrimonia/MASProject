@@ -53,6 +53,7 @@ namespace MASProject
             TimeSpan duration = end - start;
             //Utils.DebugUtils.writeMessage("WorldMutation : " + duration.ToString());
             inputMgr.finalUpdate(evt.timeSinceLastFrame);
+            mSceneMgr.AmbientLight = inputMgr.AmbientLight;
             return true;
         }
 
