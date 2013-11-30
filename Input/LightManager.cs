@@ -15,11 +15,21 @@ namespace MASProject.Input
             Night,
             Cycle
         }
-        
+        /// <summary>
+        /// The number of seconds in the user referential that correspond to
+        /// 24 hours in the LightManager referential
+        /// </summary>
+        private static float secondsByDay = 10;
+        private static float dayStart = 5f;
+        private static float dayEnd = 19f;
+        private static float dayIntensity = 1f;
+        private static float nightIntensity = 0.1f;
+
         // lights
         private Light overallLight;
         private Light mainSpot;
         private LightningMode lightMode;
+        private float hour;
 
         // The world in which it evolves
         private World environment;
@@ -28,8 +38,57 @@ namespace MASProject.Input
         {
         }
 
-        public void updateLights()
+        /// <summary>
+        /// The duration of a day in hours (LightManager time referential)
+        /// </summary>
+        private float DayLength
         {
+            get { return dayEnd - dayStart; }
+        }
+
+        /// <summary>
+        /// Return the noon time in hours (In the LightManager time referential)
+        /// </summary>
+        private float Noon
+        {
+            get { return DayLength / 2 + dayStart; }
+        }
+
+        private float LightIntensity
+        {
+            get
+            {
+                switch (lightMode)
+                {
+                    case LightningMode.Day: return dayIntensity;
+                    case LightningMode.Night: return nightIntensity;
+                    case LightningMode.Cycle:
+                        if (hour < dayStart) return nightIntensity;
+                        if (hour < Noon)
+                        {
+                            // [dayStart, Noon] -> [0,1]
+                            float pos = (hour - dayStart) / (DayLength / 2);
+                            return pos * (dayIntensity - nightIntensity) + nightIntensity;
+                        }
+                        if (hour < dayEnd)
+                        {
+                            // [Noon, dayEnd] -> [0,1]
+                            float pos = (hour - Noon) / (DayLength / 2);
+                            return dayIntensity - pos * (dayIntensity - nightIntensity);
+                        }
+                        return nightIntensity;
+                }
+                return dayIntensity;
+            }
+        }
+
+        /// <summary>
+        /// Update the content of the light manager, including overall lights and spot
+        /// </summary>
+        /// <param name="elapsedTime">In seconds</param>
+        public void updateLights(double elapsedTime)
+        {
+            hour = (hour + 24 * (float)elapsedTime / secondsByDay) % 24;
             GraphicalObject tracked = environment.TrackedObject;
             mainSpot.Visible = tracked != null;
             // Update Direction
@@ -40,16 +99,11 @@ namespace MASProject.Input
                 mainSpot.Direction = direction;
             }
             // Update Luminosity
-            switch (lightMode)
-            {
-                case LightningMode.Day: overallLight.DiffuseColour = new ColourValue(1f, 1f, 1f); break;
-                case LightningMode.Night: overallLight.DiffuseColour = new ColourValue(0.1f, 0.1f, 0.1f); break;
-            }
+            overallLight.DiffuseColour = new ColourValue(LightIntensity, LightIntensity, LightIntensity);
         }
 
         public bool treatKeyPressed(MOIS.KeyEvent arg)
         {
-
             switch (arg.key)
             {
                 case MOIS.KeyCode.KC_TAB://next ogre
@@ -59,6 +113,8 @@ namespace MASProject.Input
                     lightMode = LightningMode.Day; break;
                 case MOIS.KeyCode.KC_N:
                     lightMode = LightningMode.Night; break;
+                case MOIS.KeyCode.KC_C:
+                    lightMode = LightningMode.Cycle; break;
             }
             return true;
         }

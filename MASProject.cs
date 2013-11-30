@@ -52,7 +52,7 @@ namespace MASProject
             DateTime end = DateTime.Now;
             TimeSpan duration = end - start;
             //Utils.DebugUtils.writeMessage("WorldMutation : " + duration.ToString());
-            inputMgr.finalUpdate();
+            inputMgr.finalUpdate(evt.timeSinceLastFrame);
             return true;
         }
 

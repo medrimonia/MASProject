@@ -51,9 +51,9 @@ namespace MASProject.Input
         }
 
         /* This update needs to be performed once all objects have been moved */
-        public void finalUpdate()
+        public void finalUpdate(double timeElapsed)
         {
-            lightMgr.updateLights();
+            lightMgr.updateLights(timeElapsed);
         }
 
         protected bool treatKeyPressed(MOIS.KeyEvent arg)
