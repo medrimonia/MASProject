@@ -13,7 +13,8 @@ namespace MASProject.Input
         public enum InputMode
         {
             None,
-            Light
+            Light,
+            Fog
         }
 
         //Input handling
@@ -79,6 +80,9 @@ namespace MASProject.Input
                     case MOIS.KeyCode.KC_L:
                         mode = InputMode.Light;
                         break;
+                    case MOIS.KeyCode.KC_F:
+                        mode = InputMode.Fog;
+                        break;
                 }
             }
             #endregion
@@ -94,6 +98,8 @@ namespace MASProject.Input
             {
                 case InputMode.Light:
                     return lightMgr.treatKeyPressed(arg);
+                case InputMode.Fog:
+                    return FogManager.treatKeyPressed(arg);
             }
             return true;
         }

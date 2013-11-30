@@ -20,7 +20,6 @@ namespace MASProject
 
         private World environment;
         private InputManager inputMgr;
-        private Overlays.Helper helper;
 
         //TODO add a frame displaying the number of each object
 
@@ -55,6 +54,7 @@ namespace MASProject
             //Utils.DebugUtils.writeMessage("WorldMutation : " + duration.ToString());
             inputMgr.finalUpdate(evt.timeSinceLastFrame);
             mSceneMgr.AmbientLight = inputMgr.AmbientLight;
+            mSceneMgr.SetFog(FogManager.Mode, FogManager.Color, FogManager.Strength);
             return true;
         }
 

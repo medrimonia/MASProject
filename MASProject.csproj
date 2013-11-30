@@ -49,6 +49,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Input\FogManager.cs" />
     <Compile Include="Input\CommandDatabase.cs" />
     <Compile Include="Input\CommandHelper.cs" />
     <Compile Include="Input\InputManager.cs" />
@@ -122,9 +123,6 @@
   <ItemGroup>
     <Compile Include="GraphicalObject.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Fog\" />
-    <Folder Include="Lightning\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
