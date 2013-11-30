@@ -67,6 +67,7 @@
     <Compile Include="Ogre.cs" />
     <Compile Include="Factories\OgreFactory.cs" />
     <Compile Include="Factories\RobotFactory.cs" />
+    <Compile Include="TimeProperties.cs" />
     <Compile Include="Utils\DebugUtils.cs" />
     <Compile Include="Utils\WorldUtils.cs" />
     <Compile Include="Stone.cs" />

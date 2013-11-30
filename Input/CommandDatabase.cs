@@ -57,28 +57,29 @@ namespace MASProject.Input
         {
             #region Global Commands
             globalCommands = new List<CommandHelper>();
-            globalCommands.Add(new CommandHelper('h', "toggle the helper on and off"));
-            globalCommands.Add(new CommandHelper('x', "return to global mode"));
+            globalCommands.Add(new CommandHelper("h", "toggle the helper on and off"));
+            globalCommands.Add(new CommandHelper("SPACE", "pause execution"));
+            globalCommands.Add(new CommandHelper("x", "return to global mode"));
             #endregion
             specificCommands = new Dictionary<InputManager.InputMode, List<CommandHelper>>();
             InputManager.InputMode m;
             #region No mode commands
             m = InputManager.InputMode.None;
             specificCommands.Add(m, new List<CommandHelper>());
-            addCommand(m, new CommandHelper('l', "activating light control"));
-            addCommand(m, new CommandHelper('f', "activating fog control"));
+            addCommand(m, new CommandHelper("l", "activating light control"));
+            addCommand(m, new CommandHelper("f", "activating fog control"));
             #endregion
             #region Light commands
             m = InputManager.InputMode.Light;
             specificCommands.Add(m, new List<CommandHelper>());
-            addCommand(m, new CommandHelper('d', "activate day mode"));
-            addCommand(m, new CommandHelper('n', "activate night mode"));
-            addCommand(m, new CommandHelper('c', "activating cycle mode (day and night alterning)"));
+            addCommand(m, new CommandHelper("d", "activate day mode"));
+            addCommand(m, new CommandHelper("n", "activate night mode"));
+            addCommand(m, new CommandHelper("c", "activating cycle mode (day and night alterning)"));
             #endregion
             #region Fog commands
             m = InputManager.InputMode.Fog;
             specificCommands.Add(m, new List<CommandHelper>());
-            addCommand(m, new CommandHelper('t', "toggle fog on/off"));
+            addCommand(m, new CommandHelper("t", "toggle fog on/off"));
             #endregion
         }
     }

@@ -210,7 +210,7 @@ namespace MASProject
 
         private void moveMutation(float elapsedTime)
         {
-            float speed = 5f;
+            float speed = 100f;
             float minDist = MaleSexualBehavior.LoveDist;
             // If we're close to the goal, modify the goal
             if ((goal - node.Position).Length < minDist)
@@ -220,7 +220,7 @@ namespace MASProject
             }
             Vector3 toGoal = (goal - node.Position);
             toGoal.Normalise();
-            toGoal *= speed;
+            toGoal *= speed * elapsedTime;
             node.Position += toGoal;
         }
 

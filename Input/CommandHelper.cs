@@ -7,10 +7,10 @@ namespace MASProject.Input
 {
     class CommandHelper
     {
-        private char shortcut;
+        private string shortcut;
         private string description;
 
-        public CommandHelper(char shortcut, string description)
+        public CommandHelper(string shortcut, string description)
         {
             this.shortcut = shortcut;
             this.description = description;

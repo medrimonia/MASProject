@@ -45,14 +45,15 @@ namespace MASProject
 
         private bool updateContent(FrameEvent evt)
         {
+            float elapsedTime = evt.timeSinceLastFrame;
+            elapsedTime *= TimeProperties.Speed;
             inputMgr.processBufferedInput(evt);
             updateAdditionalInfo();
-            DateTime start = DateTime.Now;
-            environment.mutate(evt.timeSinceLastFrame);
-            DateTime end = DateTime.Now;
-            TimeSpan duration = end - start;
-            //Utils.DebugUtils.writeMessage("WorldMutation : " + duration.ToString());
-            inputMgr.finalUpdate(evt.timeSinceLastFrame);
+            if (elapsedTime > 0)
+            {
+                environment.mutate(elapsedTime);
+            }
+            inputMgr.finalUpdate(elapsedTime);
             mSceneMgr.AmbientLight = inputMgr.AmbientLight;
             mSceneMgr.SetFog(FogManager.Mode, FogManager.Color, FogManager.Strength);
             return true;

@@ -69,6 +69,9 @@ namespace MASProject.Input
                 case MOIS.KeyCode.KC_X:
                     mode = InputMode.None;
                     break;
+                case MOIS.KeyCode.KC_SPACE:
+                    TimeProperties.TogglePause();
+                    break;
             }
             #endregion
 

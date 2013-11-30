@@ -4,7 +4,7 @@ Helper
 	{
 		metrics_mode pixels
 		width        600
-		height       150
+		height       400
 		material     Core/StatsBlockCenter
 		border_material       Core/StatsBlockBorder
 		border_size           1 1 1 1

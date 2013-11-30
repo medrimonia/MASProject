@@ -24,7 +24,7 @@ namespace MASProject
         private float highestStoneDensity;
         private Vector3 highestStoneDensityPos;
 
-        float mWalkSpeed = 750.0f;  // The speed at which the object is moving
+        float mWalkSpeed = 75.0f;  // The speed at which the object is moving
 
         public Robot(SceneManager sm, int robotId, Vector3 initialLocation, Vector3 initialGoal)
         {

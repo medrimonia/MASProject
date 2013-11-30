@@ -219,7 +219,6 @@ namespace MASProject
 
         public void mutate(float elapsedTime)
         {
-            elapsedTime /= 10;// TODO doesn't seem to work
             //TODO shuffle objects at each mutation
             /* using ToArray because some objects might be removed during the
              * loop
