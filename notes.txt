@@ -1,5 +1,11 @@
 ﻿TODO:
 
+- Overlays
+  - Ajouter un overlay de debug
+
+- Polices
+  -> Monospace pour meilleur affichage
+
 - Brouillard
   - Avec gestion
     -> +/-/off
@@ -10,6 +16,9 @@
 - World
   -> Ciel etc,
   -> Paramètres
+
+- Camera
+  -> Remplacer le handler fournit de base
 
 
 @Fab
