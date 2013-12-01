@@ -240,6 +240,10 @@ namespace MASProject
         {
             sm.RootSceneNode.RemoveChild(o.Node);
             objects.Remove(o);
+            if (trackedObject == o)
+            {
+                trackedObject = null;
+            }
         }
 
         public void acquire(GraphicalObject o)
