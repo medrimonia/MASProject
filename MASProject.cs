@@ -50,6 +50,8 @@ namespace MASProject
             mSceneMgr.SetFog(FogManager.Mode, FogManager.Color, FogManager.Strength);
             CameraManager.UpdateCamera(mSceneMgr, elapsedTime);
             Overlays.StatusOverlay.Update(environment);
+            // Hiding this overlay at start only is not enough
+            OverlayManager.Singleton.GetByName("Core/DebugOverlay").Hide();
             return !inputMgr.ShutdownAsked;
         }
 
