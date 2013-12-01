@@ -23,6 +23,11 @@ namespace MASProject
             get { return BoundingBox.Center; }
         }
 
+        public virtual Quaternion Orientation
+        {
+            get { return node.Orientation; }
+        }
+
         public AxisAlignedBox BoundingBox
         {
             get {
@@ -39,5 +44,23 @@ namespace MASProject
             Node.SetPosition(Position.x, yWished, Position.z);
         }
 
+        public void orientateToDestination(Vector3 dst)
+        {
+            Vector3 direction = dst - node.Position;
+            direction.y = 0f;
+            direction.Normalise();
+
+            Vector3 src = Orientation * Vector3.UNIT_X;
+
+            if ((1.0f + src.DotProduct(direction)) < 0.0001f)
+            {
+                node.Yaw(new Angle(180.0f));
+            }
+            else
+            {
+                Quaternion quat = src.GetRotationTo(direction);
+                node.Rotate(quat);
+            }
+        }
 	}
 }

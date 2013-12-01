@@ -3,7 +3,7 @@ Debug
 	container BorderPanel(Debug/MessageBox)
 	{
 		metrics_mode pixels
-		width        600
+		width        1000
 		height       400
 		material     Core/StatsBlockCenter
 		border_material       Core/StatsBlockBorder

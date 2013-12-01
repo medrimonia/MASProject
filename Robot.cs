@@ -27,7 +27,7 @@ namespace MASProject
         private Vector3 LastDropPosition;
 
 
-        float mWalkSpeed = 950.0f;  // The speed at which the object is moving
+        float mWalkSpeed = 75.0f;  // The speed at which the object is moving
 
 
         public Robot(SceneManager sm, int robotId, Vector3 initialLocation, Vector3 initialGoal)
@@ -195,17 +195,7 @@ namespace MASProject
                 mDirection = mDestination - node.Position;
                 mDistance = mDirection.Normalise();
 
-                Vector3 src = node.Orientation * Vector3.UNIT_X;
-
-                if ((1.0f + src.DotProduct(mDirection)) < 0.0001f)
-                {
-                    node.Yaw(new Angle(180.0f));
-                }
-                else
-                {
-                    Quaternion quat = src.GetRotationTo(mDirection);
-                    node.Rotate(quat);
-                }
+                orientateToDestination(mDestination);
 
         }
 

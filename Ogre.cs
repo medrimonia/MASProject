@@ -47,6 +47,14 @@ namespace MASProject
 
         private SexualBehavior sexualBehavior;
 
+        public override Quaternion Orientation
+        {
+            get
+            {
+                return base.Orientation * new Quaternion(new Degree(-90), Vector3.UNIT_Y);
+            }
+        }
+
         public bool IsFemale
         {
             get { return gender == OgreGender.Female; }
@@ -220,6 +228,8 @@ namespace MASProject
             toGoal.Normalise();
             toGoal *= speed * elapsedTime;
             node.Position += toGoal;
+            //Facing dst :
+            orientateToDestination(goal);
         }
 
         private void deathMutation(World w, float elapsedTime)
