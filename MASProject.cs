@@ -56,19 +56,19 @@ namespace MASProject
             inputMgr.finalUpdate(elapsedTime);
             mSceneMgr.AmbientLight = inputMgr.AmbientLight;
             mSceneMgr.SetFog(FogManager.Mode, FogManager.Color, FogManager.Strength);
-            return true;
+            return !inputMgr.ShutdownAsked;
         }
 
         protected override void InitializeInput()
         {
-            base.InitializeInput();
+            //base.InitializeInput();
 
             inputMgr.initializeInput(mWindow);
         }
 
         protected override void CreateFrameListeners()
         {
-            base.CreateFrameListeners();
+            //base.CreateFrameListeners();
             mRoot.FrameRenderingQueued += new FrameListener.FrameRenderingQueuedHandler(updateContent);
         }
 
@@ -82,6 +82,15 @@ namespace MASProject
             // Adding overlays
             Overlays.Helper.Init(mWindow);
             mSceneMgr.SetSkyDome(true, "Examples/CloudySky", 5, 8);
+        }
+        protected override void CreateCamera()
+        {
+
+            mCamera = mSceneMgr.CreateCamera("TestCam");
+            mCamera.Position = new Vector3(0, 1000, 0);
+            mCamera.LookAt(Vector3.NEGATIVE_UNIT_Y);
+            mCamera.NearClipDistance = 5;
+            mCameraMan = new CameraMan(mCamera);
         }
     }
 }

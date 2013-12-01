@@ -25,10 +25,18 @@ namespace MASProject.Input
         private LightManager lightMgr;
         private InputMode mode;
 
+        private bool shutdownAsked;
+
+        public bool ShutdownAsked
+        {
+            get { return shutdownAsked; }
+        }
+
         public InputManager()
         {
             lightMgr = new LightManager();
             mode = InputMode.None;
+            shutdownAsked = false;
         }
 
         public void initializeInput(RenderWindow w)
@@ -71,6 +79,9 @@ namespace MASProject.Input
                     break;
                 case MOIS.KeyCode.KC_SPACE:
                     TimeProperties.TogglePause();
+                    break;
+                case MOIS.KeyCode.KC_ESCAPE:
+                    shutdownAsked = true;
                     break;
             }
             #endregion
