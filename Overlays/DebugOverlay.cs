@@ -37,8 +37,8 @@ namespace MASProject.Overlays
         public static void Init(RenderWindow w)
         {
             var messageBox = OverlayManager.Singleton.GetOverlayElement(MessageBoxName);
-            messageBox.Left = (w.Width - messageBox.Width) / 2;
-            messageBox.Top = (w.Height - messageBox.Height) / 2;
+            messageBox.Left = Margins.BorderMargin;
+            messageBox.Top = w.Height - messageBox.Height - Margins.BorderMargin;
 
             var title = OverlayManager.Singleton.GetOverlayElement(TitleName);
             title.Left = messageBox.Width / 2;

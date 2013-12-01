@@ -3,7 +3,7 @@ Status
 	container BorderPanel(Status/MessageBox)
 	{
 		metrics_mode pixels
-		width        1000
+		width        400
 		height       400
 		material     Core/StatsBlockCenter
 		border_material       Core/StatsBlockBorder

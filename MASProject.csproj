@@ -55,6 +55,7 @@
     <Compile Include="Input\CommandHelper.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Input\LightManager.cs" />
+    <Compile Include="Overlays\Margins.cs" />
     <Compile Include="Overlays\StatusOverlay.cs" />
     <Compile Include="Overlays\DebugOverlay.cs" />
     <Compile Include="Overlays\HelperOverlay.cs" />
