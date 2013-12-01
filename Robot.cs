@@ -26,7 +26,9 @@ namespace MASProject
         private Vector3 highestStoneDensityPos;
         private Vector3 LastDropPosition;
 
+
         float mWalkSpeed = 950.0f;  // The speed at which the object is moving
+
 
         public Robot(SceneManager sm, int robotId, Vector3 initialLocation, Vector3 initialGoal)
         {
@@ -104,10 +106,12 @@ namespace MASProject
                 totalZ += s.Position.z;
             }
             //TODO use parameters
+
             float avgX =  nearbyStones.Count>0?totalX / nearbyStones.Count : this.Position.x;
             float avgY = this.Position.y + carriedStone.BoundingBox.HalfSize.y;//carriedStone.BoundingBox.Minimum.y;
             float avgZ = nearbyStones.Count > 0 ? totalZ / nearbyStones.Count : this.Position.z;
             double tohighestDensity = (Position - highestStoneDensityPos).Length;
+
             Vector3 center = new Vector3(avgX, avgY, avgZ);
             if (WorldUtils.RndGen.NextDouble() > neededScore || density < 200 )
             {

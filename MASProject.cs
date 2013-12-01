@@ -14,7 +14,7 @@ namespace MASProject
 
     class MASProject : BaseApplication
     {
-        private static int NB_OGREHEADS = 0;
+        private static int NB_OGREHEADS = 10;
         private static int NB_STONES = 100;
         private static int NB_ROBOTS = 10;
 
@@ -45,27 +45,31 @@ namespace MASProject
 
         private bool updateContent(FrameEvent evt)
         {
+            float elapsedTime = evt.timeSinceLastFrame;
+            elapsedTime *= TimeProperties.Speed;
             inputMgr.processBufferedInput(evt);
             updateAdditionalInfo();
-            DateTime start = DateTime.Now;
-            environment.mutate(evt.timeSinceLastFrame);
-            DateTime end = DateTime.Now;
-            TimeSpan duration = end - start;
-            //Utils.DebugUtils.writeMessage("WorldMutation : " + duration.ToString());
-            inputMgr.finalUpdate();
-            return true;
+            if (elapsedTime > 0)
+            {
+                environment.mutate(elapsedTime);
+            }
+            inputMgr.finalUpdate(elapsedTime);
+            mSceneMgr.AmbientLight = inputMgr.AmbientLight;
+            mSceneMgr.SetFog(FogManager.Mode, FogManager.Color, FogManager.Strength);
+            CameraManager.UpdateCamera(mSceneMgr, elapsedTime);
+            return !inputMgr.ShutdownAsked;
         }
 
         protected override void InitializeInput()
         {
-            base.InitializeInput();
+            //base.InitializeInput();
 
             inputMgr.initializeInput(mWindow);
         }
 
         protected override void CreateFrameListeners()
         {
-            base.CreateFrameListeners();
+            //base.CreateFrameListeners();
             mRoot.FrameRenderingQueued += new FrameListener.FrameRenderingQueuedHandler(updateContent);
         }
 
@@ -76,6 +80,13 @@ namespace MASProject
             mSceneMgr.AmbientLight = ColourValue.Black;
             mSceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_STENCIL_MODULATIVE;
             inputMgr.initializeScene(environment, mSceneMgr);
+            // Adding overlays
+            Overlays.Helper.Init(mWindow);
+            mSceneMgr.SetSkyDome(true, "Examples/CloudySky", 5, 8);
+        }
+        protected override void CreateCamera()
+        {
+            mCamera = mSceneMgr.CreateCamera(Input.CameraManager.CameraName);
         }
     }
 }

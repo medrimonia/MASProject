@@ -8,7 +8,8 @@ namespace MASProject.Factories
     {
         public override GraphicalObject create(SceneManager sm)
         {
-            return new Stone(sm, nbObjectsCreated++, WorldUtils.RandomLocation);
+            Stone s = new Stone(sm, nbObjectsCreated++, WorldUtils.RandomLocation);
+            return s;
         }
     }
 }

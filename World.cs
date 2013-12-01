@@ -46,6 +46,7 @@ namespace MASProject
                 GraphicalObject o = sFactory.create(sm);
                 objects.Add(o);
                 WorldUtils.placeRandomly(o, Vector3.ZERO, WorldUtils.Width, WorldUtils.Depth, objects);
+                o.placeOnGround();
             }
             for (int i = 0; i < nbRobots; i++)
             {
@@ -218,7 +219,6 @@ namespace MASProject
 
         public void mutate(float elapsedTime)
         {
-            elapsedTime /= 10;// TODO doesn't seem to work
             //TODO shuffle objects at each mutation
             /* using ToArray because some objects might be removed during the
              * loop
@@ -240,12 +240,17 @@ namespace MASProject
         {
             sm.RootSceneNode.RemoveChild(o.Node);
             objects.Remove(o);
+            if (trackedObject == o)
+            {
+                trackedObject = null;
+            }
         }
 
         public void acquire(GraphicalObject o)
         {
             sm.RootSceneNode.AddChild(o.Node);
             objects.Add(o);
+            o.placeOnGround();
         }
 
     }

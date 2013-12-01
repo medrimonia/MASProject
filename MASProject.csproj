@@ -49,8 +49,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Input\CameraManager.cs" />
+    <Compile Include="Input\FogManager.cs" />
+    <Compile Include="Input\CommandDatabase.cs" />
+    <Compile Include="Input\CommandHelper.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Input\LightManager.cs" />
+    <Compile Include="Overlays\HelperOverlay.cs" />
     <Compile Include="Robot.cs" />
     <Compile Include="Behavior\FemaleSexualBehavior.cs" />
     <Compile Include="Behavior\MaleSexualBehavior.cs" />
@@ -63,6 +68,7 @@
     <Compile Include="Ogre.cs" />
     <Compile Include="Factories\OgreFactory.cs" />
     <Compile Include="Factories\RobotFactory.cs" />
+    <Compile Include="TimeProperties.cs" />
     <Compile Include="Utils\DebugUtils.cs" />
     <Compile Include="Utils\WorldUtils.cs" />
     <Compile Include="Stone.cs" />
@@ -119,8 +125,6 @@
   <ItemGroup>
     <Compile Include="GraphicalObject.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Lightning\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
