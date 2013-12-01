@@ -22,11 +22,20 @@ namespace MASProject.Overlays
             get { return MessageBoxName + "/Body"; }
         }
 
+        private static string TitleName
+        {
+            get { return MessageBoxName + "/Title"; }
+        }
+
         public static void Init(RenderWindow w)
         {
             var messageBox = OverlayManager.Singleton.GetOverlayElement(MessageBoxName);
             messageBox.Left = (w.Width - messageBox.Width) / 2;
             messageBox.Top = (w.Height - messageBox.Height) / 2;
+
+            var title = OverlayManager.Singleton.GetOverlayElement(TitleName);
+            title.Left = messageBox.Width / 2;
+            title.Caption = "Help on commands";
 
             var messageBody = OverlayManager.Singleton.GetOverlayElement(BodyName);
             messageBody.Caption = "Helper";

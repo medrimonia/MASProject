@@ -9,11 +9,21 @@ Helper
 		border_material       Core/StatsBlockBorder
 		border_size           1 1 1 1
 
+		element TextArea(Helper/MessageBox/Title)
+		{
+			metrics_mode  pixels
+			top           10
+			font_name     BlueHighway
+			char_height   40
+			alignment     center
+			colour        1.0 1.0 1.0
+		}
+
 		element TextArea(Helper/MessageBox/Body)
 		{
 			metrics_mode  pixels
 			left          10
-			top           20
+			top           60
 			font_name     BlueHighway
 			char_height   24
 			alignment     left
