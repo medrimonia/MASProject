@@ -36,12 +36,12 @@ namespace MASProject
         private float smoothedDensity;
         /* Discount parameter, at each step, densityDisc will be :
          * newVal = newVal * (1 - densityDisc) + oldVal * densityDisc */
-        private static float densityDisc = 0.99f;
+        private static float densityDisc = 0.95f;
 
         /* After a certain age, ogreHeads stop growing [s] */
         private static float fullSizeAge = 30f;
         /* The time an ogre is expected to live [s] */
-        public static float longevity = 50;
+        public static float longevity = 100f;
         private static float minSize = 20f;
         private static float maxSize = 60f;
 
@@ -156,7 +156,8 @@ namespace MASProject
 
         private void treatMessage(LoveCall m)
         {
-            if (sexualBehavior.readyToInseminate(age))
+            if (sexualBehavior.Activity == false &&
+                sexualBehavior.readyToInseminate(age))
             {
                 goal = m.Source;
                 sexualBehavior.Activity = true;
@@ -217,6 +218,7 @@ namespace MASProject
         public void inseminate()
         {
             sexualBehavior.inseminate(age);
+            Utils.DebugUtils.writeMessage(this, "Inseminated at " + age);
         }
 
         private void moveMutation(float elapsedTime)
