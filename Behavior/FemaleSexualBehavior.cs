@@ -24,7 +24,6 @@ namespace MASProject.Behavior
 
         public override bool readyForPregnancy(Ogre o)
         {
-            Utils.DebugUtils.writeMessage(o, "Smoothed density : " + o.SmoothedDensity);
             return !isPregnant && o.Age > fertilityStart && o.Age < menopauseStart && o.SmoothedDensity < densityThreshold;
         }
 
@@ -39,7 +38,6 @@ namespace MASProject.Behavior
         {
             if (readyForPregnancy(o) && (o.Age - lastLoveCall) > 1.0 / loveCallFrequency)
             {
-                Utils.DebugUtils.writeMessage(o, "Calling for love");
                 Activity = true;
                 Message m = new LoveCall(o);
                 foreach (Ogre n in w.nearbyOgres(o, loveCallRange))
@@ -49,7 +47,6 @@ namespace MASProject.Behavior
                 lastLoveCall = o.Age;
             }
             if (isPregnant){
-                Utils.DebugUtils.writeMessage(o, "Pregnancy time : " + (o.Age - pregnancyStart));
                 if (o.Age - pregnancyStart > pregnancyDuration)
                 {
                     giveBirth(w, o);
