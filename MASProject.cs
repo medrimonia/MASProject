@@ -36,19 +36,11 @@ namespace MASProject
             inputMgr = new InputManager();
         }
 
-        private void updateAdditionalInfo()
-        {
-            mDebugOverlay.AdditionalInfo = "nbOgres : " + environment.OgresCount + " ";
-            mDebugOverlay.AdditionalInfo += "[M : " + environment.MaleOgresCount + " ";
-            mDebugOverlay.AdditionalInfo += "F : " + environment.FemaleOgresCount + "]";
-        }
-
         private bool updateContent(FrameEvent evt)
         {
             float elapsedTime = evt.timeSinceLastFrame;
             elapsedTime *= TimeProperties.Speed;
             inputMgr.processBufferedInput(evt);
-            updateAdditionalInfo();
             if (elapsedTime > 0)
             {
                 environment.mutate(elapsedTime);
@@ -81,7 +73,8 @@ namespace MASProject
             mSceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_STENCIL_MODULATIVE;
             inputMgr.initializeScene(environment, mSceneMgr);
             // Adding overlays
-            Overlays.Helper.Init(mWindow);
+            Overlays.HelperOverlay.Init(mWindow);
+            Overlays.DebugOverlay.Init(mWindow);
             mSceneMgr.SetSkyDome(true, "Examples/CloudySky", 5, 8);
         }
         protected override void CreateCamera()

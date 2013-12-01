@@ -1,0 +1,23 @@
+Debug
+{
+	container BorderPanel(Debug/MessageBox)
+	{
+		metrics_mode pixels
+		width        600
+		height       400
+		material     Core/StatsBlockCenter
+		border_material       Core/StatsBlockBorder
+		border_size           1 1 1 1
+
+		element TextArea(Debug/MessageBox/Body)
+		{
+			metrics_mode  pixels
+			left          10
+			top           20
+			font_name     BlueHighway
+			char_height   24
+			alignment     left
+			colour        1.0 1.0 1.0
+		}
+	}
+}

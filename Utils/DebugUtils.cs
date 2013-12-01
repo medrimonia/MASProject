@@ -11,11 +11,13 @@ namespace MASProject.Utils
         {
             debugFile.WriteLine(msg);
             debugFile.Flush();
+            Overlays.DebugOverlay.WriteLine(msg);
         }
 
         public static void writeMessage(GraphicalObject o, string msg)
         {
             debugFile.WriteLine(o.Entity.Name + " : " + msg);
+            Overlays.DebugOverlay.WriteLine(msg);
         }
     }
 }

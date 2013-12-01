@@ -2,14 +2,21 @@
 using Mogre.TutorialFramework;
 using MogreFramework;
 using MASProject.Input;
+using System.Collections.Generic;
 
 
 namespace MASProject.Overlays
 {
-    abstract class HelperOverlay
+    abstract class DebugOverlay
     {
+        private static Queue<string> lastLines = new Queue<string>();
+
+        private static int maxLines = 15;
+
+        private static bool initialized = false;
+
         private static string OverlayName{
-            get {return "Helper";}
+            get {return "Debug";}
         }
 
         private static string MessageBoxName
@@ -29,16 +36,26 @@ namespace MASProject.Overlays
             messageBox.Top = (w.Height - messageBox.Height) / 2;
 
             var messageBody = OverlayManager.Singleton.GetOverlayElement(BodyName);
-            messageBody.Caption = "Helper";
+            messageBody.Caption = "Debugger";
+            initialized = true;
         }
 
-        public static void Update(InputManager.InputMode mode)
+        private static void Update()
         {
             var messageBody = OverlayManager.Singleton.GetOverlayElement(BodyName);
             messageBody.Caption = "";
-            foreach (CommandHelper c in CommandDatabase.getCommands(mode)){
-                messageBody.Caption += c.ToString() + '\n';
+            foreach (string line in lastLines){
+                messageBody.Caption += line + '\n';
             }
+        }
+
+        public static void WriteLine(string line)
+        {
+            if (!initialized) return;
+            if (lastLines.Count == maxLines)
+                lastLines.Dequeue();
+            lastLines.Enqueue(line);
+            Update();
         }
 
         public static void Toggle()

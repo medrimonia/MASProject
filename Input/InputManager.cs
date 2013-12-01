@@ -78,8 +78,11 @@ namespace MASProject.Input
                     DebugUtils.writeMessage("Ctrl Modifier : on");
                     ctrlModifier = true;
                     break;
+                case MOIS.KeyCode.KC_F1:
+                    Overlays.DebugOverlay.Toggle();
+                    break;
                 case MOIS.KeyCode.KC_H:
-                    Overlays.Helper.Toggle();
+                    Overlays.HelperOverlay.Toggle();
                     break;
                 case MOIS.KeyCode.KC_SPACE:
                     TimeProperties.TogglePause();
@@ -121,7 +124,7 @@ namespace MASProject.Input
                 }
             }
             #endregion
-            Overlays.Helper.Update(mode);
+            Overlays.HelperOverlay.Update(mode);
             return true;
         }
 
