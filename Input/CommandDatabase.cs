@@ -83,6 +83,11 @@ namespace MASProject.Input
             specificCommands.Add(m, new List<CommandHelper>());
             addCommand(m, new CommandHelper("t", "toggle fog on/off"));
             #endregion
+            #region Camera commands
+            m = InputManager.InputMode.Camera;
+            specificCommands.Add(m, new List<CommandHelper>());
+            addCommand(m, new CommandHelper("r", " reset camera"));
+            #endregion
         }
     }
 }

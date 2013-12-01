@@ -6,11 +6,10 @@ namespace MASProject.Input
 {
     class CameraManager
     {
-        private static Vector3 mainCameraPosition = new Vector3(0, 1000f, 0);
-        private static Quaternion mainCameraOrientation = new Quaternion(Vector3.UNIT_Z, Vector3.UNIT_X, Vector3.UNIT_Y);
-        private static Vector3 mainCameraDirection = Vector3.NEGATIVE_UNIT_Y;
+        private static Vector3 mainCameraPosition;
+        private static Quaternion mainCameraOrientation;
 
-        private static float nearClippingDistance = 5f;
+        private static float nearClippingDistance;
 
         private static float forwardMove = 0f;
         /// <summary>
@@ -25,9 +24,21 @@ namespace MASProject.Input
         private static float translateSpeed = 100f;
         private static float rotateSpeed = 0.5f;
 
+        static CameraManager()
+        {
+            ResetConfig();
+        }
+
         public static string CameraName
         {
             get { return "MainCamera"; }
+        }
+
+        public static void ResetConfig()
+        {
+            mainCameraPosition = new Vector3(0, 1000f, 0);
+            mainCameraOrientation = new Quaternion(Vector3.UNIT_Z, Vector3.UNIT_X, Vector3.UNIT_Y);
+            nearClippingDistance = 5f;
         }
 
         private static void Move(float elapsedTime)
@@ -80,5 +91,14 @@ namespace MASProject.Input
             set { yawMove = value; }
         }
 
+        public static bool treatKeyPressed(MOIS.KeyEvent arg)
+        {
+            switch (arg.key)
+            {
+                case MOIS.KeyCode.KC_R:
+                    ResetConfig(); break;
+            }
+            return true;
+        }
     }
 }

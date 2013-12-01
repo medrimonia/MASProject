@@ -14,7 +14,8 @@ namespace MASProject.Input
         {
             None,
             Light,
-            Fog
+            Fog,
+            Camera
         }
 
         //Input handling
@@ -124,6 +125,9 @@ namespace MASProject.Input
                     case MOIS.KeyCode.KC_F:
                         mode = InputMode.Fog;
                         break;
+                    case MOIS.KeyCode.KC_C:
+                        mode = InputMode.Camera;
+                        break;
                 }
             }
             #endregion
@@ -140,6 +144,8 @@ namespace MASProject.Input
                     return lightMgr.treatKeyPressed(arg);
                 case InputMode.Fog:
                     return FogManager.treatKeyPressed(arg);
+                case InputMode.Camera:
+                    return CameraManager.treatKeyPressed(arg);
             }
             return true;
         }
