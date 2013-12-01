@@ -9,6 +9,9 @@ namespace MASProject.Input
         private static Vector3 mainCameraPosition;
         private static Quaternion mainCameraOrientation;
 
+        private static World environment;
+        private static GraphicalObject tracked;
+
         private static float nearClippingDistance;
 
         private static float forwardMove = 0f;
@@ -34,11 +37,17 @@ namespace MASProject.Input
             get { return "MainCamera"; }
         }
 
-        public static void ResetConfig()
+        public static void Init(World w)
         {
+            environment = w;
+        }
+
+        private static void ResetConfig()
+        {
+            tracked = null;
             mainCameraPosition = new Vector3(0, 1000f, 0);
             mainCameraOrientation = new Quaternion(Vector3.UNIT_Z, Vector3.UNIT_X, Vector3.UNIT_Y);
-            nearClippingDistance = 5f;
+            nearClippingDistance = 30f;
         }
 
         private static void Move(float elapsedTime)
@@ -62,8 +71,16 @@ namespace MASProject.Input
             Move(elapsedTime);
             Rotate(elapsedTime);
             var mCamera = sm.GetCamera(CameraName);
-            mCamera.Position = mainCameraPosition;
-            mCamera.Orientation = mainCameraOrientation;
+            if (tracked == null || !tracked.Useable)
+            {
+                mCamera.Position = mainCameraPosition;
+                mCamera.Orientation = mainCameraOrientation;
+            }
+            else
+            {
+                mCamera.Position = tracked.Position;
+                mCamera.Orientation = tracked.CameraOrientation;
+            }
             mCamera.NearClipDistance = nearClippingDistance;
         }
 
@@ -97,6 +114,12 @@ namespace MASProject.Input
             {
                 case MOIS.KeyCode.KC_R:
                     ResetConfig(); break;
+                case MOIS.KeyCode.KC_TAB:
+                    if (environment != null)
+                    {
+                        tracked = environment.getNextOgre(tracked);
+                    }
+                    break;
             }
             return true;
         }

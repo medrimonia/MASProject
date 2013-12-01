@@ -55,6 +55,11 @@ namespace MASProject
             }
         }
 
+        public override Quaternion CameraOrientation
+        {
+            get { return Orientation * new Quaternion(new Degree(-90), Vector3.UNIT_Y); }
+        }
+
         public bool IsFemale
         {
             get { return gender == OgreGender.Female; }

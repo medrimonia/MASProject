@@ -45,7 +45,12 @@ namespace MASProject
             get { return node.Orientation; }
         }
 
-        public AxisAlignedBox BoundingBox
+        public virtual Quaternion CameraOrientation
+        {
+            get { return Orientation; }
+        }
+        
+            public AxisAlignedBox BoundingBox
         {
             get {
                 AxisAlignedBox b =  new AxisAlignedBox(ent.BoundingBox);

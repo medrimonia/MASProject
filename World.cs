@@ -65,6 +65,7 @@ namespace MASProject
         public GraphicalObject getNextOgre(GraphicalObject current)
         {
             List<GraphicalObject> ogres = Ogres;
+            if (ogres.Count == 0) return null;
             int index = 0;
             if (current != null)
             {
