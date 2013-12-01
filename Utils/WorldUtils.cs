@@ -62,7 +62,6 @@ namespace MASProject.Utils
             }
             int nbTries = 0;
             bool collide = true;
-            //TODO handle case nbTries become big
             while (nbTries < 100 && collide)
             {
                 toPlace.Node.Position = getRandomPosition(wishedCenter, deltaX, deltaZ);
@@ -71,13 +70,6 @@ namespace MASProject.Utils
                 {
                     if (!toPlace.Equals(o) && o.BoundingBox.Intersects(toPlace.BoundingBox))
                     {
-                        /*
-                        Utils.DebugUtils.writeMessage(o.Entity.Name + " collides with " + toPlace.Entity.Name);
-                        Utils.DebugUtils.writeMessage("\t" + o.Entity.Name + " position" + o.Position);
-                        Utils.DebugUtils.writeMessage("\t" + toPlace.Entity.Name + " position" + toPlace.Position);
-                        Utils.DebugUtils.writeMessage(o.Entity.Name + " bb.min.x " + o.BoundingBox);
-                        Utils.DebugUtils.writeMessage(toPlace.Entity.Name + " bb.min.x " + toPlace.BoundingBox);
-                         */
                         collide = true;
                         break;
                     }
@@ -86,7 +78,7 @@ namespace MASProject.Utils
             }
             if (collide)
             {
-                Utils.DebugUtils.writeMessage("Failed to place randomly with clearance after " + nbTries);
+                Utils.DebugUtils.writeMessage("Failed to place randomly with clearance after " + nbTries + " tries");
             }
         }
     }

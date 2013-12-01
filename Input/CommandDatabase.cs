@@ -21,17 +21,14 @@ namespace MASProject.Input
         public static List<CommandHelper> getCommands(InputManager.InputMode mode)
         {
             List<CommandHelper> commands = new List<CommandHelper>();
-            Utils.DebugUtils.writeMessage("adding global command");
             foreach (CommandHelper c in globalCommands)
             {
                 commands.Add(c);
             }
-            Utils.DebugUtils.writeMessage("adding internal command");
             foreach (CommandHelper c in internalCommands(mode))
             {
                 commands.Add(c);
             }
-            Utils.DebugUtils.writeMessage("internal commands added");
             return commands;
         }
 

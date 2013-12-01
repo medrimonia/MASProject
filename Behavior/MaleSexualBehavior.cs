@@ -26,7 +26,6 @@ namespace MASProject.Behavior
             {
                 if (n.isFertile())
                 {
-                    Utils.DebugUtils.writeMessage("An ogre is trying to inseminate");
                     n.inseminate();
                     //After having inseminate a female, ogre loose attraction until next lovecall
                     Activity = false;

@@ -31,7 +31,6 @@ namespace MASProject.Behavior
         {
             lastPregnancy = o.Age;
             isPregnant = false;
-            Utils.DebugUtils.writeMessage("An ogre is trying to give birth");
             w.createBabyOgre(o.Position);
         }
 
@@ -40,8 +39,7 @@ namespace MASProject.Behavior
             if (readyForPregnancy(o) && (o.Age - lastLoveCall) > 1.0 / loveCallFrequency)
             {
                 Activity = true;
-                Utils.DebugUtils.writeMessage("Calling for Love" + o.Position);
-                Message m = new LoveCall(o);//TODO love call seems to be launched but doesn't attract it seems
+                Message m = new LoveCall(o);
                 foreach (Ogre n in w.nearbyOgres(o, loveCallRange))
                 {
                     n.receiveMessage(m);

@@ -143,12 +143,10 @@ namespace MASProject
 
         private void treatMessage(LoveCall m)
         {
-            Utils.DebugUtils.writeMessage(ent.Name + " : Treating a loveCall");
             if (sexualBehavior.readyToInseminate(age))
             {
                 goal = m.Source;
                 sexualBehavior.Activity = true;
-                Utils.DebugUtils.writeMessage(this, "Aiming for Sex : " + goal);
             }
         }
 
