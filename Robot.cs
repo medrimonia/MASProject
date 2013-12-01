@@ -19,12 +19,16 @@ namespace MASProject
         private float mDistance = 0.0f;              //The distance the object has left to travel
         private Vector3 mDirection = Vector3.ZERO;   // The direction the object is moving
         private Vector3 mDestination = Vector3.ZERO; // The destination the object is moving towards
+
         private float age;
 
         private float highestStoneDensity;
         private Vector3 highestStoneDensityPos;
+        private Vector3 LastDropPosition;
 
-        float mWalkSpeed = 75.0f;  // The speed at which the object is moving
+
+        float mWalkSpeed = 950.0f;  // The speed at which the object is moving
+
 
         public Robot(SceneManager sm, int robotId, Vector3 initialLocation, Vector3 initialGoal)
         {
@@ -46,7 +50,7 @@ namespace MASProject
             mAnimationState = ent.GetAnimationState("Idle");
 
             addGoal(initialGoal);
-            updateGoal();
+            updateGoal(WorldUtils.RandomLocation);
 
         }
 
@@ -91,7 +95,7 @@ namespace MASProject
 
         private void dropMutation(World w, List<Stone> nearbyStones)
         {
-            double neededScore = System.Math.Pow(0.95f, nearbyStones.Count);
+            double neededScore = 1f - System.Math.Pow(0.95f, nearbyStones.Count);
             float density = (float)(nearbyStones.Count / System.Math.Pow(visionRadius, 2));
             float totalX = 0;
             float totalZ = 0;
@@ -102,30 +106,35 @@ namespace MASProject
                 totalZ += s.Position.z;
             }
             //TODO use parameters
-            float avgX = totalX / nearbyStones.Count;
-            float avgY = 0;
-            float avgZ = totalZ / nearbyStones.Count;
+
+            float avgX =  nearbyStones.Count>0?totalX / nearbyStones.Count : this.Position.x;
+            float avgY = this.Position.y + carriedStone.BoundingBox.HalfSize.y;//carriedStone.BoundingBox.Minimum.y;
+            float avgZ = nearbyStones.Count > 0 ? totalZ / nearbyStones.Count : this.Position.z;
+            double tohighestDensity = (Position - highestStoneDensityPos).Length;
+
             Vector3 center = new Vector3(avgX, avgY, avgZ);
-            if (WorldUtils.RndGen.NextDouble() > neededScore || density < 200)
+            if (WorldUtils.RndGen.NextDouble() > neededScore || density < 200 )
             {
                 releaseStone(w, center);
-                updateGoal();
+                LastDropPosition = this.Position;
+                updateGoal(highestStoneDensityPos);
             }
         }
 
         private void captureMutation(World w, List<Stone> nearbyStones)
         {
             if (nearbyStones.Count == 0) return;
-            double neededScore = 1f - System.Math.Pow(0.95f, nearbyStones.Count);
+            double neededScore = System.Math.Pow(0.95f, nearbyStones.Count);
             double tohighestDensity = (Position - highestStoneDensity).Length;
-            if (WorldUtils.RndGen.NextDouble() > neededScore || tohighestDensity > 500)
+            double dtoLDP = (Position - LastDropPosition).Length;
+            if (WorldUtils.RndGen.NextDouble() > neededScore || tohighestDensity < 300 )
             {
                 foreach (Stone s in nearbyStones)
                 {
                     if ((s.Position - Position).Length < GRIP_RADIUS)
                     {
                         captureStone(w, s);
-                        updateGoal();
+                        updateGoal(WorldUtils.RandomLocation);
                         break;
                     }
                 }
@@ -153,10 +162,10 @@ namespace MASProject
             this.mWalkList.AddLast(goal);
         }
 
-        private void updateGoal()
+        private void updateGoal(Vector3 NextLocation)
         {
             mWalkList.RemoveFirst();
-            addGoal(WorldUtils.RandomLocation);
+            addGoal(NextLocation);
             TurnNextLocation();
 
         }
