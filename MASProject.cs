@@ -56,6 +56,7 @@ namespace MASProject
             inputMgr.finalUpdate(elapsedTime);
             mSceneMgr.AmbientLight = inputMgr.AmbientLight;
             mSceneMgr.SetFog(FogManager.Mode, FogManager.Color, FogManager.Strength);
+            CameraManager.UpdateCamera(mSceneMgr, elapsedTime);
             return !inputMgr.ShutdownAsked;
         }
 
@@ -85,12 +86,7 @@ namespace MASProject
         }
         protected override void CreateCamera()
         {
-
-            mCamera = mSceneMgr.CreateCamera("TestCam");
-            mCamera.Position = new Vector3(0, 1000, 0);
-            mCamera.LookAt(Vector3.NEGATIVE_UNIT_Y);
-            mCamera.NearClipDistance = 5;
-            mCameraMan = new CameraMan(mCamera);
+            mCamera = mSceneMgr.CreateCamera(Input.CameraManager.CameraName);
         }
     }
 }

@@ -46,6 +46,7 @@ namespace MASProject.Input
             inputMgr = MOIS.InputManager.CreateInputSystem((uint)windowHandle);
             keyboardMgr = (MOIS.Keyboard)inputMgr.CreateInputObject(MOIS.Type.OISKeyboard, true);
             keyboardMgr.KeyPressed += new MOIS.KeyListener.KeyPressedHandler(OnKeyPressed);
+            keyboardMgr.KeyReleased += new MOIS.KeyListener.KeyReleasedHandler(OnKeyReleased);
             DebugUtils.writeMessage("Input initialized");
         }
 
@@ -83,6 +84,18 @@ namespace MASProject.Input
                 case MOIS.KeyCode.KC_ESCAPE:
                     shutdownAsked = true;
                     break;
+                case MOIS.KeyCode.KC_UP:
+                    CameraManager.ForwardMove = 1;
+                    break;
+                case MOIS.KeyCode.KC_DOWN:
+                    CameraManager.ForwardMove = -1;
+                    break;
+                case MOIS.KeyCode.KC_LEFT:
+                    CameraManager.LateralMove = -1;
+                    break;
+                case MOIS.KeyCode.KC_RIGHT:
+                    CameraManager.LateralMove = 1;
+                    break;
             }
             #endregion
 
@@ -106,7 +119,6 @@ namespace MASProject.Input
 
         protected bool OnKeyPressed(MOIS.KeyEvent arg)
         {
-            DebugUtils.writeMessage("On key pressed");
             treatKeyPressed(arg);
             switch (mode)
             {
@@ -115,6 +127,28 @@ namespace MASProject.Input
                 case InputMode.Fog:
                     return FogManager.treatKeyPressed(arg);
             }
+            return true;
+        }
+
+        protected bool treatKeyReleased(MOIS.KeyEvent arg)
+        {
+            switch (arg.key)
+            {
+                case MOIS.KeyCode.KC_UP:
+                case MOIS.KeyCode.KC_DOWN:
+                    CameraManager.ForwardMove = 0f;
+                    break;
+                case MOIS.KeyCode.KC_LEFT:
+                case MOIS.KeyCode.KC_RIGHT:
+                    CameraManager.LateralMove = 0f;
+                    break;
+            }
+            return true;
+        }
+
+        protected bool OnKeyReleased(MOIS.KeyEvent arg)
+        {
+            treatKeyReleased(arg);
             return true;
         }
 
