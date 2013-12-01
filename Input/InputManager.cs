@@ -25,6 +25,8 @@ namespace MASProject.Input
         private LightManager lightMgr;
         private InputMode mode;
 
+        private bool ctrlModifier;
+
         private bool shutdownAsked;
 
         public bool ShutdownAsked
@@ -72,6 +74,10 @@ namespace MASProject.Input
             #region Treating keys always activated
             switch (arg.key)
             {
+                case MOIS.KeyCode.KC_LCONTROL:
+                    DebugUtils.writeMessage("Ctrl Modifier : on");
+                    ctrlModifier = true;
+                    break;
                 case MOIS.KeyCode.KC_H:
                     Overlays.Helper.Toggle();
                     break;
@@ -85,16 +91,20 @@ namespace MASProject.Input
                     shutdownAsked = true;
                     break;
                 case MOIS.KeyCode.KC_UP:
-                    CameraManager.ForwardMove = 1;
+                    if (!ctrlModifier) CameraManager.ForwardMove = 1;
+                    else CameraManager.PitchMove = 1;
                     break;
                 case MOIS.KeyCode.KC_DOWN:
-                    CameraManager.ForwardMove = -1;
+                    if (!ctrlModifier) CameraManager.ForwardMove = -1;
+                    else CameraManager.PitchMove = -1;
                     break;
                 case MOIS.KeyCode.KC_LEFT:
-                    CameraManager.LateralMove = -1;
+                    if (!ctrlModifier) CameraManager.LateralMove = -1;
+                    else CameraManager.YawMove = -1;
                     break;
                 case MOIS.KeyCode.KC_RIGHT:
-                    CameraManager.LateralMove = 1;
+                    if (!ctrlModifier) CameraManager.LateralMove = 1;
+                    else CameraManager.YawMove = 1;
                     break;
             }
             #endregion
@@ -134,13 +144,19 @@ namespace MASProject.Input
         {
             switch (arg.key)
             {
+                case MOIS.KeyCode.KC_LCONTROL:
+                    DebugUtils.writeMessage("Ctrl modifier : off");
+                    ctrlModifier = false;
+                    break;
                 case MOIS.KeyCode.KC_UP:
                 case MOIS.KeyCode.KC_DOWN:
                     CameraManager.ForwardMove = 0f;
+                    CameraManager.PitchMove = 0f;
                     break;
                 case MOIS.KeyCode.KC_LEFT:
                 case MOIS.KeyCode.KC_RIGHT:
                     CameraManager.LateralMove = 0f;
+                    CameraManager.YawMove = 0f;
                     break;
             }
             return true;
