@@ -81,14 +81,12 @@ namespace MASProject.Input
                 case MOIS.KeyCode.KC_H:
                     Overlays.Helper.Toggle();
                     break;
-                case MOIS.KeyCode.KC_X:
-                    mode = InputMode.None;
-                    break;
                 case MOIS.KeyCode.KC_SPACE:
                     TimeProperties.TogglePause();
                     break;
                 case MOIS.KeyCode.KC_ESCAPE:
-                    shutdownAsked = true;
+                    if (ctrlModifier) shutdownAsked = true;
+                    else mode = InputMode.None;
                     break;
                 case MOIS.KeyCode.KC_UP:
                     if (!ctrlModifier) CameraManager.ForwardMove = 1;
