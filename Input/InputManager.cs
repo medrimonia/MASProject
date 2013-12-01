@@ -81,6 +81,9 @@ namespace MASProject.Input
                 case MOIS.KeyCode.KC_F1:
                     Overlays.DebugOverlay.Toggle();
                     break;
+                case MOIS.KeyCode.KC_F2:
+                    Overlays.StatusOverlay.Toggle();
+                    break;
                 case MOIS.KeyCode.KC_H:
                     Overlays.HelperOverlay.Toggle();
                     break;

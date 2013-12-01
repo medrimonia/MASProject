@@ -54,7 +54,9 @@ namespace MASProject.Input
         {
             #region Global Commands
             globalCommands = new List<CommandHelper>();
-            globalCommands.Add(new CommandHelper("h", "toggle the helper on and off"));
+            globalCommands.Add(new CommandHelper("h", "toggle the helper overlay"));
+            globalCommands.Add(new CommandHelper("F1", "toggle the debug overlay"));
+            globalCommands.Add(new CommandHelper("F2", "toggle the status overlay"));
             globalCommands.Add(new CommandHelper("SPACE", "pause execution"));
             globalCommands.Add(new CommandHelper("esc", "return to global mode"));
             globalCommands.Add(new CommandHelper("ctrl + esc", "return to global mode"));

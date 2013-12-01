@@ -49,6 +49,7 @@ namespace MASProject
             mSceneMgr.AmbientLight = inputMgr.AmbientLight;
             mSceneMgr.SetFog(FogManager.Mode, FogManager.Color, FogManager.Strength);
             CameraManager.UpdateCamera(mSceneMgr, elapsedTime);
+            Overlays.StatusOverlay.Update(environment);
             return !inputMgr.ShutdownAsked;
         }
 
@@ -75,6 +76,7 @@ namespace MASProject
             // Adding overlays
             Overlays.HelperOverlay.Init(mWindow);
             Overlays.DebugOverlay.Init(mWindow);
+            Overlays.StatusOverlay.Init(mWindow);
             mSceneMgr.SetSkyDome(true, "Examples/CloudySky", 5, 8);
         }
         protected override void CreateCamera()

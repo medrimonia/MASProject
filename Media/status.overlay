@@ -1,0 +1,33 @@
+Status
+{
+	container BorderPanel(Status/MessageBox)
+	{
+		metrics_mode pixels
+		width        1000
+		height       400
+		material     Core/StatsBlockCenter
+		border_material       Core/StatsBlockBorder
+		border_size           1 1 1 1
+
+		element TextArea(Status/MessageBox/Title)
+		{
+			metrics_mode  pixels
+			top           10
+			font_name     BlueHighway
+			char_height   40
+			alignment     center
+			colour        1.0 1.0 1.0
+		}
+
+		element TextArea(Status/MessageBox/Body)
+		{
+			metrics_mode  pixels
+			left          10
+			top           60
+			font_name     BlueHighway
+			char_height   24
+			alignment     left
+			colour        1.0 1.0 1.0
+		}
+	}
+}
