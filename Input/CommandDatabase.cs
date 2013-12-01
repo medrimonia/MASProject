@@ -78,16 +78,23 @@ namespace MASProject.Input
             addCommand(m, new CommandHelper("d", "activate day mode"));
             addCommand(m, new CommandHelper("n", "activate night mode"));
             addCommand(m, new CommandHelper("c", "activating cycle mode (day and night alterning)"));
+            addCommand(m, new CommandHelper("tab", "track an ogre with a spot"));
             #endregion
             #region Fog commands
             m = InputManager.InputMode.Fog;
             specificCommands.Add(m, new List<CommandHelper>());
             addCommand(m, new CommandHelper("t", "toggle fog on/off"));
+            addCommand(m, new CommandHelper("r", "reset all fog parameters"));
+            addCommand(m, new CommandHelper("+", "increase fog density"));
+            addCommand(m, new CommandHelper("-", "decrease fog density"));
+            addCommand(m, new CommandHelper("d", "make fog darker"));
+            addCommand(m, new CommandHelper("b", "make fog brighter"));
             #endregion
             #region Camera commands
             m = InputManager.InputMode.Camera;
             specificCommands.Add(m, new List<CommandHelper>());
-            addCommand(m, new CommandHelper("r", " reset camera"));
+            addCommand(m, new CommandHelper("r", "reset camera"));
+            addCommand(m, new CommandHelper("tab", "Switch to ogre vision"));
             #endregion
         }
     }

@@ -50,6 +50,10 @@
 OK:
 
 @Ludo
+- Camera:
+	- Poursuite de certains ogres(3rd person ou 1st person)
+
+@Ludo
 - Camera
   -> Remplacer le handler fournit de base
 
