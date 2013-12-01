@@ -1,8 +1,5 @@
 ﻿TODO:
 
-- Overlays
-  - Ajouter un overlay de debug
-
 - Polices
   -> Monospace pour meilleur affichage
 
@@ -11,15 +8,12 @@
     -> +/-/off
 
 - Nature du sol
-  -> Différents sols avec itérations ?
+  -> Différents sols avec une interface pour changer
 
 - World
   -> Ciel etc,
   -> Paramètres
-
-- Camera
-  -> Remplacer le handler fournit de base
-
+  -> Plus propre!
 
 @Fab
 - Modèle social
@@ -54,6 +48,14 @@
 	- Poursuite de certains ogres(3rd person ou 1st person)
 
 OK:
+
+@Ludo
+- Camera
+  -> Remplacer le handler fournit de base
+
+@Ludo
+- Overlays
+  - Ajouter un overlay de debug
 
 @Ludo
 - Lumières:
