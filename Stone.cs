@@ -6,7 +6,7 @@ namespace MASProject
 {
     class Stone : GraphicalObject
     {
-        public Stone(SceneManager sm, int stoneId, Vector3 initialLocation)
+        public Stone(SceneManager sm, int stoneId, Vector3 initialLocation) : base()
         {
             string entityName = "Stone" + stoneId;
             string nodeName = "StoneNode" + stoneId;

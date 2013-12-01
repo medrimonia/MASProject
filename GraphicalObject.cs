@@ -5,8 +5,25 @@ namespace MASProject
 {
 	abstract class GraphicalObject
     {
+        protected bool useable;
         protected SceneNode node;
         protected Entity ent;
+
+        public GraphicalObject()
+        {
+            useable = false;
+            node = null;
+            ent = null;
+        }
+
+        /// <summary>
+        /// Some Objects can't be used or are already removed
+        /// </summary>
+        public bool Useable
+        {
+            get { return useable; }
+            set { useable = value; }
+        }
 
         public SceneNode Node
         {
@@ -62,5 +79,5 @@ namespace MASProject
                 node.Rotate(quat);
             }
         }
-	}
+    }
 }

@@ -12,8 +12,6 @@ namespace MASProject
 {
     class World
     {
-        private GraphicalObject trackedObject;
-
         private OgreFactory oFactory;
         private StoneFactory sFactory;
         private RobotFactory rFactory;
@@ -28,7 +26,6 @@ namespace MASProject
             oFactory = new OgreFactory();
             sFactory = new StoneFactory();
             rFactory = new RobotFactory();
-            trackedObject = null;
             // Creating the ground
             addPlane();
 
@@ -38,6 +35,7 @@ namespace MASProject
             {
                 GraphicalObject o = oFactory.create(sm);
                 objects.Add(o);
+                o.Useable = true;
                 WorldUtils.placeRandomly(o, Vector3.ZERO, WorldUtils.Width, WorldUtils.Depth, objects);
             }
             // Creating the stones
@@ -45,6 +43,7 @@ namespace MASProject
             {
                 GraphicalObject o = sFactory.create(sm);
                 objects.Add(o);
+                o.Useable = true;
                 WorldUtils.placeRandomly(o, Vector3.ZERO, WorldUtils.Width, WorldUtils.Depth, objects);
                 o.placeOnGround();
             }
@@ -52,25 +51,34 @@ namespace MASProject
             {
                 GraphicalObject r = rFactory.create(sm);
                 objects.Add(r);
+                r.Useable = true;
                 WorldUtils.placeRandomly(r, Vector3.ZERO, WorldUtils.Width, WorldUtils.Depth, objects);
             }
             DebugUtils.writeMessage("World created");
         }
 
-        public GraphicalObject TrackedObject
-        {
-            get {return trackedObject;}
-        }
-
-        public void trackNext()
+        /// <summary>
+        /// Get the next ogre which is not dead and useable
+        /// </summary>
+        /// <param name="current"></param>
+        /// <returns></returns>
+        public GraphicalObject getNextOgre(GraphicalObject current)
         {
             List<GraphicalObject> ogres = Ogres;
             int index = 0;
-            if (trackedObject != null)
+            if (current != null)
             {
-                index = (ogres.IndexOf(trackedObject) + 1) % ogres.Count;
+                index = (ogres.IndexOf(current ) + 1) % ogres.Count;
+                // If given values can't be found, start at zero
+                if (index == -1) index = 0;
             }
-            trackedObject = ogres[index];
+            int startingIndex = index;
+            while (!ogres[index].Useable)
+            {
+                index = (index + 1) % ogres.Count;
+                if (index == startingIndex) return null;
+            }
+            return ogres[index];
         }
 
         public List<GraphicalObject> Ogres
@@ -240,10 +248,6 @@ namespace MASProject
         {
             sm.RootSceneNode.RemoveChild(o.Node);
             objects.Remove(o);
-            if (trackedObject == o)
-            {
-                trackedObject = null;
-            }
         }
 
         public void acquire(GraphicalObject o)

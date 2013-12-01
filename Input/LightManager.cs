@@ -33,6 +33,8 @@ namespace MASProject.Input
         // The world in which it evolves
         private World environment;
 
+        private GraphicalObject tracked;
+
         public LightManager()
         {
         }
@@ -93,10 +95,9 @@ namespace MASProject.Input
         public void updateLights(double elapsedTime)
         {
             hour = (hour + 24 * (float)elapsedTime / secondsByDay) % 24;
-            GraphicalObject tracked = environment.TrackedObject;
-            mainSpot.Visible = tracked != null;
+            mainSpot.Visible = tracked != null && tracked.Useable;
             // Update Direction
-            if (tracked != null)
+            if (mainSpot.Visible)
             {
                 Vector3 direction = tracked.Position - mainSpot.Position;
                 direction.Normalise();
@@ -109,7 +110,7 @@ namespace MASProject.Input
             switch (arg.key)
             {
                 case MOIS.KeyCode.KC_TAB://next ogre
-                    environment.trackNext();
+                    tracked = environment.getNextOgre(tracked);
                     break;
                 case MOIS.KeyCode.KC_D:
                     lightMode = LightningMode.Day; break;

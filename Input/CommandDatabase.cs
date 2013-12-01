@@ -70,6 +70,7 @@ namespace MASProject.Input
             specificCommands.Add(m, new List<CommandHelper>());
             addCommand(m, new CommandHelper("l", "activating light control"));
             addCommand(m, new CommandHelper("f", "activating fog control"));
+            addCommand(m, new CommandHelper("c", "activating camera control"));
             #endregion
             #region Light commands
             m = InputManager.InputMode.Light;

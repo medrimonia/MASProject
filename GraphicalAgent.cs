@@ -13,7 +13,7 @@ namespace MASProject
 
         protected Queue<Message> messagesBuffer;
 
-        protected GraphicalAgent()
+        protected GraphicalAgent() : base()
         {
             messagesBuffer = new Queue<Message>();
         }

@@ -262,6 +262,7 @@ namespace MASProject
                 releaseStone(w, Position);
             }
             w.release(this);
+            Useable = false;
         }
 
         public override void mutate(float elapsedTime, World w)
