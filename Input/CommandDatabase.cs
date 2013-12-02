@@ -71,6 +71,7 @@ namespace MASProject.Input
             addCommand(m, new CommandHelper("l", "activating light control"));
             addCommand(m, new CommandHelper("f", "activating fog control"));
             addCommand(m, new CommandHelper("c", "activating camera control"));
+            addCommand(m, new CommandHelper("t", "activating time control"));
             #endregion
             #region Light commands
             m = InputManager.InputMode.Light;
@@ -95,6 +96,13 @@ namespace MASProject.Input
             specificCommands.Add(m, new List<CommandHelper>());
             addCommand(m, new CommandHelper("r", "reset camera"));
             addCommand(m, new CommandHelper("tab", "Switch to ogre vision"));
+            #endregion
+            #region Time commands
+            m = InputManager.InputMode.Time;
+            specificCommands.Add(m, new List<CommandHelper>());
+            addCommand(m, new CommandHelper("+", "Increase speed"));
+            addCommand(m, new CommandHelper("-", "Decrease speed"));
+            addCommand(m, new CommandHelper("r", "Reset speed"));
             #endregion
         }
     }

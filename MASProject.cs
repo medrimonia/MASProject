@@ -37,7 +37,7 @@ namespace MASProject
         private bool updateContent(FrameEvent evt)
         {
             float realElapsedTime = evt.timeSinceLastFrame;
-            float worldElapsedTime = realElapsedTime * TimeProperties.Speed;
+            float worldElapsedTime = realElapsedTime * TimeManager.Speed;
             inputMgr.processBufferedInput(evt);
             if (worldElapsedTime > 0)
             {

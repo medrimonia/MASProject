@@ -15,7 +15,8 @@ namespace MASProject.Input
             None,
             Light,
             Fog,
-            Camera
+            Camera,
+            Time
         }
 
         //Input handling
@@ -90,7 +91,7 @@ namespace MASProject.Input
                     Overlays.HelperOverlay.Toggle();
                     break;
                 case MOIS.KeyCode.KC_SPACE:
-                    TimeProperties.TogglePause();
+                    TimeManager.Toggle();
                     break;
                 case MOIS.KeyCode.KC_ESCAPE:
                     if (ctrlModifier) shutdownAsked = true;
@@ -129,6 +130,9 @@ namespace MASProject.Input
                     case MOIS.KeyCode.KC_C:
                         mode = InputMode.Camera;
                         break;
+                    case MOIS.KeyCode.KC_T:
+                        mode = InputMode.Time;
+                        break;
                 }
             }
             #endregion
@@ -147,6 +151,8 @@ namespace MASProject.Input
                     return FogManager.treatKeyPressed(arg);
                 case InputMode.Camera:
                     return CameraManager.treatKeyPressed(arg);
+                case InputMode.Time:
+                    return TimeManager.treatKeyPressed(arg);
             }
             return true;
         }
