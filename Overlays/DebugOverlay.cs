@@ -11,7 +11,7 @@ namespace MASProject.Overlays
     {
         private static Queue<string> lastLines = new Queue<string>();
 
-        private static int maxLines = 15;
+        private static int maxLines = 14;
 
         private static bool initialized = false;
 
