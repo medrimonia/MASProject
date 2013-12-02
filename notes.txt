@@ -3,10 +3,6 @@
 - Polices
   -> Monospace pour meilleur affichage
 
-- Brouillard
-  - Avec gestion
-    -> +/-/off
-
 - Nature du sol
   -> Différents sols avec une interface pour changer
 
@@ -14,6 +10,18 @@
   -> Ciel etc,
   -> Paramètres
   -> Plus propre!
+
+- Caméra
+  - Ajouter rolling et top/down
+  - Third person?
+  - Speed-up (shift)
+
+- WorldProperties:
+  -> increase/decrease global speed
+  -> Other parameters
+
+- Divers
+  -> Smoother les changements d'orientation
 
 @Fab
 - Modèle social
@@ -32,26 +40,16 @@
 	- Tâches collaboratives
 		- Indiquer un besoin d'aide
 
-@Voir
-- Différentes ressources à trier
-	- Différentes pierres etc?
-		- Des pierres lourdes nécessitant plusieurs groupes / individus
-
-@Fab
-- Facteur nourriture
-	- Dropée aléatoirement
-	- Besoin de nourriture pour survivre
-		- Chasse
-	- Éventuellement répartition des rôles
-
-- Camera:
-	- Poursuite de certains ogres(3rd person ou 1st person)
-
 OK:
 
 @Ludo
+- Brouillard
+  - Avec gestion
+    -> +/-/off
+
+@Ludo
 - Camera:
-	- Poursuite de certains ogres(3rd person ou 1st person)
+	- Poursuite de certains ogres(1st person)
 
 @Ludo
 - Camera
