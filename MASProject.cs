@@ -21,8 +21,6 @@ namespace MASProject
         private World environment;
         private InputManager inputMgr;
 
-        //TODO add a frame displaying the number of each object
-
         public static void Main()
         {
             Utils.DebugUtils.writeMessage("Starting");
@@ -75,7 +73,7 @@ namespace MASProject
             // Initializing lights
             mSceneMgr.AmbientLight = ColourValue.Black;
             mSceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_STENCIL_MODULATIVE;
-            inputMgr.initializeScene(environment, mSceneMgr);
+            LightManager.Init(environment,mSceneMgr);
             // Adding overlays
             Overlays.HelperOverlay.Init(mWindow);
             Overlays.DebugOverlay.Init(mWindow);

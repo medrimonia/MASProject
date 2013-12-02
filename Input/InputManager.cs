@@ -23,7 +23,6 @@ namespace MASProject.Input
         private MOIS.Keyboard keyboardMgr;
 
         // Specific managers
-        private LightManager lightMgr;
         private InputMode mode;
 
         private bool ctrlModifier;
@@ -37,7 +36,6 @@ namespace MASProject.Input
 
         public InputManager()
         {
-            lightMgr = new LightManager();
             mode = InputMode.None;
             shutdownAsked = false;
         }
@@ -53,11 +51,6 @@ namespace MASProject.Input
             DebugUtils.writeMessage("Input initialized");
         }
 
-        public void initializeScene(World w, SceneManager sMgr)
-        {
-            lightMgr.initalizeScene(w, sMgr);
-        }
-
         public bool processBufferedInput(FrameEvent evt)
         {
             keyboardMgr.Capture();
@@ -67,7 +60,7 @@ namespace MASProject.Input
         /* This update needs to be performed once all objects have been moved */
         public void finalUpdate(double timeElapsed)
         {
-            lightMgr.updateLights(timeElapsed);
+            LightManager.UpdateLights(timeElapsed);
         }
 
         protected bool treatKeyPressed(MOIS.KeyEvent arg)
@@ -141,7 +134,7 @@ namespace MASProject.Input
             switch (mode)
             {
                 case InputMode.Light:
-                    return lightMgr.treatKeyPressed(arg);
+                    return LightManager.treatKeyPressed(arg);
                 case InputMode.Fog:
                     return FogManager.treatKeyPressed(arg);
                 case InputMode.Camera:
@@ -180,7 +173,7 @@ namespace MASProject.Input
 
         public ColourValue AmbientLight
         {
-            get { return lightMgr.AmbientLight; }
+            get { return LightManager.AmbientLight; }
         }
     }
 }
