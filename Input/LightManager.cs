@@ -4,6 +4,7 @@ using MogreFramework;
 using System;
 using System.Windows.Forms;
 using MASProject.Utils;
+using MASProject.Objects;
 
 namespace MASProject.Input
 {

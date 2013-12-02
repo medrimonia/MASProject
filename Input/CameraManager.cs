@@ -1,6 +1,7 @@
 ﻿using Mogre;
 using Mogre.TutorialFramework;
 using MogreFramework;
+using MASProject.Objects;
 
 namespace MASProject.Input
 {

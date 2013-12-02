@@ -1,6 +1,7 @@
 ﻿using System;
 using Mogre;
 using MASProject.Utils;
+using MASProject.Objects;
 
 namespace MASProject.Factories
 {

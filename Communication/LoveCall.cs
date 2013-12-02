@@ -1,5 +1,6 @@
 ﻿using System;
 using Mogre;
+using MASProject.Objects;
 
 namespace MASProject.Communication
 {
@@ -7,7 +8,7 @@ namespace MASProject.Communication
     {
         private Vector3 src;
 
-        public LoveCall(Ogre o) : base(MessageType.LoveCall)
+        public LoveCall(Objects.OgreAgent o) : base(MessageType.LoveCall)
         {
             this.src = o.Position;
         }

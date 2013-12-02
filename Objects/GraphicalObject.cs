@@ -1,7 +1,7 @@
 ﻿using System;
 using Mogre;
 
-namespace MASProject
+namespace MASProject.Objects
 {
 	abstract class GraphicalObject
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using Mogre;
 using MASProject.Utils;
+using MASProject.Objects;
 
 namespace MASProject.Factories
 {
@@ -16,13 +17,13 @@ namespace MASProject.Factories
 
         public override GraphicalObject create(SceneManager sm)
         {
-            float age = Ogre.Longevity * (float)WorldUtils.RndGen.NextDouble();
+            float age = OgreAgent.Longevity * (float)WorldUtils.RndGen.NextDouble();
             OgreGender g = OgreGender.Female;
             if (Utils.WorldUtils.RndGen.NextDouble() < 0.5)
             {
                 g = OgreGender.Male;
             }
-            return new Ogre(sm, nbObjectsCreated++, WorldUtils.RandomLocation, defaultVisionRadius, g, age);
+            return new OgreAgent(sm, nbObjectsCreated++, WorldUtils.RandomLocation, defaultVisionRadius, g, age);
         }
 
         public GraphicalObject createBaby(SceneManager sm)
@@ -33,7 +34,7 @@ namespace MASProject.Factories
             {
                 g = OgreGender.Male;
             }
-            return new Ogre(sm, nbObjectsCreated++, WorldUtils.RandomLocation, defaultVisionRadius, g, age);
+            return new OgreAgent(sm, nbObjectsCreated++, WorldUtils.RandomLocation, defaultVisionRadius, g, age);
         }
     }
 }

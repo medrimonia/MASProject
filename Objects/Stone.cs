@@ -2,7 +2,7 @@
 using Mogre;
 
 
-namespace MASProject
+namespace MASProject.Objects
 {
     class Stone : GraphicalObject
     {

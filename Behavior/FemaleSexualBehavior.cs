@@ -1,5 +1,6 @@
 ﻿using System;
 using MASProject.Communication;
+using MASProject.Objects;
 
 namespace MASProject.Behavior
 {
@@ -22,25 +23,25 @@ namespace MASProject.Behavior
             isPregnant = false;
         }
 
-        public override bool readyForPregnancy(Ogre o)
+        public override bool readyForPregnancy(OgreAgent o)
         {
             return !isPregnant && o.Age > fertilityStart && o.Age < menopauseStart && o.SmoothedDensity < densityThreshold;
         }
 
-        private void giveBirth(World w, Ogre o)
+        private void giveBirth(World w, OgreAgent o)
         {
             lastPregnancy = o.Age;
             isPregnant = false;
             w.createBabyOgre(o.Position);
         }
 
-        public override void apply(World w, Ogre o)
+        public override void apply(World w, OgreAgent o)
         {
             if (readyForPregnancy(o) && (o.Age - lastLoveCall) > 1.0 / loveCallFrequency)
             {
                 Activity = true;
                 Message m = new LoveCall(o);
-                foreach (Ogre n in w.nearbyOgres(o, loveCallRange))
+                foreach (OgreAgent n in w.nearbyOgres(o, loveCallRange))
                 {
                     n.receiveMessage(m);
                 }
