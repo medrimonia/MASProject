@@ -26,6 +26,7 @@ namespace MASProject.Input
         private InputMode mode;
 
         private bool ctrlModifier;
+        private bool shiftModifier;
 
         private bool shutdownAsked;
 
@@ -38,6 +39,8 @@ namespace MASProject.Input
         {
             mode = InputMode.None;
             shutdownAsked = false;
+            ctrlModifier = false;
+            shiftModifier = false;
         }
 
         public void initializeInput(RenderWindow w)
@@ -68,8 +71,13 @@ namespace MASProject.Input
             #region Treating keys always activated
             switch (arg.key)
             {
+                case MOIS.KeyCode.KC_RSHIFT:
+                case MOIS.KeyCode.KC_LSHIFT:
+                    shiftModifier = true;
+                    CameraManager.HighSpeed = true;
+                    break;
+                case MOIS.KeyCode.KC_RCONTROL:
                 case MOIS.KeyCode.KC_LCONTROL:
-                    DebugUtils.writeMessage("Ctrl Modifier : on");
                     ctrlModifier = true;
                     break;
                 case MOIS.KeyCode.KC_F1:
@@ -147,8 +155,13 @@ namespace MASProject.Input
         {
             switch (arg.key)
             {
+                case MOIS.KeyCode.KC_RSHIFT:
+                case MOIS.KeyCode.KC_LSHIFT:
+                    shiftModifier = false;
+                    CameraManager.HighSpeed = false;
+                    break;
+                case MOIS.KeyCode.KC_RCONTROL:
                 case MOIS.KeyCode.KC_LCONTROL:
-                    DebugUtils.writeMessage("Ctrl modifier : off");
                     ctrlModifier = false;
                     break;
                 case MOIS.KeyCode.KC_UP:

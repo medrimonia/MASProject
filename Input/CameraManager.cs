@@ -14,6 +14,9 @@ namespace MASProject.Input
 
         private static float nearClippingDistance;
 
+        private static bool highSpeed;
+        private static float highSpeedFactor;
+
         private static float forwardMove = 0f;
         /// <summary>
         /// + -> To the right of the camera
@@ -48,6 +51,8 @@ namespace MASProject.Input
             mainCameraPosition = new Vector3(0, 1000f, 0);
             mainCameraOrientation = new Quaternion(Vector3.UNIT_Z, Vector3.UNIT_X, Vector3.UNIT_Y);
             nearClippingDistance = 30f;
+            HighSpeed = false;
+            highSpeedFactor = 10f;
         }
 
         private static void Move(float elapsedTime)
@@ -56,6 +61,7 @@ namespace MASProject.Input
             move += -mainCameraOrientation.ZAxis * forwardMove;
             move += mainCameraOrientation.XAxis * lateralMove;
             move *= elapsedTime * translateSpeed;
+            if (HighSpeed) move *= highSpeedFactor;
             mainCameraPosition += move;
         }
 
@@ -108,6 +114,12 @@ namespace MASProject.Input
         {
             get { return yawMove; }
             set { yawMove = value; }
+        }
+
+        public static bool HighSpeed
+        {
+            get { return highSpeed; }
+            set { highSpeed = value; }
         }
 
         public static bool treatKeyPressed(MOIS.KeyEvent arg)
