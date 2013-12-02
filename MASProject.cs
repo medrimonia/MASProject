@@ -36,17 +36,17 @@ namespace MASProject
 
         private bool updateContent(FrameEvent evt)
         {
-            float elapsedTime = evt.timeSinceLastFrame;
-            elapsedTime *= TimeProperties.Speed;
+            float realElapsedTime = evt.timeSinceLastFrame;
+            float worldElapsedTime = realElapsedTime * TimeProperties.Speed;
             inputMgr.processBufferedInput(evt);
-            if (elapsedTime > 0)
+            if (worldElapsedTime > 0)
             {
-                environment.mutate(elapsedTime);
+                environment.mutate(worldElapsedTime);
             }
-            inputMgr.finalUpdate(elapsedTime);
+            inputMgr.finalUpdate(worldElapsedTime);
             mSceneMgr.AmbientLight = inputMgr.AmbientLight;
             mSceneMgr.SetFog(FogManager.Mode, FogManager.Color, FogManager.Strength);
-            CameraManager.UpdateCamera(mSceneMgr, elapsedTime);
+            CameraManager.UpdateCamera(mSceneMgr, realElapsedTime);
             Overlays.StatusOverlay.Update(environment);
             // Hiding this overlay at start only is not enough
             OverlayManager.Singleton.GetByName("Core/DebugOverlay").Hide();
