@@ -25,7 +25,7 @@ namespace MASProject.Input
         private static float yawMove = 0f;
 
         private static float translateSpeed = 100f;
-        private static float rotateSpeed = 0.5f;
+        private static float rotateSpeed = 30f;
 
         static CameraManager()
         {
@@ -61,8 +61,10 @@ namespace MASProject.Input
 
         private static void Rotate(float elapsedTime)
         {
-            Quaternion pitchRotation = new Quaternion(new Degree(PitchMove * rotateSpeed), Vector3.UNIT_X);
-            Quaternion yawRotation = new Quaternion(new Degree(-yawMove * rotateSpeed), Vector3.UNIT_Y);
+            Degree pitchRot = new Degree(PitchMove * rotateSpeed * elapsedTime);
+            Degree yawRot = new Degree(-YawMove * rotateSpeed * elapsedTime);
+            Quaternion pitchRotation = new Quaternion(pitchRot, Vector3.UNIT_X);
+            Quaternion yawRotation = new Quaternion(yawRot, Vector3.UNIT_Y);
             mainCameraOrientation = mainCameraOrientation * yawRotation * pitchRotation;
         }
 
