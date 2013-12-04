@@ -34,7 +34,7 @@ namespace MASProject.Input
         }
         private static Vector3 YAxis
         {
-            get { return ZAxis.CrossProduct(XAxis); }
+            get { return ZAxis.CrossProduct(XAxis).NormalisedCopy; }
         }
         private static Vector3 ZAxis
         {
@@ -59,7 +59,7 @@ namespace MASProject.Input
         private static float yawMove = 0f;
 
         private static float translateSpeed = 100f;
-        private static float rotateSpeed = 5f;
+        private static float rotateSpeed = 0.5f;
 
         static CameraManager()
         {
@@ -123,12 +123,12 @@ namespace MASProject.Input
 
         private static void Rotate(float elapsedTime)
         {
-            Degree pitchRot = new Degree(PitchMove * rotateSpeed * elapsedTime);
-            Degree yawRot = new Degree(-YawMove * rotateSpeed * elapsedTime);
-            ZAxis = ZAxis + YAxis * PitchMove * 0.01f;
-            Utils.DebugUtils.writeMessage("xAxis : " + XAxis);
-            Utils.DebugUtils.writeMessage("yAxis : " + YAxis);
-            Utils.DebugUtils.writeMessage("zAxis : " + ZAxis);
+            float pitchDelta = PitchMove * rotateSpeed * elapsedTime;
+            float yawDelta = YawMove * rotateSpeed * elapsedTime;
+            XAxis = XAxis + ZAxis * yawDelta;
+            // If ZAxis is not update here, a problem will happen
+            ZAxis = xAxis.CrossProduct(YAxis);
+            ZAxis = ZAxis - YAxis * pitchDelta;
         }
 
         /// <summary>
