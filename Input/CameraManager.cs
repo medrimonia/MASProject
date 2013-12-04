@@ -30,6 +30,7 @@ namespace MASProject.Input
         private static Vector3 XAxis
         {
             get { return xAxis; }
+            set { value.Normalise(); xAxis = value; }
         }
         private static Vector3 YAxis
         {
@@ -38,6 +39,7 @@ namespace MASProject.Input
         private static Vector3 ZAxis
         {
             get { return zAxis; }
+            set { value.Normalise(); zAxis = value; }
         }
         #endregion
 
@@ -86,8 +88,8 @@ namespace MASProject.Input
             get { return new Quaternion(XAxis, YAxis, ZAxis); }
             set
             {
-                xAxis = value.XAxis;
-                zAxis = value.ZAxis;
+                XAxis = value.XAxis;
+                ZAxis = value.ZAxis;
             }
         }
 
@@ -95,8 +97,8 @@ namespace MASProject.Input
         {
             tracked = null;
             pos = new Vector3(0, 1000f, 0);
-            xAxis = Vector3.UNIT_Z;
-            zAxis = Vector3.UNIT_Y;
+            XAxis = Vector3.UNIT_Z;
+            ZAxis = Vector3.UNIT_Y;
             mainCameraPosition = pos;
             mainCameraOrientation = Orientation;
             nearClippingDistance = 40f;
@@ -123,9 +125,10 @@ namespace MASProject.Input
         {
             Degree pitchRot = new Degree(PitchMove * rotateSpeed * elapsedTime);
             Degree yawRot = new Degree(-YawMove * rotateSpeed * elapsedTime);
-            Matrix3 _0R1 = Orientation.ToRotationMatrix().Transpose();
-            Matrix3 rotX = new Matrix3(1, 0, 0, 0, Math.Cos(pitchRot), -Math.Sin(pitchRot), 0 , Math.Sin(pitchRot), Math.Cos(pitchRot));
-            zAxis = _0R1 * rotX * zAxis;
+            ZAxis = ZAxis + YAxis * PitchMove * 0.01f;
+            Utils.DebugUtils.writeMessage("xAxis : " + XAxis);
+            Utils.DebugUtils.writeMessage("yAxis : " + YAxis);
+            Utils.DebugUtils.writeMessage("zAxis : " + ZAxis);
         }
 
         /// <summary>
@@ -135,8 +138,8 @@ namespace MASProject.Input
         {
             float alpha = 0.02f;
             pos = Position * (1 - alpha) + goalPos * alpha;
-            xAxis = xAxis * (1 - alpha) + goalOrientation.XAxis * alpha;
-            zAxis = zAxis * (1 - alpha) + goalOrientation.ZAxis * alpha;
+            XAxis = XAxis * (1 - alpha) + goalOrientation.XAxis * alpha;
+            ZAxis = ZAxis * (1 - alpha) + goalOrientation.ZAxis * alpha;
         }
 
         public static void UpdateCamera(SceneManager sm, float elapsedTime)
@@ -147,7 +150,7 @@ namespace MASProject.Input
                 pos = mainCameraPosition;
                 //Compute
                 Move(elapsedTime);
-                //Rotate(elapsedTime);
+                Rotate(elapsedTime);
                 mainCameraPosition = pos;
                 mainCameraOrientation = Orientation;
             }
@@ -156,13 +159,9 @@ namespace MASProject.Input
                 smoothTransition(tracked.Position, tracked.CameraOrientation);
             }
             // apply
-            var mCamera = sm.GetCamera(CameraName);
-            mCamera.NearClipDistance = nearClippingDistance;
-            mCamera.Position = Position;
-            mCamera.Orientation = Orientation;
-            Utils.DebugUtils.writeMessage("Orientation.X " + Orientation.XAxis);
-            Utils.DebugUtils.writeMessage("Orientation.Y " + Orientation.YAxis);
-            Utils.DebugUtils.writeMessage("Orientation.Z " + Orientation.ZAxis);
+            Camera.NearClipDistance = nearClippingDistance;
+            Camera.Position = Position;
+            Camera.Orientation = Orientation;
         }
 
         public static float ForwardMove
