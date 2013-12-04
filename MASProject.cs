@@ -58,7 +58,7 @@ namespace MASProject
             //base.InitializeInput();
 
             inputMgr.initializeInput(mWindow);
-            CameraManager.Init(environment);
+            CameraManager.Init(mSceneMgr, environment);
         }
 
         protected override void CreateFrameListeners()
