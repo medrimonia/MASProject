@@ -4,7 +4,7 @@ using Mogre;
 using MASProject.Communication;
 using MASProject.Utils;
 
-namespace MASProject
+namespace MASProject.Objects
 {
     abstract class GraphicalAgent : GraphicalObject
     {

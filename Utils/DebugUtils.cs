@@ -1,5 +1,6 @@
 ﻿using System;
 using Mogre;
+using MASProject.Objects;
 
 namespace MASProject.Utils
 {

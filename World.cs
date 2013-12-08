@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Mogre;
 using MASProject.Factories;
 using MASProject.Utils;
+using MASProject.Objects;
 
 /* This class will contain every object existing in the world and
  * will allow to access them easily.
@@ -90,7 +91,8 @@ namespace MASProject
                 List<GraphicalObject> result = new List<GraphicalObject>();
                 foreach (GraphicalObject o in objects)
                 {
-                    if (o is Ogre){
+                    if (o is OgreAgent)
+                    {
                         result.Add(o);
                     }
                 }
@@ -140,7 +142,7 @@ namespace MASProject
             get
             {
                 int n = 0;
-                foreach (Ogre o in Ogres)
+                foreach (OgreAgent o in Ogres)
                 {
                     if (o.IsFemale)
                     {
@@ -156,7 +158,7 @@ namespace MASProject
             get
             {
                 int n = 0;
-                foreach (Ogre o in Ogres)
+                foreach (OgreAgent o in Ogres)
                 {
                     if (o.IsMale)
                     {
@@ -202,13 +204,13 @@ namespace MASProject
             return neighbors;
         }
 
-        public List<Ogre> nearbyOgres(GraphicalAgent a, float maxDist)
+        public List<OgreAgent> nearbyOgres(GraphicalAgent a, float maxDist)
         {
-            List<Ogre> neighbors = new List<Ogre>();
+            List<OgreAgent> neighbors = new List<OgreAgent>();
             foreach (GraphicalObject obj in objects)
             {
-                Ogre o = obj as Ogre;
-                if (o != null && !a.Equals(o) && (o.Position - a.Position).Length < maxDist && o is Ogre)
+                OgreAgent o = obj as OgreAgent;
+                if (o != null && !a.Equals(o) && (o.Position - a.Position).Length < maxDist && o is OgreAgent)
                 {
                     neighbors.Add(o);
                 }

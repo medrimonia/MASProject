@@ -4,17 +4,19 @@ using MogreFramework;
 using System;
 using System.Windows.Forms;
 using MASProject.Utils;
+using MASProject.Objects;
 
 namespace MASProject.Input
 {
-    class LightManager
+    public enum LightningMode
     {
-        public enum LightningMode
-        {
-            Day,
-            Night,
-            Cycle
-        }
+        Day,
+        Night,
+        Cycle
+    }
+
+    abstract class LightManager
+    {
         /// <summary>
         /// The number of seconds in the user referential that correspond to
         /// 24 hours in the LightManager referential
@@ -26,23 +28,19 @@ namespace MASProject.Input
         private static float nightIntensity = 0.1f;
 
         // lights
-        private Light mainSpot;
-        private LightningMode lightMode;
-        private float hour;
+        private static Light mainSpot;
+        private static LightningMode lightMode;
+        private static float hour;
 
         // The world in which it evolves
-        private World environment;
+        private static World environment;
 
-        private GraphicalObject tracked;
-
-        public LightManager()
-        {
-        }
+        private static GraphicalObject tracked;
 
         /// <summary>
         /// The duration of a day in hours (LightManager time referential)
         /// </summary>
-        private float DayLength
+        private static float DayLength
         {
             get { return dayEnd - dayStart; }
         }
@@ -50,12 +48,12 @@ namespace MASProject.Input
         /// <summary>
         /// Return the noon time in hours (In the LightManager time referential)
         /// </summary>
-        private float Noon
+        private static float Noon
         {
             get { return DayLength / 2 + dayStart; }
         }
 
-        private float LightIntensity
+        private static float LightIntensity
         {
             get
             {
@@ -83,7 +81,7 @@ namespace MASProject.Input
             }
         }
 
-        public ColourValue AmbientLight
+        public static ColourValue AmbientLight
         {
             get { return new ColourValue(LightIntensity, LightIntensity, LightIntensity); }
         }
@@ -92,7 +90,7 @@ namespace MASProject.Input
         /// Update the content of the light manager, including overall lights and spot
         /// </summary>
         /// <param name="elapsedTime">In seconds</param>
-        public void updateLights(double elapsedTime)
+        public static void UpdateLights(double elapsedTime)
         {
             hour = (hour + 24 * (float)elapsedTime / secondsByDay) % 24;
             mainSpot.Visible = tracked != null && tracked.Useable;
@@ -105,7 +103,7 @@ namespace MASProject.Input
             }
         }
 
-        public bool treatKeyPressed(MOIS.KeyEvent arg)
+        public static bool treatKeyPressed(MOIS.KeyEvent arg)
         {
             switch (arg.key)
             {
@@ -122,7 +120,7 @@ namespace MASProject.Input
             return true;
         }
 
-        public void initalizeScene(World w, SceneManager mSceneMgr){
+        public static void Init(World w, SceneManager mSceneMgr){
             environment = w;
             // Spot Light
             mainSpot = mSceneMgr.CreateLight("mainSpot");

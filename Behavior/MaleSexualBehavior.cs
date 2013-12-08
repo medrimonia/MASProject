@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MASProject.Objects;
 
 namespace MASProject.Behavior
 {
@@ -20,9 +21,9 @@ namespace MASProject.Behavior
             return true;
         }
 
-        public override void apply(World w, Ogre o)
+        public override void apply(World w, OgreAgent o)
         {
-            foreach (Ogre n in w.nearbyOgres(o, loveDistance))
+            foreach (OgreAgent n in w.nearbyOgres(o, loveDistance))
             {
                 if (n.isFertile())
                 {

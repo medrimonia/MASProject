@@ -8,7 +8,7 @@ using MASProject.Utils;
 
 
 
-namespace MASProject
+namespace MASProject.Objects
 {
     class Robot : GraphicalAgent
     {   

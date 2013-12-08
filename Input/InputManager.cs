@@ -15,8 +15,13 @@ namespace MASProject.Input
             None,
             Light,
             Fog,
+<<<<<<< HEAD
             Ground,
             Camera
+=======
+            Camera,
+            Time
+>>>>>>> 78c51d808f4a4e36a82e1355450627df38bda0d4
         }
 
         //Input handling
@@ -24,10 +29,10 @@ namespace MASProject.Input
         private MOIS.Keyboard keyboardMgr;
 
         // Specific managers
-        private LightManager lightMgr;
         private InputMode mode;
 
         private bool ctrlModifier;
+        private bool shiftModifier;
 
         private bool shutdownAsked;
 
@@ -38,9 +43,10 @@ namespace MASProject.Input
 
         public InputManager()
         {
-            lightMgr = new LightManager();
             mode = InputMode.None;
             shutdownAsked = false;
+            ctrlModifier = false;
+            shiftModifier = false;
         }
 
         public void initializeInput(RenderWindow w)
@@ -54,11 +60,6 @@ namespace MASProject.Input
             DebugUtils.writeMessage("Input initialized");
         }
 
-        public void initializeScene(World w, SceneManager sMgr)
-        {
-            lightMgr.initalizeScene(w, sMgr);
-        }
-
         public bool processBufferedInput(FrameEvent evt)
         {
             keyboardMgr.Capture();
@@ -68,7 +69,7 @@ namespace MASProject.Input
         /* This update needs to be performed once all objects have been moved */
         public void finalUpdate(double timeElapsed)
         {
-            lightMgr.updateLights(timeElapsed);
+            LightManager.UpdateLights(timeElapsed);
         }
 
         protected bool treatKeyPressed(MOIS.KeyEvent arg)
@@ -76,8 +77,13 @@ namespace MASProject.Input
             #region Treating keys always activated
             switch (arg.key)
             {
+                case MOIS.KeyCode.KC_RSHIFT:
+                case MOIS.KeyCode.KC_LSHIFT:
+                    shiftModifier = true;
+                    CameraManager.HighSpeed = true;
+                    break;
+                case MOIS.KeyCode.KC_RCONTROL:
                 case MOIS.KeyCode.KC_LCONTROL:
-                    DebugUtils.writeMessage("Ctrl Modifier : on");
                     ctrlModifier = true;
                     break;
                 case MOIS.KeyCode.KC_F1:
@@ -90,7 +96,7 @@ namespace MASProject.Input
                     Overlays.HelperOverlay.Toggle();
                     break;
                 case MOIS.KeyCode.KC_SPACE:
-                    TimeProperties.TogglePause();
+                    TimeManager.Toggle();
                     break;
                 case MOIS.KeyCode.KC_ESCAPE:
                     if (ctrlModifier) shutdownAsked = true;
@@ -129,8 +135,13 @@ namespace MASProject.Input
                     case MOIS.KeyCode.KC_C:
                         mode = InputMode.Camera;
                         break;
+<<<<<<< HEAD
                     case MOIS.KeyCode.KC_G:
                         mode = InputMode.Ground;
+=======
+                    case MOIS.KeyCode.KC_T:
+                        mode = InputMode.Time;
+>>>>>>> 78c51d808f4a4e36a82e1355450627df38bda0d4
                         break;
                 }
             }
@@ -145,11 +156,13 @@ namespace MASProject.Input
             switch (mode)
             {
                 case InputMode.Light:
-                    return lightMgr.treatKeyPressed(arg);
+                    return LightManager.treatKeyPressed(arg);
                 case InputMode.Fog:
                     return FogManager.treatKeyPressed(arg);
                 case InputMode.Camera:
                     return CameraManager.treatKeyPressed(arg);
+                case InputMode.Time:
+                    return TimeManager.treatKeyPressed(arg);
             }
             return true;
         }
@@ -158,8 +171,13 @@ namespace MASProject.Input
         {
             switch (arg.key)
             {
+                case MOIS.KeyCode.KC_RSHIFT:
+                case MOIS.KeyCode.KC_LSHIFT:
+                    shiftModifier = false;
+                    CameraManager.HighSpeed = false;
+                    break;
+                case MOIS.KeyCode.KC_RCONTROL:
                 case MOIS.KeyCode.KC_LCONTROL:
-                    DebugUtils.writeMessage("Ctrl modifier : off");
                     ctrlModifier = false;
                     break;
                 case MOIS.KeyCode.KC_UP:
@@ -184,7 +202,7 @@ namespace MASProject.Input
 
         public ColourValue AmbientLight
         {
-            get { return lightMgr.AmbientLight; }
+            get { return LightManager.AmbientLight; }
         }
     }
 }

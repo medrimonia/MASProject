@@ -21,8 +21,6 @@ namespace MASProject
         private World environment;
         private InputManager inputMgr;
 
-        //TODO add a frame displaying the number of each object
-
         public static void Main()
         {
             Utils.DebugUtils.writeMessage("Starting");
@@ -38,17 +36,17 @@ namespace MASProject
 
         private bool updateContent(FrameEvent evt)
         {
-            float elapsedTime = evt.timeSinceLastFrame;
-            elapsedTime *= TimeProperties.Speed;
+            float realElapsedTime = evt.timeSinceLastFrame;
+            float worldElapsedTime = realElapsedTime * TimeManager.Speed;
             inputMgr.processBufferedInput(evt);
-            if (elapsedTime > 0)
+            if (worldElapsedTime > 0)
             {
-                environment.mutate(elapsedTime);
+                environment.mutate(worldElapsedTime);
             }
-            inputMgr.finalUpdate(elapsedTime);
+            inputMgr.finalUpdate(worldElapsedTime);
             mSceneMgr.AmbientLight = inputMgr.AmbientLight;
             mSceneMgr.SetFog(FogManager.Mode, FogManager.Color, FogManager.Strength);
-            CameraManager.UpdateCamera(mSceneMgr, elapsedTime);
+            CameraManager.UpdateCamera(mSceneMgr, realElapsedTime);
             Overlays.StatusOverlay.Update(environment);
             // Hiding this overlay at start only is not enough
             OverlayManager.Singleton.GetByName("Core/DebugOverlay").Hide();
@@ -60,7 +58,7 @@ namespace MASProject
             //base.InitializeInput();
 
             inputMgr.initializeInput(mWindow);
-            CameraManager.Init(environment);
+            CameraManager.Init(mSceneMgr, environment);
         }
 
         protected override void CreateFrameListeners()
@@ -75,7 +73,7 @@ namespace MASProject
             // Initializing lights
             mSceneMgr.AmbientLight = ColourValue.Black;
             mSceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_STENCIL_MODULATIVE;
-            inputMgr.initializeScene(environment, mSceneMgr);
+            LightManager.Init(environment,mSceneMgr);
             // Adding overlays
             Overlays.HelperOverlay.Init(mWindow);
             Overlays.DebugOverlay.Init(mWindow);

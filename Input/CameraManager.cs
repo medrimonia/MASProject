@@ -1,18 +1,52 @@
 ﻿using Mogre;
 using Mogre.TutorialFramework;
 using MogreFramework;
+using MASProject.Objects;
 
 namespace MASProject.Input
 {
     class CameraManager
     {
+        #region Backup Values
         private static Vector3 mainCameraPosition;
         private static Quaternion mainCameraOrientation;
+        #endregion
 
+        private static SceneManager sm;
         private static World environment;
         private static GraphicalObject tracked;
 
+        #region Camera current properties
         private static float nearClippingDistance;
+        private static Vector3 xAxis;
+        private static Vector3 zAxis;
+        private static Vector3 pos;
+
+        private static Vector3 Position
+        {
+            get { return pos; }
+        }
+
+        private static Vector3 XAxis
+        {
+            get { return xAxis; }
+            set { value.Normalise(); xAxis = value; }
+        }
+        private static Vector3 YAxis
+        {
+            get { return ZAxis.CrossProduct(XAxis).NormalisedCopy; }
+        }
+        private static Vector3 ZAxis
+        {
+            get { return zAxis; }
+            set { value.Normalise(); zAxis = value; }
+        }
+        #endregion
+
+        #region HighSpeed Properties
+        private static bool highSpeed;
+        private static float highSpeedFactor;
+        #endregion
 
         private static float forwardMove = 0f;
         /// <summary>
@@ -29,6 +63,7 @@ namespace MASProject.Input
 
         static CameraManager()
         {
+            sm = null;
             ResetConfig();
         }
 
@@ -37,51 +72,96 @@ namespace MASProject.Input
             get { return "MainCamera"; }
         }
 
-        public static void Init(World w)
+        public static Camera Camera
         {
+            get { return sm.GetCamera(CameraName); }
+        }
+
+        public static void Init(SceneManager sManager, World w)
+        {
+            sm = sManager;
             environment = w;
+        }
+
+        public static Quaternion Orientation
+        {
+            get { return new Quaternion(XAxis, YAxis, ZAxis); }
+            set
+            {
+                XAxis = value.XAxis;
+                ZAxis = value.ZAxis;
+            }
         }
 
         private static void ResetConfig()
         {
             tracked = null;
-            mainCameraPosition = new Vector3(0, 1000f, 0);
-            mainCameraOrientation = new Quaternion(Vector3.UNIT_Z, Vector3.UNIT_X, Vector3.UNIT_Y);
-            nearClippingDistance = 30f;
+            pos = new Vector3(0, 1000f, 0);
+            XAxis = Vector3.UNIT_Z;
+            ZAxis = Vector3.UNIT_Y;
+            mainCameraPosition = pos;
+            mainCameraOrientation = Orientation;
+            nearClippingDistance = 40f;
+            HighSpeed = false;
+            highSpeedFactor = 10f;
         }
 
         private static void Move(float elapsedTime)
         {
             Vector3 move = Vector3.ZERO;
-            move += -mainCameraOrientation.ZAxis * forwardMove;
-            move += mainCameraOrientation.XAxis * lateralMove;
+            move += -Camera.Orientation.ZAxis * forwardMove;
+            move += Camera.Orientation.XAxis * lateralMove;
             move *= elapsedTime * translateSpeed;
-            mainCameraPosition += move;
+            if (HighSpeed) move *= highSpeedFactor;
+            Move(move);
+        }
+
+        private static void Move(Vector3 move)
+        {
+            pos += move;
         }
 
         private static void Rotate(float elapsedTime)
         {
-            Quaternion pitchRotation = new Quaternion(new Degree(PitchMove * rotateSpeed), Vector3.UNIT_X);
-            Quaternion yawRotation = new Quaternion(new Degree(-yawMove * rotateSpeed), Vector3.UNIT_Y);
-            mainCameraOrientation = mainCameraOrientation * yawRotation * pitchRotation;
+            float pitchDelta = PitchMove * rotateSpeed * elapsedTime;
+            float yawDelta = YawMove * rotateSpeed * elapsedTime;
+            XAxis = XAxis + ZAxis * yawDelta;
+            // If ZAxis is not update here, a problem will happen
+            ZAxis = xAxis.CrossProduct(YAxis);
+            ZAxis = ZAxis - YAxis * pitchDelta;
+        }
+
+        /// <summary>
+        /// Try to reach the destination with a small steps
+        /// </summary>
+        private static void smoothTransition(Vector3 goalPos, Quaternion goalOrientation)
+        {
+            float alpha = 0.02f;
+            pos = Position * (1 - alpha) + goalPos * alpha;
+            XAxis = XAxis * (1 - alpha) + goalOrientation.XAxis * alpha;
+            ZAxis = ZAxis * (1 - alpha) + goalOrientation.ZAxis * alpha;
         }
 
         public static void UpdateCamera(SceneManager sm, float elapsedTime)
         {
-            Move(elapsedTime);
-            Rotate(elapsedTime);
-            var mCamera = sm.GetCamera(CameraName);
             if (tracked == null || !tracked.Useable)
             {
-                mCamera.Position = mainCameraPosition;
-                mCamera.Orientation = mainCameraOrientation;
+                Orientation = mainCameraOrientation;
+                pos = mainCameraPosition;
+                //Compute
+                Move(elapsedTime);
+                Rotate(elapsedTime);
+                mainCameraPosition = pos;
+                mainCameraOrientation = Orientation;
             }
             else
             {
-                mCamera.Position = tracked.Position;
-                mCamera.Orientation = tracked.CameraOrientation;
+                smoothTransition(tracked.Position, tracked.CameraOrientation);
             }
-            mCamera.NearClipDistance = nearClippingDistance;
+            // apply
+            Camera.NearClipDistance = nearClippingDistance;
+            Camera.Position = Position;
+            Camera.Orientation = Orientation;
         }
 
         public static float ForwardMove
@@ -106,6 +186,12 @@ namespace MASProject.Input
         {
             get { return yawMove; }
             set { yawMove = value; }
+        }
+
+        public static bool HighSpeed
+        {
+            get { return highSpeed; }
+            set { highSpeed = value; }
         }
 
         public static bool treatKeyPressed(MOIS.KeyEvent arg)

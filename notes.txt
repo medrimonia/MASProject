@@ -17,7 +17,6 @@
   - Speed-up (shift)
 
 - WorldProperties:
-  -> increase/decrease global speed
   -> Other parameters
 
 - Divers

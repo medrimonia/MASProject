@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mogre;
+using MASProject.Objects;
 
 namespace MASProject.Utils
 {

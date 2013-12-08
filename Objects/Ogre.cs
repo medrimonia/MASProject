@@ -4,8 +4,9 @@ using Mogre;
 using MASProject.Communication;
 using MASProject.Utils;
 using MASProject.Behavior;
+using MASProject.Objects;
 
-namespace MASProject
+namespace MASProject.Objects
 {
     public enum OgreGender
     {
@@ -13,7 +14,7 @@ namespace MASProject
         Female
     }
 
-    class Ogre : GraphicalAgent
+    class OgreAgent : GraphicalAgent
     {
 
         /* The robot will often have a goal to which he can't move in one
@@ -92,7 +93,7 @@ namespace MASProject
             }
         }
 
-        public Ogre(SceneManager sm, int ogreId, Vector3 initialLocation, float visionRadius, OgreGender gender, float originalAge=0f)
+        public OgreAgent(SceneManager sm, int ogreId, Vector3 initialLocation, float visionRadius, OgreGender gender, float originalAge=0f)
             : base()
         {
             age = originalAge;
@@ -194,9 +195,9 @@ namespace MASProject
             }
         }
 
-        private void communicationMutation(List<Ogre> nearbyOgres)
+        private void communicationMutation(List<OgreAgent> nearbyOgres)
         {
-            foreach (Ogre o in nearbyOgres)
+            foreach (OgreAgent o in nearbyOgres)
             {
                 if (!o.Equals(this))
                 {
@@ -278,7 +279,7 @@ namespace MASProject
             // Age Mutation
             age += elapsedTime;
             updateSize();
-            List<Ogre> nearbyOgres = w.nearbyOgres(this, this.visionRadius);
+            List<OgreAgent> nearbyOgres = w.nearbyOgres(this, this.visionRadius);
             List<Stone> nearbyStones = w.nearbyStones(this, this.visionRadius);
             updateDensity(nearbyOgres.Count);
             // When a ogre has a sexual objectives, he cares about nothing else
@@ -371,7 +372,7 @@ namespace MASProject
 
         public override bool Equals(object obj)
         {
-            Ogre o = obj as Ogre;
+            OgreAgent o = obj as OgreAgent;
             if (o != null)
             {
                 return o.ent.Name.Equals(ent.Name);

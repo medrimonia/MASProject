@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MASProject.Objects;
 
 namespace MASProject.Behavior
 {
@@ -17,7 +18,8 @@ namespace MASProject.Behavior
             get { return sexualActivity; }
             set { sexualActivity = value; }
         }
-        public virtual bool readyForPregnancy(Ogre o){
+        public virtual bool readyForPregnancy(OgreAgent o)
+        {
             return false;
         }
 
@@ -30,6 +32,6 @@ namespace MASProject.Behavior
         {
         }
 
-        public abstract void apply(World w, Ogre o);
+        public abstract void apply(World w, OgreAgent o);
     }
 }
