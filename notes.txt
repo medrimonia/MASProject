@@ -1,43 +1,16 @@
 ﻿TODO:
 
-- Polices
-  -> Monospace pour meilleur affichage
-
-- Nature du sol
-  -> Différents sols avec une interface pour changer
-
-- World
-  -> Ciel etc,
-  -> Paramètres
-  -> Plus propre!
-
 - Caméra
   - Ajouter rolling et top/down
-  - Third person?
-  - Speed-up (shift)
 
-- WorldProperties:
-  -> Other parameters
+- Robot hors espace opérationnel
 
-- Divers
-  -> Smoother les changements d'orientation
+- Pierres à ne pas retirer
+  -> Switcher stone par barril
 
-@Fab
-- Modèle social
-	- Autorité ("élire" un chef)
-		- Recherche d'algo
-		- Pouvoir de persuasion aléatoire
-		- age d'éligibilité
-		- candidat?
-		- Tous le monde se connait?
-		- Taux de conviction en fonction du voisinage et des actions?
-	- Différents comportement en fonction du status
-	- Mise à jour dynamique des groupes
+- TODO à checker
 
-@Ludo
-- Communication
-	- Tâches collaboratives
-		- Indiquer un besoin d'aide
+- Code à nettoyer
 
 OK:
 
