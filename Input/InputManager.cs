@@ -15,13 +15,9 @@ namespace MASProject.Input
             None,
             Light,
             Fog,
-<<<<<<< HEAD
             Ground,
-            Camera
-=======
             Camera,
             Time
->>>>>>> 78c51d808f4a4e36a82e1355450627df38bda0d4
         }
 
         //Input handling
@@ -135,13 +131,11 @@ namespace MASProject.Input
                     case MOIS.KeyCode.KC_C:
                         mode = InputMode.Camera;
                         break;
-<<<<<<< HEAD
                     case MOIS.KeyCode.KC_G:
                         mode = InputMode.Ground;
-=======
+                        break;
                     case MOIS.KeyCode.KC_T:
                         mode = InputMode.Time;
->>>>>>> 78c51d808f4a4e36a82e1355450627df38bda0d4
                         break;
                 }
             }
