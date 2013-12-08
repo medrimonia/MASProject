@@ -15,7 +15,7 @@ namespace MASProject
     class MASProject : BaseApplication
     {
         private static int NB_OGREHEADS = 20;
-        private static int NB_STONES = 100;
+        private static int NB_STONES = 200;
         private static int NB_ROBOTS = 15;
 
         private World environment;

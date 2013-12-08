@@ -40,9 +40,9 @@ namespace MASProject.Objects
         private static float densityDisc = 0.95f;
 
         /* After a certain age, ogreHeads stop growing [s] */
-        private static float fullSizeAge = 30f;
+        private static float fullSizeAge = 70f;
         /* The time an ogre is expected to live [s] */
-        public static float longevity = 100f;
+        public static float longevity = 200f;
         private static float minSize = 20f;
         private static float maxSize = 60f;
 

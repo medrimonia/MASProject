@@ -12,10 +12,10 @@ namespace MASProject.Behavior
         private static double pregnancyDuration = 3;
         private double lastLoveCall = 0;
         private double loveCallFrequency = 2;
-        private static float fertilityStart = 10f;//[s]
-        private static float menopauseStart = 40f;//[s]
-        private static float loveCallRange = 600f;
-        private static float densityThreshold = 3f;
+        private static float fertilityStart = 20f;//[s]
+        private static float menopauseStart = 160f;//[s]
+        private static float loveCallRange = 400f;
+        private static float densityThreshold = 1f;
 
         public FemaleSexualBehavior()
         {
