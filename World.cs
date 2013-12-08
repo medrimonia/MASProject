@@ -182,7 +182,7 @@ namespace MASProject
             Plane plane = new Plane(Vector3.UNIT_Y, 0);
             MeshManager.Singleton.CreatePlane("ground",
     ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, plane,
-    WorldUtils.Width, WorldUtils.Depth, 20, 20, true, 1, 5, 5, Vector3.UNIT_Z);
+    WorldUtils.Width + WorldUtils.Margin, WorldUtils.Depth + WorldUtils.Margin, 20, 20, true, 1, 5, 5, Vector3.UNIT_Z);
 
             Entity groundEnt = sm.CreateEntity("GroundEntity", "ground");
             sm.RootSceneNode.CreateChildSceneNode().AttachObject(groundEnt);

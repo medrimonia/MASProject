@@ -8,8 +8,15 @@ namespace MASProject.Utils
     class WorldUtils
     {
         private static Random rndGen = new Random();
+
+        private static float margin = 100f;
         private static Vector3 min = new Vector3(-1000, 0, -1000);
         private static Vector3 max = new Vector3( 1000, 0,  1000);
+
+        public static float Margin
+        {
+            get { return margin; }
+        }
 
         public static Vector3 Min
         {
