@@ -60,8 +60,8 @@ namespace MASProject.Input
             globalCommands.Add(new CommandHelper("SPACE", "pause execution"));
             globalCommands.Add(new CommandHelper("esc", "return to global mode"));
             globalCommands.Add(new CommandHelper("ctrl + esc", "return to global mode"));
-            globalCommands.Add(new CommandHelper("directional keys", "move camera source"));
-            globalCommands.Add(new CommandHelper("ctrl + directional keys", "rotate camera direction"));
+            globalCommands.Add(new CommandHelper("dir_keys|PGUP/PGDOWN", "move camera source"));
+            globalCommands.Add(new CommandHelper("ctrl + dir_keys|PGUP/PGDOWN", "rotate camera direction"));
             #endregion
             specificCommands = new Dictionary<InputManager.InputMode, List<CommandHelper>>();
             InputManager.InputMode m;

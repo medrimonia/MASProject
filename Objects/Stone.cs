@@ -13,7 +13,7 @@ namespace MASProject.Objects
             ent = sm.CreateEntity(entityName, "BeerBarrel.mesh");
             node = sm.RootSceneNode.CreateChildSceneNode(nodeName, initialLocation);
             node.AttachObject(ent);
-            float wishedSize = 20f;
+            float wishedSize = 40f;
             float ratio = wishedSize / BoundingBox.Size.Length;
             node.SetScale(ratio, ratio, ratio);
         }
