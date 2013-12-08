@@ -114,6 +114,14 @@ namespace MASProject.Input
                     if (!ctrlModifier) CameraManager.LateralMove = 1;
                     else CameraManager.YawMove = 1;
                     break;
+                case MOIS.KeyCode.KC_PGUP:
+                    if (!ctrlModifier) CameraManager.UpMove = 1;
+                    else CameraManager.RollMove = 1;
+                    break;
+                case MOIS.KeyCode.KC_PGDOWN:
+                    if (!ctrlModifier) CameraManager.UpMove = -1;
+                    else CameraManager.RollMove = -1;
+                    break;
             }
             #endregion
 
@@ -183,6 +191,11 @@ namespace MASProject.Input
                 case MOIS.KeyCode.KC_RIGHT:
                     CameraManager.LateralMove = 0f;
                     CameraManager.YawMove = 0f;
+                    break;
+                case MOIS.KeyCode.KC_PGDOWN:
+                case MOIS.KeyCode.KC_PGUP:
+                    CameraManager.UpMove = 0f;
+                    CameraManager.RollMove = 0f;
                     break;
             }
             return true;

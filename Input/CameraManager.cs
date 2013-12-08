@@ -54,9 +54,11 @@ namespace MASProject.Input
         /// - -> To the left of the camera
         /// </summary>
         private static float lateralMove = 0f;
+        private static float upMove = 0f;
 
         private static float pitchMove = 0f;
         private static float yawMove = 0f;
+        private static float rollMove = 0f;
 
         private static float translateSpeed = 100f;
         private static float rotateSpeed = 0.5f;
@@ -111,6 +113,7 @@ namespace MASProject.Input
             Vector3 move = Vector3.ZERO;
             move += -Camera.Orientation.ZAxis * forwardMove;
             move += Camera.Orientation.XAxis * lateralMove;
+            move += Camera.Orientation.YAxis * upMove;
             move *= elapsedTime * translateSpeed;
             if (HighSpeed) move *= highSpeedFactor;
             Move(move);
@@ -125,10 +128,13 @@ namespace MASProject.Input
         {
             float pitchDelta = PitchMove * rotateSpeed * elapsedTime;
             float yawDelta = YawMove * rotateSpeed * elapsedTime;
+            float rollDelta = RollMove * rotateSpeed * elapsedTime;
             XAxis = XAxis + ZAxis * yawDelta;
             // If ZAxis is not update here, a problem will happen
             ZAxis = xAxis.CrossProduct(YAxis);
             ZAxis = ZAxis - YAxis * pitchDelta;
+            // Computing roll
+            XAxis = XAxis + YAxis * rollDelta;
         }
 
         /// <summary>
@@ -176,6 +182,12 @@ namespace MASProject.Input
             set { lateralMove = value; }
         }
 
+        public static float UpMove
+        {
+            get { return upMove; }
+            set { upMove = value; }
+        }
+
         public static float PitchMove
         {
             get { return pitchMove; }
@@ -186,6 +198,12 @@ namespace MASProject.Input
         {
             get { return yawMove; }
             set { yawMove = value; }
+        }
+
+        public static float RollMove
+        {
+            get { return rollMove; }
+            set { rollMove = value; }
         }
 
         public static bool HighSpeed
