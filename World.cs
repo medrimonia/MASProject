@@ -28,6 +28,7 @@ namespace MASProject
             rFactory = new RobotFactory();
             // Creating the ground
             addPlane();
+            
 
             objects = new List<GraphicalObject>();
             // Creating the ogres
@@ -183,6 +184,9 @@ namespace MASProject
 
             Entity groundEnt = sm.CreateEntity("GroundEntity", "ground");
             sm.RootSceneNode.CreateChildSceneNode().AttachObject(groundEnt);
+            groundEnt.SetMaterialName("Examples/Rockwall");
+            
+            groundEnt.CastShadows = false;
         }
 
         public List<GraphicalObject> neighborhood(Vector3 position, float maxDist)

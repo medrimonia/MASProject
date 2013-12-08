@@ -15,6 +15,7 @@ namespace MASProject.Input
             None,
             Light,
             Fog,
+            Ground,
             Camera
         }
 
@@ -127,6 +128,9 @@ namespace MASProject.Input
                         break;
                     case MOIS.KeyCode.KC_C:
                         mode = InputMode.Camera;
+                        break;
+                    case MOIS.KeyCode.KC_G:
+                        mode = InputMode.Ground;
                         break;
                 }
             }

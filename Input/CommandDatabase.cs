@@ -70,7 +70,9 @@ namespace MASProject.Input
             specificCommands.Add(m, new List<CommandHelper>());
             addCommand(m, new CommandHelper("l", "activating light control"));
             addCommand(m, new CommandHelper("f", "activating fog control"));
-            addCommand(m, new CommandHelper("c", "activating camera control"));
+            addCommand(m, new CommandHelper("c", "activating camera control")); 
+            addCommand(m, new CommandHelper("g", "activating ground control"));
+
             #endregion
             #region Light commands
             m = InputManager.InputMode.Light;
@@ -95,6 +97,13 @@ namespace MASProject.Input
             specificCommands.Add(m, new List<CommandHelper>());
             addCommand(m, new CommandHelper("r", "reset camera"));
             addCommand(m, new CommandHelper("tab", "Switch to ogre vision"));
+            #endregion
+            #region Ground commands
+            m = InputManager.InputMode.Ground;
+            specificCommands.Add(m, new List<CommandHelper>());
+            addCommand(m, new CommandHelper("r", "reset ground"));
+            addCommand(m, new CommandHelper("l", "leaf ground"));
+            addCommand(m, new CommandHelper("e", "earth ground"));
             #endregion
         }
     }

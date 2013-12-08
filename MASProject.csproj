@@ -49,6 +49,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Input\GroundManager.cs" />
     <Compile Include="Input\CameraManager.cs" />
     <Compile Include="Input\FogManager.cs" />
     <Compile Include="Input\CommandDatabase.cs" />
