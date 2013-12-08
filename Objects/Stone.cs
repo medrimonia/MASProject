@@ -10,7 +10,7 @@ namespace MASProject.Objects
         {
             string entityName = "Stone" + stoneId;
             string nodeName = "StoneNode" + stoneId;
-            ent = sm.CreateEntity(entityName, "BeerBarrel.mesh");//TODO switch to a stone mesh
+            ent = sm.CreateEntity(entityName, "BeerBarrel.mesh");
             node = sm.RootSceneNode.CreateChildSceneNode(nodeName, initialLocation);
             node.AttachObject(ent);
             float wishedSize = 20f;

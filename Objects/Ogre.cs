@@ -137,9 +137,7 @@ namespace MASProject.Objects
             float actualHeight = ent.BoundingBox.Size.y;
             float ratio = WishedHeight / actualHeight;
             node.SetScale(ratio, ratio, ratio);
-            // Fixing the head on the ground whatever the height might be
-            float wishedY = -ent.BoundingBox.Minimum.y * ratio;
-            node.SetPosition(node.Position.x, wishedY, node.Position.z);
+            placeOnGround();
         }
 
         private void updateGoal()
@@ -348,13 +346,11 @@ namespace MASProject.Objects
             double neededScore = System.Math.Pow(0.95f, nearbyStones.Count);
             float totalX = 0;
             float totalZ = 0;
-            //TODO use a barycenter function
             foreach (Stone s in nearbyStones)
             {
                 totalX += s.Position.x;
                 totalZ += s.Position.z;
             }
-            //TODO use parameters
             float avgX = totalX / nearbyStones.Count;
             float avgZ = totalZ / nearbyStones.Count;
             float avgY = 0;
