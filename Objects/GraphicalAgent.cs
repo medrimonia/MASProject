@@ -49,6 +49,7 @@ namespace MASProject.Objects
             WorldUtils.placeRandomly(carriedStone, droppingPosition, randomDist, randomDist, w.neighborhood(droppingPosition, randomDist));
             w.addNode(carriedStone.Node);
             carriedStone.Useable = true;
+            carriedStone.placeOnGround();
             carriedStone = null;
         }
     }

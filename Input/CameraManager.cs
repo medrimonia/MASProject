@@ -103,7 +103,7 @@ namespace MASProject.Input
             ZAxis = Vector3.UNIT_Y;
             mainCameraPosition = pos;
             mainCameraOrientation = Orientation;
-            nearClippingDistance = 40f;
+            nearClippingDistance = 20f;
             HighSpeed = false;
             highSpeedFactor = 10f;
         }
