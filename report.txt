@@ -1,0 +1,40 @@
+- Introduction
+  - blabla
+- Architecture logicielle
+  - Séparation en dossier + description rapide de chaque dossier
+  - Utilitaires ...
+    - Overlays + debugutils
+
+- Comportements
+  - Déplacement d'objets
+    - Modèle probabiliste
+    - Dualité ogre/robots
+  - Sexué
+    - Genre
+    - Densité critique (absence de reproduction dans les zones surpeuplées)
+  - Communication
+    - Zone la plus dense
+    - Cri de l'amour
+- Simulations d'aspects humains... (à reformuler)
+  - Temporalité de la vie
+    - Croissance
+    - Ménopause
+    - Mort
+- Simulations graphiques
+  - Animation robots
+  - Camera
+    -> 3rd person
+    -> travelling
+  - Lumière
+    -> Jour/nuit/cycle
+    -> Spots
+  - Brouillard
+    -> Intensité
+  - Sol
+    -> Marges
+  - Ciel
+- Conclusion
+  - Richesse de la réalité virtuelle
+    -> Toujours possible d'ajouter quelque chose
+  - Séparation du modèle et de l'affichage
+    -> Gain de performance, possibilité d'utiliser plus d'agents

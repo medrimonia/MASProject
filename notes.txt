@@ -2,8 +2,6 @@
 
 - Switcher stone par barrel
 
-- TODO à checker
-
 - Code à nettoyer
 
 OK:
