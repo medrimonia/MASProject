@@ -1,7 +1,6 @@
 ﻿TODO:
 
-- Pierres à ne pas retirer
-  -> Switcher stone par barrel
+- Switcher stone par barrel
 
 - TODO à checker
 
