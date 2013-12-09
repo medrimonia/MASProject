@@ -59,6 +59,25 @@ namespace MASProject
             DebugUtils.writeMessage("World created");
         }
 
+
+        public List<GraphicalObject> RandomizedObjectsCopy
+        {
+            get
+            {
+                List<GraphicalObject> tmpCopy = new List<GraphicalObject>();
+                List<GraphicalObject> randomized = new List<GraphicalObject>();
+                tmpCopy.AddRange(objects);
+                while (tmpCopy.Count > 0)
+                {
+                    int index = Utils.WorldUtils.RndGen.Next(tmpCopy.Count);
+                    GraphicalObject o = tmpCopy[index];
+                    randomized.Add(o);
+                    tmpCopy.Remove(o);
+                }
+                return randomized;
+            }
+        }
+
         /// <summary>
         /// Get the next ogre which is not dead and useable
         /// </summary>
@@ -234,11 +253,7 @@ namespace MASProject
 
         public void mutate(float elapsedTime)
         {
-            //TODO shuffle objects at each mutation
-            /* using ToArray because some objects might be removed during the
-             * loop
-             */
-            foreach (GraphicalObject o in objects.ToArray())
+            foreach (GraphicalObject o in RandomizedObjectsCopy)
             {
                 GraphicalAgent a = o as GraphicalAgent;
                 if (a != null)
