@@ -292,7 +292,6 @@ namespace MASProject.Objects
                     captureMutation(w, nearbyStones);
                 }
             }
-            //TODO avoid collision
             if (!sexualBehavior.readyForPregnancy(this))
             {
                 moveMutation(elapsedTime);

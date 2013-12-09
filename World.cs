@@ -192,7 +192,6 @@ namespace MASProject
         {
             GraphicalObject baby = oFactory.createBaby(sm);
             objects.Add(baby);
-            //TODO parameters to choose spawning dist
             WorldUtils.placeRandomly(baby, pos, 25, 25, objects);
         }
 

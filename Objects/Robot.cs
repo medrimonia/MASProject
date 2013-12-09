@@ -99,13 +99,11 @@ namespace MASProject.Objects
             float density = (float)(nearbyStones.Count / System.Math.Pow(visionRadius, 2));
             float totalX = 0;
             float totalZ = 0;
-            //TODO use a barycenter function
             foreach (Stone s in nearbyStones)
             {
                 totalX += s.Position.x;
                 totalZ += s.Position.z;
             }
-            //TODO use parameters
 
             float avgX =  nearbyStones.Count>0?totalX / nearbyStones.Count : this.Position.x;
             float avgY = this.Position.y + carriedStone.BoundingBox.HalfSize.y;//carriedStone.BoundingBox.Minimum.y;
