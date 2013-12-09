@@ -35,10 +35,11 @@ namespace MASProject.Objects
 
         protected void captureStone(World w, Stone s)
         {
-            w.release(s);
+            w.removeNode(s.Node);
             node.AddChild(s.Node);
             s.Node.SetPosition(0, BoundingBox.Maximum.y, 0);
             carriedStone = s;
+            s.Useable = false;
         }
 
         protected void releaseStone(World w, Vector3 droppingPosition)
@@ -46,7 +47,8 @@ namespace MASProject.Objects
             node.RemoveChild(carriedStone.Node);
             float randomDist = 50;
             WorldUtils.placeRandomly(carriedStone, droppingPosition, randomDist, randomDist, w.neighborhood(droppingPosition, randomDist));
-            w.acquire(carriedStone);
+            w.addNode(carriedStone.Node);
+            carriedStone.Useable = true;
             carriedStone = null;
         }
     }

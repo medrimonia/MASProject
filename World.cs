@@ -251,16 +251,26 @@ namespace MASProject
             }
         }
 
+        public void removeNode(Node n)
+        {
+            sm.RootSceneNode.RemoveChild(n);
+        }
+
+        public void addNode(Node n)
+        {
+            sm.RootSceneNode.AddChild(n);
+        }
+
         public void release(GraphicalObject o)
         {
-            sm.RootSceneNode.RemoveChild(o.Node);
-            o.Useable = false;
+            removeNode(o.Node);
+            objects.Remove(o);
         }
 
         public void acquire(GraphicalObject o)
         {
-            sm.RootSceneNode.AddChild(o.Node);
-            o.Useable = true;
+            addNode(o.Node);
+            objects.Add(o);
             o.placeOnGround();
         }
 
