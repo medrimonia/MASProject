@@ -49,6 +49,16 @@ namespace MASProject.Objects
         {
             get { return Orientation; }
         }
+
+        public virtual Vector3 ThirdPersonCameraPosition
+        {
+            get
+            {
+                float distance = 150f;
+                Vector3 deltaPos = CameraOrientation.ToRotationMatrix() * (Vector3.UNIT_Z * distance);
+                return Position + deltaPos;
+            }
+        }
         
             public AxisAlignedBox BoundingBox
         {

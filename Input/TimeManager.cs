@@ -37,7 +37,7 @@
             speed /= SpeedGain;
         }
 
-        public static float SpeedGain
+        private static float SpeedGain
         {
             get { return 1.5f; }
         }

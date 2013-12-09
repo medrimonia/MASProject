@@ -1,10 +1,5 @@
 ﻿TODO:
 
-- Caméra
-  - Ajouter rolling et top/down
-
-- Robot hors espace opérationnel
-
 - Pierres à ne pas retirer
   -> Switcher stone par barril
 

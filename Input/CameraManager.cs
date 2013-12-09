@@ -143,6 +143,10 @@ namespace MASProject.Input
         private static void smoothTransition(Vector3 goalPos, Quaternion goalOrientation)
         {
             float alpha = 0.02f;
+            if (TimeManager.Speed > 1)
+            {
+                alpha *= TimeManager.Speed;
+            }
             pos = Position * (1 - alpha) + goalPos * alpha;
             XAxis = XAxis * (1 - alpha) + goalOrientation.XAxis * alpha;
             ZAxis = ZAxis * (1 - alpha) + goalOrientation.ZAxis * alpha;
@@ -162,7 +166,7 @@ namespace MASProject.Input
             }
             else
             {
-                smoothTransition(tracked.Position, tracked.CameraOrientation);
+                smoothTransition(tracked.ThirdPersonCameraPosition, tracked.CameraOrientation);
             }
             // apply
             Camera.NearClipDistance = nearClippingDistance;

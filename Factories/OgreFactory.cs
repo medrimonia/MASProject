@@ -34,7 +34,9 @@ namespace MASProject.Factories
             {
                 g = OgreGender.Male;
             }
-            return new OgreAgent(sm, nbObjectsCreated++, WorldUtils.RandomLocation, defaultVisionRadius, g, age);
+            OgreAgent o = new OgreAgent(sm, nbObjectsCreated++, WorldUtils.RandomLocation, defaultVisionRadius, g, age);
+            o.Useable = true;
+            return o;
         }
     }
 }
