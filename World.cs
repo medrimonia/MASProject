@@ -196,7 +196,7 @@ namespace MASProject
             List<GraphicalObject> neighbors = new List<GraphicalObject>();
             foreach (GraphicalObject o in objects)
             {
-                if ((o.Position - position).Length < maxDist)
+                if (o.Useable && (o.Position - position).Length < maxDist)
                 {
                     neighbors.Add(o);
                 }
@@ -210,7 +210,7 @@ namespace MASProject
             foreach (GraphicalObject obj in objects)
             {
                 OgreAgent o = obj as OgreAgent;
-                if (o != null && !a.Equals(o) && (o.Position - a.Position).Length < maxDist && o is OgreAgent)
+                if (o != null && o.Useable && !a.Equals(o) && (o.Position - a.Position).Length < maxDist && o is OgreAgent)
                 {
                     neighbors.Add(o);
                 }
@@ -224,7 +224,7 @@ namespace MASProject
             foreach (GraphicalObject o in objects)
             {
                 Stone s = o as Stone;
-                if (s != null && !a.Equals(s) && (s.Position - a.Position).Length < maxDist)
+                if (s != null && s.Useable && !a.Equals(s) && (s.Position - a.Position).Length < maxDist)
                 {
                     neighbors.Add(s);
                 }
@@ -254,13 +254,13 @@ namespace MASProject
         public void release(GraphicalObject o)
         {
             sm.RootSceneNode.RemoveChild(o.Node);
-            objects.Remove(o);
+            o.Useable = false;
         }
 
         public void acquire(GraphicalObject o)
         {
             sm.RootSceneNode.AddChild(o.Node);
-            objects.Add(o);
+            o.Useable = true;
             o.placeOnGround();
         }
 
