@@ -14,7 +14,29 @@ que nous allions simplement prendre une copie de la liste mélangée de façon
 uniforme.
 
 \subsection{Déplacement d'objets}
-%Modèle probabiliste
+%Modèle fourmi/brindille
+\paragraph{}
+Nous avons décidé de commencer par implémenter un des modèles de système
+multi-agent classique qui nous avait été présenté en cours. Dans celui-ci, les
+agents se contentent de se déplacer aléatoirement, jusqu'à ce qu'ils
+rencontrent une ressource qu'ils ramasseront pour la déposer dès qu'ils se
+retrouve face à une autre. Nous avons choisi de repésenter les fourmis par des
+ogres et les ressources par des tonneaux.
+
+% Ramassage/Dépose à l'infini
+\paragraph{}
+Lorsque nous avons tenter d'implémenter ce modèle, nous nous sommes retrouvés
+face au problème suivant~: Les ogres ramassaient les tonneaux et les
+relâchaient tout de suite après dès qu'il y avait plusieurs tonneaux autour
+d'eux. Afin de remédier à ce problème, nous avons effectué une recherche sur
+internet et nous avons trouvé une solution raffinée et décrite en détail
+\footnote{\url{http://liris.cnrs.fr/simon.gay/index.php?page=sma&lang=en}}. Celle-ci
+étant prévue initialement pour plusieurs ressources différentes. Nous avons
+conservé le principe général qui est d'avoir une probabilité de ramasser le
+tonneau inversément proportionelle au nombre de tonneau dans le voisinage. À
+l'opposé, la probabilité de déposer un tonneau est proportionelle au nombre
+de tonneau dans le voisinage. 
+
 %Dualité ogre/robots
 \subsection{Sexué}
 %Genre
