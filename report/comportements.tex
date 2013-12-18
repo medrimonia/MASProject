@@ -52,9 +52,46 @@ il n'y avait pas de convergence des ressources vers des tas.
 
 \subsection{Sexué}
 %Genre
-%Gestion de priorité
-%Densité critique
-% -> Effets de localisation
+\paragraph{}
+Afin qu'il y ait une certaine hétérogéneité parmi les agents, nous avons décidé
+d'attribuer un genre aléatoirement à la création des ogres. Cet aspect
+permettait d'ouvrir la voie à un comportement reproductif. Ce comportement était
+aussi d'une grande simplicité. Lorsque les femelles sentent le besoin de se
+reproduire, elles cessent leurs déplacements et attendent qu'un mâle vienne les
+inséminer.
+
+\paragraph{}
+Un des principaux intérêts de l'ajout de ce comportement était pour nous le fait
+qu'il rentrait en conflit avec le comportement initial. Il nous a donc été
+nécessaire de prendre en compte cet aspect, afin qu'une décision soit prise par
+les agents. Nous avons tranché en décidant que le comportement sexuel serait
+toujours prioritaire sur le déplacement de tonneau. Il aurait aussi été
+intéressant d'essayer de faire varier les intérêts suivant les agents, simulant
+ainsi une forme de caractère. Cet aspect aurait aussi présenté l'intérêt
+d'éviter que tous les ogres rentrent dans un comportement identique par exemple,
+diminuant ainsi la probabilité qu'une tâche soit excessivement privilégiée.
+
+\paragraph{}
+Le problème de ce comportement sexué était qu'il engendrait une situation
+hautement instable. Effectivement, plus les ogres étaient nombreux, plus le
+potentiel de reproduction était élevé et plus la population d'ogre croissait.
+
+\paragraph{}
+Afin d'obtenir des situations stables, nous avons décidé que chaque ogre
+évaluerait en permanence la densité de son environnement. Pour ce faire, il
+effectuait simplement une moyenne mobile sur la taille de son voisinage. Si
+cette densité était supérieure à un certain seuil, l'ogre ne souhaitait pas se
+reproduire, estimant que son espèce était déjà trop nombreuse et qu'il valait
+mieux ne pas empirer les choses.
+
+\paragraph{}
+Outre la limitation de la population, ce choix des agents avait un autre impact,
+il favorisait la reproduction dans les zones les moins peuplées. Au vu de la
+taille de notre monde par rapport à la vitesse des ogres, cet aspect n'était pas
+flagrant. Une simulation dans un monde beaucoup plus grand avec d'autres lois de
+déplacement aurait sûrement permis d'illustrer cette propriété avec beaucoup
+plus clairement.
+
 \subsection{Communication}
 %Échange d'information
 %Schrei nach liebe
