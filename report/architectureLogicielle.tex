@@ -27,7 +27,8 @@ des décisions. C'est cette aspect qui nous a amené à la création de la class
 \verb!GraphicalAgent!,  la seconde regroupant les ogres et les robots.
 
 \paragraph{}
-Cette classe encapsulait l'ensemble composé de l'entité et du noeud Mogre
+La classe \verb!GraphicalAgent! encapsulait l'ensemble composé de l'entité et
+du noeud MOGRE
 correspondant à un objet affichable. Elle définissait des fonctions permettant
 de placer les objets sur le sol\footnote{En plaçant le bas de leur
 \verb!BoundingBox! sur le plan définis par les axes X et Z dans le repère
@@ -56,9 +57,9 @@ déjà approprié.
 La possibilité d'agir sur le monde et de contrôler différents facteurs a été
 offerte à l'utilisateur, lui permettant ainsi d'activer ou de désactiver le
 brouillard par exemple. Le nombre d'options offertes étant relativement
-élevé, nous avons pensé qu'il serait très difficile aussi bien pour
-l'utilisateur que pour le développeur de se retrouver dans ce monde si nous
-établissions une relation simple entre les commandes, nous avons donc décidé
+élevé, nous avons pensé qu'il serait très difficile de se retrouver parmi toutes
+ces possibilités si nous utilisions une relation simple entre les commandes et leurs raccourcis, aussi bien pour l'utilisateur que pour les développeurs.
+Nous avons donc décidé
 d'utiliser différents modes, chacun possédant sa propre relation entre les
 commandes et les touches utilisées. Nous avons tout de même choisi de partager
 certaines commandes entre tous les modes, par exemple le raccourci permettant
@@ -74,16 +75,16 @@ différents mode d'entrée.
 
 % CommandHelper + Database
 \paragraph{}
-Afin que l'utilisateur n'ait pas à aller explorer le code source ou à lire une
+Pour que l'utilisateur n'ait pas à aller explorer le code source ou à lire une
 notice pour pouvoir comprendre comment accéder aux fonctionnalités désirées,
-nous avons écrit une classe \verb!CommandHelper! Permettant de décrire
+nous avons écrit une classe \verb!CommandHelper! permettant de décrire
 facilement une commande à l'aide de son raccourci et d'une description de son
 effet. Pour conserver et pouvoir afficher ces aides facilement et de manière
 appropriée, nous avons aussi écrit une classe \verb!CommandDatabase! qui
 encapsulait un dictionnaire faisant correspondre à un \verb!InputMode! donné
-la liste des commandes associées. Il permettait aussi d'enregistrer les
-commandes accessibles depuis tous les modes et offrait grâce à une fonction
-l'accès à toutes les commandes\footnote{globales et spécifiques} disponibles
+la liste des commandes associées. Il permettait aussi d'enregistrer celles qui
+étaient accessibles depuis tous les modes et offrait grâce à une fonction
+l'accès à toutes les commandes\footnote{Globales et spécifiques} disponibles
 dans un mode donné.
 
 \subsection{Les overlays}
@@ -128,9 +129,9 @@ fréquemment sans provoquer de gêne.
 \paragraph{}
 Il est rapidement devenu difficile pour nous de nous souvenir de toutes les
 commandes possibles, sachant que la situation serait bien pire pour un
-utilisateur que pour un développeur, nous avons créer un layer s'alimentant
+utilisateur que pour un développeur, nous avons créé un layer s'alimentant
 sur la \verb!CommandDatabase! pour afficher toutes les commandes possibles
-à un moment donné. Celui-ci se met à jour automatiquement lorsque le mode
+à un moment donné. Cet overlay se met à jour automatiquement lorsque le mode
 change, permettant ainsi de limiter le nombre de commande à afficher
 simultanément, ce qui améliore sa lisibilité.
 

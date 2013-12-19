@@ -3,10 +3,10 @@
 %Pourquoi une telle animation, cohérence ou simple amusement?
 \paragraph{}
 Il nous a semblé important que pour des problèmes de cohérence dans la
-simulation , la tête d'ogre qui ne possédait pas de jambes n'avait pas besoin
+simulation, la tête d'ogre qui ne possédait pas de jambes n'avait pas besoin
 d'animation particulière mais que les robots qui eux en possédaient se devaient de
 ne pas se déplacer uniquement par glissement sur le sol. Pour cela nous avons
-décidé d'utiliser l'animation fournit avec le mesh du robot. 
+décidé d'utiliser l'animation fournie avec le mesh du robot. 
 
 Pour cela nous avions besoin de définir:\\
 \begin{itemize}
@@ -30,7 +30,7 @@ Outre le fait que cela présente un intérêt pédagogique évident, le gestionn
 d'entrées du tutoriel utilisait des touches que nous souhaitions utiliser pour
 d'autres fonctionnalités. Nous souhaitions aller plus loin et apporter plus
 d'effets, mais nous avons commencé par permettre uniquement une navigation
-comportent des déplacement et des rotations de la caméra actuelle.
+comportant des déplacement et des rotations de la caméra actuelle.
 
 \paragraph{}
 Nous avons apporté des modifications afin de permettre l'utilisation de caméra
@@ -40,16 +40,16 @@ inadaptée. Nous reculions ensuite la caméra suffisamment pour que l'affichage 
 soit pas perturbé par l'ogre.
 
 \paragraph{}
-Nos ogres changeant de direction brutalement et les changements de caméra étant
+Nos ogres changeant de direction soudainement et les changements de caméra étant
 naturellement assez brutaux, nous avons cherché à les lisser, en faisant de
 l'interpolation entre la position initiale et la cible. Après plusieurs essais
 infructueux avec les quaternions et les matrices de rotation, nous avons réussi
 à obtenir un résultat satisfaisant \footnote{Même s'il n'est pas dépourvu de
-bugs} en nous servant d'une méthode expérimentale à base de moyenne mobile sur
+bugs} en nous servant d'une méthode expérimentale à base de moyennes mobiles sur
 les axes décrivant le repère source et le repère de destination.
 
 \paragraph{}
-Cette utilisation de moyenne mobile permet aussi de lisser les changements de
+Cette utilisation de moyennes mobiles permet aussi de lisser les changements de
 position et d'orientation de caméra lorsque l'ogre suivi change de direction,
 même si elle ne suffit lorsqu'ils sont vraiment trop violents et répétés.
 
@@ -64,13 +64,14 @@ passé sur la simulation.
 \paragraph{}
 Ce système utilise l'implémentation de la notion de temporalité dans le projet.
 Cette notion va nous permettre de calculer l'heure dans le modèle et ainsi
-pouvoir déterminer en fonction de l'heure et du temps de chaque phase, la
-d'intensité lumineuse dans lequel on se trouve.
+pouvoir déterminer en fonction de l'heure et du temps de chaque phase,
+l'intensité de la lumière ambiante.
 
 \paragraph{}
 Une autre fonctionnalité implémentée liée à la lumière est le tracking d'ogre.
-Ce dernier intervient lors de la recherche d'un ogre en particulier.
-
+Ce dernier intervient lors de la recherche d'un ogre en particulier, il permet
+d'allumer un spot puissant qui éclairera un ogre en le poursuivant au fur et à
+mesure de ses déplacements.
 
 \paragraph{}
 Deux autres modes ont été implémenté:\\
@@ -79,8 +80,9 @@ Deux autres modes ont été implémenté:\\
   \item Un mode de jour exclusif\\
 \end{itemize}
 
-Ces modes sont accessibles grâce à l'overlay présenté dans la partie %ref
-%overlay. 
+\paragraph{}
+Les différentes commandes ainsi que leurs raccourcis sont listés dans l'overlay
+d'aide lorsque ce mode est activé.
 
 \subsection{Brouillard}
 
@@ -92,9 +94,12 @@ journée. Cependant il ne fait pas toujours soleil, pour palier aux aléas de la
 météo, il a été choisi d'intégrer un brouillard à la simulation.
 
 \paragraph{}
-Il est possible grâce à diverses commandes , de modifier les différents
-paramètres du brouillard (intensité, type, présence\ldots). Ces différentes
-commandes sont toutes listées dans l'overlay. 
+Il est possible grâce à diverses commandes, de modifier les différents
+paramètres\footnote{Intensité, type de brouillard et activation} du brouillard.
+
+\paragraph{}
+Les différentes commandes ainsi que leurs raccourcis sont listés dans l'overlay
+d'aide lorsque ce mode est activé.
 
 
 \subsection{Terre et Ciel}
@@ -106,8 +111,5 @@ noir.
 
 \paragraph{}
 Pour cela nous avons décidé d'assigner un ciel de type Dôme qui permet lors du
-suivit vidéo à la troisième personne , d'avoir l'impression d'un ciel réel.
-Nous avons aussi activé un terrain simulant un sol pavé de pierre grise. 
-
-Nous allons maintenant étudier l'illusion de vie dans la société des Ogres et
-les modifications sur ces derniers que cela engendre.
+suivi vidéo à la troisième personne, d'avoir l'impression d'un ciel réel.
+Nous avons aussi activé un terrain simulant un sol pavé de pierre grise.
