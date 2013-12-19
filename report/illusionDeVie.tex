@@ -45,3 +45,50 @@ densité d'ogre élevée sans qu'aucun n'ait la capacité de se reproduire, mêm
 si avec nos paramètres finaux ce cas n'apparaissait pas de manière flagrante.
 
 \subsection{Mort}
+% Pourquoi faut-il tuer les ogres?
+\paragraph{}
+Étant donné que nous avions inclus la procréation que nous inhibions celle-ci
+en fonction de la densité d'ogre perçue par un agent, nous serions rapidement
+arrivé à une certaine stabilité avec uniquement des ogres adultes si nous
+n'avions pas inclus la possibilité que ceux-ci meurent.
+
+% Non déterminisme
+\paragraph{}
+Pour éviter trop de déterminisme, nous avons décidé que nous ne nous
+contenterions pas d'une simple date de mort qui serait fixe et communes pour
+tous les ogres. Nous aurions aussi pu décider de déterminer la durée de vie
+de ceux-ci à leur création, mais nous avons préférer déterminer dynamiquement
+à chaque tour si les ogres mourraient.
+
+\paragraph{}
+Malgré cet aspect probabiliste, nous souhaitions rester réaliste en conservant
+une sorte d'âge limite et de plus, nous voulions que les jeunes ogres aient
+moins de risque de mourir. Afin de ne pas être influencée par le fps, la
+probabilité de mourir devait donc dépendre aussi du temps qui s'était écoulé.
+Nous avons donc fait une petite étude mathématique pour déterminer la fonction
+à utiliser.
+
+\paragraph{}
+Si l'on défini $p(t)$ comme étant la probabilité qu'un ogre meure exactement
+à l'instant $t$ et $t_{max}$ comme la durée de vie maximal d'un ogre, on
+peut écrire facilement~:
+$$\int_0^{t_{max}} p(t) \mathrm dt = 1$$
+Nous avons décidé d'utiliser une fonction $p(t)$ de la forme $a \cdot t^3$
+afin que la probabilité de mourir avant d'atteindre la maturité sexuelle soit
+très faible. On obtient donc comme primitive $P(t) = \frac{a \cdot t^4}{4}$,
+La valeur de $a$ peut être déterminée par la première équation~:
+$$P(t_{max}) - P(0) = 1$$
+$$\frac{a \cdot {t_{max}}^4}{4} = 1$$
+$$ a = \frac{4}{{t_{max}}^4}$$
+En remplaçant $a$, on obtient donc~:
+$P(t) = \frac{t^4}{{t_{max}}^4} = \left ( \frac{t}{t_{max}} \right ) ^4$, ce qui
+permet d'exprimer la probabilité qu'un ogre meure dans l'intervalle de temps
+de $t_a$ à $t_b$~:
+$$\int_{t_a}^{t_b} p(t) \mathrm dt = P(t_b) - P(t_a)$$
+$$\int_{t_a}^{t_b} p(t) \mathrm dt = \left ( \frac{t_b}{t_{max}} \right ) ^4 - \left ( \frac{t_a}{t_{max}} \right ) ^4$$
+
+\paragraph{}
+Nous avons donc pu utilisé ce calcul dans notre code afin de déterminer si
+l'ogre mourait dans un intervalle de temps donné. Cette fonction permettait
+donc de répondre correctement à toutes les envies que nous avions exprimées
+tout en prenant un temps de calcul négligeable.
