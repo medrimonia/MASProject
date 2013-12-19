@@ -87,5 +87,52 @@ l'accès à toutes les commandes\footnote{globales et spécifiques} disponibles
 dans un mode donné.
 
 \subsection{Les overlays}
+% Nécessité des overlays + absence héritage
+\paragraph{}
+Afin de faciliter l'utilisation et le débogage du programme, nous avons assez
+rapidement constaté qu'il serait très pratique de pouvoir afficher du texte
+dans notre simulation. Il nous est aussi apparu de manière très claire qu'il
+n'était pas adapté d'afficher tout le texte dans un seul overlay, les besoins
+d'informations n'étant pas les mêmes. Les différents éléments nécessaire
+étaient sensiblement identiques, il aurait donc été sage d'utiliser de
+l'héritage. Cependant, puisque nous utilisions des scripts pour décrire les
+différents overlays et que nous ne savions pas comment utiliser l'héritage à
+l'intérieur de ces scripts, nous avons préféré aller au plus simple en
+dupliquant du code. Même si notre solution n'était pas du tout élégante d'un
+point de vue conception logicielle, elle avait l'avantage d'être
+particulièrement rapide à mettre en place\footnote{Au vu des problèmes qu'ont
+rencontré d'autres groupes avec l'héritage dans les scripts, notre choix ne
+paraît finalement pas si mauvais}. Afin de pouvoir aisément modifier le
+placement de tous les overlays simultanément, nous avons tout de même utilisé
+un paramètre de Marge commun.
+
+% Débogage
+\paragraph{}
+Afin de permettre de visualiser facilement les dernières lignes de débogage,
+nous avons créé un overlay basé sur l'utilisation d'une {\em fifo}, celui-ci
+avait simplement pour but de pouvoir recevoir un nombre quelconque de ligne
+sans être saturé.
+
+% Status
+\paragraph{}
+Certaines questions apparaissant de façon récurrente lors du développement,
+il était extrêmement pratique d'avoir un overlay permettant d'afficher
+quelques données choisies avec une fréquence de rafraîchissement élevée, sans
+pour autant devenir illisible\footnote{Effet que n'aurait pas manqué de
+produire un dump de certaines données dans l'overlay de débug}. Nous avons
+donc sélectionné les données qui nous semblaient les plus importantes et
+nous avons décidé d'un format d'affichage simple qui pouvait être mis à jour
+fréquemment sans provoquer de gêne.
+
+% Helper
+\paragraph{}
+Il est rapidement devenu difficile pour nous de nous souvenir de toutes les
+commandes possibles, sachant que la situation serait bien pire pour un
+utilisateur que pour un développeur, nous avons créer un layer s'alimentant
+sur la \verb!CommandDatabase! pour afficher toutes les commandes possibles
+à un moment donné. Celui-ci se met à jour automatiquement lorsque le mode
+change, permettant ainsi de limiter le nombre de commande à afficher
+simultanément, ce qui améliore sa lisibilité.
+
 
 \subsection{Utilitaires}
