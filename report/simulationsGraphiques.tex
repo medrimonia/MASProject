@@ -24,6 +24,33 @@ la méthode \verb!Translate! de la classe \verb!Node!.
 \subsection{Caméras}
 \subsection{Lumières}
 
+Afin de rendre plus réaliste le modèle de simulation au niveau de
+l'environnement, il a été choisi de développer des modèles environnementaux en
+supplément des modèles de comportement des entités vivantes. Pour cela nous
+avons réalisé un système de modification de la luminosité en fonction du temps
+passé sur la simulation.
+
+\paragraph{}
+
+Ce système utilise l'implémentation de la notion de temporalité dans le projet.
+Cette notion va nous permettre de calculer l'heure dans le modèle et ainsi
+pouvoir déterminer en fonction de l'heure et du temps de chaque phase, la
+d'intensité lumineuse dans lequel on se trouve.
+
+\paragraph{}
+
+% Manque un peu de précision sur ce qu'on fait , explication algo?
+
+\paragraph{}
+
+Deux autres modes ont été implémenté:\\
+\begin{itemize}
+  \item Un mode de nuit exclusive
+  \item Un mode de jour exclusif
+\end{itemize}
+
+Ces modes sont accessibles grâce à l'overlay présenté dans la partie %ref
+%overlay. 
 
 \subsection{Brouillard}
 \subsection{Ciel}
