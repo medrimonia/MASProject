@@ -34,18 +34,17 @@ avons réalisé un système de modification de la luminosité en fonction du tem
 passé sur la simulation.
 
 \paragraph{}
-
 Ce système utilise l'implémentation de la notion de temporalité dans le projet.
 Cette notion va nous permettre de calculer l'heure dans le modèle et ainsi
 pouvoir déterminer en fonction de l'heure et du temps de chaque phase, la
 d'intensité lumineuse dans lequel on se trouve.
 
 \paragraph{}
+Une autre fonctionnalité implémentée liée à la lumière est le tracking d'ogre.
+Ce dernier intervient lors de la recherche d'un ogre en particulier.
 
-% Manque un peu de précision sur ce qu'on fait , explication algo?
 
 \paragraph{}
-
 Deux autres modes ont été implémenté:\\
 \begin{itemize}
   \item Un mode de nuit exclusive
@@ -66,20 +65,21 @@ météo, il a été choisi d'intégrer un brouillard à la simulation.
 
 \paragraph{}
 Il est possible grâce à diverses commandes , de modifier les différents
-paramètres du brouillard (intensité, type, présence\ldots), ces différentes
-commandes sont toutes listées dans l'overlay 
+paramètres du brouillard (intensité, type, présence\ldots). Ces différentes
+commandes sont toutes listées dans l'overlay. 
 
 
 \subsection{Terre et Ciel}
 
 \paragraph{}
 La dernière partie de la réalisation d'un environnement plus proche du réel fut
-la réalisation d'un sol autre qu'une dalle blanche et d'un ciel bleu parsemé de
-nuage.
+la réalisation d'un sol et d'un ciel autre qu'une dalle blanche et d'un ciel
+noir.
 
 \paragraph{}
-Pour cela nous avons décidé d'assigner un ciel de type Dome qui permet lors du
+Pour cela nous avons décidé d'assigner un ciel de type Dôme qui permet lors du
 suivit vidéo à la troisième personne , d'avoir l'impression d'un ciel réel.
+Nous avons aussi activé un terrain simulant un sol pavé de pierre grise. 
 
 Nous allons maintenant étudier l'illusion de vie dans la société des Ogres et
 les modifications sur ces derniers que cela engendre.
