@@ -10,10 +10,45 @@ par exemple.
 \paragraph{}
 S'il n'est pas intéressant de détailler tous les choix d'architectures que
 nous avons effectué au cours du projet, il existe tout de même quelques points
-que nous souhaitoons souligner et expliquer.
+que nous souhaitons souligner et expliquer.
 
 \subsection{Arborescence des classes d'objets}
 % Ajout diagramme de classe réduit?
+\paragraph{}
+Avec comme principal objectif la factorisation de code, nous avons passé aux
+cribles les différentes entités que nous souhaitions créer. Il y avait des
+ogres, des robots et des tonneaux. Nous avons tout d'abord établi une
+disctinction entre les objets qui allaient être manipulé et les agents.
+Ceux-ci n'ayant très clairement pas le même contrat à remplir. Cependant, ils
+partageaient tout de même clairement une propriété, celle d'être des objets
+affichables et mobiles, pouvant être perçu par des agents afin qu'ils prennent
+des décisions. C'est cette aspect qui nous a amené à la création de la classe
+\verb!GraphicalObject! dont héritaient la classe \verb!Stone! et la classe
+\verb!GraphicalAgent!,  la seconde regroupant les ogres et les robots.
+
+\paragraph{}
+Cette classe encapsulait l'ensemble composé de l'entité et du noeud Mogre
+correspondant à un objet affichable. Elle définissait des fonctions permettant
+de placer les objets sur le sol\footnote{En plaçant le bas de leur
+\verb!BoundingBox! sur le plan définis par les axes X et Z dans le repère
+global de la scène} ou de les orienter en direction d'un point donné.
+Certaines propriétés telles que l'orientation ou l'orientation de la caméra
+ont été définies comme virtuelle à cause de la conception des différents
+objets, effectivement si l'orientation d'un ogre était colinéaire à son
+déplacement, il se déplaçait en fait sur le côté. Il était donc nécessaire
+pour certains objets de redéfinir leur orientation afin qu'elle soit
+consistante.
+
+\paragraph{}
+Un détail que nous avons introduit plus tard était la notion d'utilisabilité,
+cette notion est devenu nécessaire à nos yeux lorsque nous avons cherché à
+garder des références vers des agents afin de pouvoir les suivre
+\footnote{Avec un spot lumineux ou avec une caméra}. D'autres modules
+conservant un lien vers cet agent, il était nécessaire de savoir si l'agent
+était mort pour cesser de le suivre. De plus cette modification nous a permis
+de conserver les tonneaux dans les objets appartenant au monde, sans risquer
+pour autant qu'un agent cherche à s'emparer d'un objet qu'un autre agent s'est
+déjà approprié.
 
 \subsection{Gestion des entrées/sorties}
 
