@@ -13,7 +13,7 @@ le même ordre à cause de l'aspect séquentiel de l'exécution, nous avons déc
 que nous allions simplement prendre une copie de la liste mélangée de façon
 uniforme.
 
-\subsection{Déplacement d'objets}
+\subsection{Déplacement d'objets}z
 %Modèle fourmi/brindille
 \paragraph{}
 Nous avons décidé de commencer par implémenter un des modèles de système
@@ -22,7 +22,7 @@ agents se contentent de se déplacer aléatoirement, jusqu'à ce qu'ils
 rencontrent une ressource qu'ils ramasseront pour la déposer dès qu'ils se
 retrouvent face à une autre. Le comportement complexe qui doit émerger de ces
 action simple est le fait que les ressources vont converger vers un seul tas.
-Nous avons choisi de repésenter les fourmis par des ogres et les ressources par
+Nous avons choisi de représenter les fourmis par des ogres et les ressources par
 des tonneaux.
 
 % Ramassage/Dépose à l'infini
@@ -35,8 +35,8 @@ internet et nous avons trouvé une solution raffinée et décrite en détail
 \footnote{\url{http://liris.cnrs.fr/simon.gay/index.php?page=sma&lang=en}}.
 Celle-ci étant prévue initialement pour plusieurs ressources différentes. Nous
 avons conservé le principe général qui est d'avoir une probabilité de ramasser
-le tonneau inversément proportionelle au nombre de tonneau dans le voisinage. À
-l'opposé, la probabilité de déposer un tonneau est proportionelle au nombre
+le tonneau inversement proportionnelle au nombre de tonneau dans le voisinage. À
+l'opposé, la probabilité de déposer un tonneau est proportionnelle au nombre
 de tonneau dans le voisinage. Une fois cette solution implémentée, la rapidité
 de la convergence s'est grandement améliorée.
 
@@ -53,8 +53,8 @@ il n'y avait pas de convergence des ressources vers des tas.
 \subsection{Sexué}
 %Genre
 \paragraph{}
-Afin qu'il y ait une certaine hétérogéneité parmi les agents, nous avons décidé
-d'attribuer un genre aléatoirement à la création des ogres. Cet aspect
+Afin qu'il y ait une certaine hétérogénéité parmi les agents, nous avons décidé
+d'attribuer aléatoirement un genre à la création des ogres. Cet aspect
 permettait d'ouvrir la voie à un comportement reproductif. Ce comportement était
 aussi d'une grande simplicité. Lorsque les femelles sentent le besoin de se
 reproduire, elles cessent leurs déplacements et attendent qu'un mâle vienne les
