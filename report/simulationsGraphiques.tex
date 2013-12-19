@@ -22,11 +22,39 @@ ensuite nous en servir pour déterminer la position du robot sur le sol grâce �
 la méthode \verb!Translate! de la classe \verb!Node!.
 
 \subsection{Caméras}
+%Remplacement de la caméra
+\paragraph{}
+Bien que le déplacement de la caméra soit disponible grâce au code de tutoriel
+de Mogre, nous avons décidé de nous en passer et de réimplémenter la notre.
+Outre le fait que cela présente un intérêt pédagogique évident, le gestionnaire
+d'entrées du tutoriel utilisait des touches que nous souhaitions utiliser pour
+d'autres fonctionnalités. Nous souhaitions aller plus loin et apporter plus
+d'effets, mais nous avons commencé par permettre uniquement une navigation
+comportent des déplacement et des rotations de la caméra actuelle.
 
-% A faire
+\paragraph{}
+Nous avons apporté des modifications afin de permettre l'utilisation de caméra
+en mode poursuite sur des ogres. Pour cela, nous avons du redéfinir la méthode
+donnant l'orientation d'une caméra pour les ogres, la méthode générique étant
+inadaptée. Nous reculions ensuite la caméra suffisamment pour que l'affichage ne
+soit pas perturbé par l'ogre.
+
+\paragraph{}
+Nos ogres changeant de direction brutalement et les changements de caméra étant
+naturellement assez brutaux, nous avons cherché à les lisser, en faisant de
+l'interpolation entre la position initiale et la cible. Après plusieurs essais
+infructueux avec les quaternions et les matrices de rotation, nous avons réussi
+à obtenir un résultat satisfaisant \footnote{Même s'il n'est pas dépourvu de
+bugs} en nous servant d'une méthode expérimentale à base de moyenne mobile sur
+les axes décrivant le repère source et le repère de destination.
+
+\paragraph{}
+Cette utilisation de moyenne mobile permet aussi de lisser les changements de
+position et d'orientation de caméra lorsque l'ogre suivi change de direction,
+même si elle ne suffit lorsqu'ils sont vraiment trop violents et répétés.
 
 \subsection{Lumières}
-
+\paragraph{}
 Afin de rendre plus réaliste le modèle de simulation au niveau de
 l'environnement, il a été choisi de développer des modèles environnementaux en
 supplément des modèles de comportement des entités vivantes. Pour cela nous
