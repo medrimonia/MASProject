@@ -18,7 +18,7 @@ que nous souhaitons souligner et expliquer.
 Avec comme principal objectif la factorisation de code, nous avons passé aux
 cribles les différentes entités que nous souhaitions créer. Il y avait des
 ogres, des robots et des tonneaux. Nous avons tout d'abord établi une
-disctinction entre les objets qui allaient être manipulé et les agents.
+distinction entre les objets qui allaient être manipulés et les agents.
 Ceux-ci n'ayant très clairement pas le même contrat à remplir. Cependant, ils
 partageaient tout de même clairement une propriété, celle d'être des objets
 affichables et mobiles, pouvant être perçu par des agents afin qu'ils prennent
@@ -28,7 +28,7 @@ des décisions. C'est cette aspect qui nous a amené à la création de la class
 
 \paragraph{}
 La classe \verb!GraphicalAgent! encapsulait l'ensemble composé de l'entité et
-du noeud MOGRE
+du nœud MOGRE
 correspondant à un objet affichable. Elle définissait des fonctions permettant
 de placer les objets sur le sol\footnote{En plaçant le bas de leur
 \verb!BoundingBox! sur le plan définis par les axes X et Z dans le repère
@@ -145,7 +145,7 @@ souvent insuffisante pour un débogage efficace. Pour ces raisons, nous avons
 différents problèmes.
 
 \paragraph{}
-Nous souhaitions donc pouvoir afficher des messages pouvant être utilisé de
+Nous souhaitions donc pouvoir afficher des messages pouvant être utilisés de
 deux façons différentes. Soit au cours de l'animation pour mieux comprendre
 ce qui est en train de se passer, soit dans des logs pour pouvoir analyser le
 comportement à posteriori. Pour cette raison, nous dupliquions les messages à
