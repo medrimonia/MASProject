@@ -1,5 +1,29 @@
 \subsection{Animation des robots}
+
+%Pourquoi une telle animation, cohérence ou simple amusement?
+\paragraph{}
+Il nous a semblé important que pour des problèmes de cohérence dans la
+simulation , la tête d'ogre qui ne possédait pas de jambes n'avait pas besoin
+d'animation particulière mais que les robots qui eux en possédaient se devaient de
+ne pas se déplacer uniquement par glissement sur le sol. Pour cela nous avons
+décidé d'utiliser l'animation fournit avec le mesh du robot. 
+
+Pour cela nous avions besoin de définir:\\
+\begin{itemize}
+  \item Une direction
+  \item Une destination
+  \item Une distance à l'objet
+\end{itemize}
+
+% Utilité de ces variables
+\paragraph{}
+Ces grandeurs nous permettaient de déterminer l'objectif du robot. Nous pouvions
+ensuite nous en servir pour déterminer la position du robot sur le sol grâce à
+la méthode \verb!Translate! de la classe \verb!Node!.
+
 \subsection{Caméras}
 \subsection{Lumières}
+
+
 \subsection{Brouillard}
 \subsection{Ciel}
