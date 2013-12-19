@@ -136,3 +136,16 @@ simultanément, ce qui améliore sa lisibilité.
 
 
 \subsection{Utilitaires}
+\paragraph{}
+Lorsqu'un projet est relativement conséquent, particulièrement s'il permet un
+affichage graphique, l'utilisation des sorties standards se révèle bien
+souvent insuffisante pour un débogage efficace. Pour ces raisons, nous avons
+écrit une classe d'utilitaire permettant de laisser facilement des traces des
+différents problèmes.
+
+\paragraph{}
+Nous souhaitions donc pouvoir afficher des messages pouvant être utilisé de
+deux façons différentes. Soit au cours de l'animation pour mieux comprendre
+ce qui est en train de se passer, soit dans des logs pour pouvoir analyser le
+comportement à posteriori. Pour cette raison, nous dupliquions les messages à
+la fois vers un fichier de log et vers l'overlay de débug.
