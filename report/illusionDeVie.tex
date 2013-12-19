@@ -1,6 +1,47 @@
 %Temporalité de la vie
-% Nous avons déjà parlé de l'illusion d'un monde réel en évoquant la question
-% de luminosité en fonction de l'heure...
+\paragraph{}
+Nous avons évoqué précédemment notre envie de contribuer à l'illusion de
+réalité en incluant un cycle de jour et de nuits dans la luminosité globale.
+En poursuivant le même objectif, nous avons pensé qu'il était intéressant de
+simuler une évolution des agents dans le temps, ce qui permet de leur
+donner un aspect plus vivant. Par ailleurs, considérer ce facteur offrait
+aussi d'autres possibilités pour le comportement, entraînant des modifications
+des phénomènes émergents de la simulation.
+
 \subsection{Croissance}
-\subsection{Ménopause}
+\paragraph{}
+Nous avons choisi d'illustrer cette temporalité de la vie par un aspect visuel
+facile à percevoir. Nous avons pensé que l'idéal était de simuler la
+croissance des ogres jusqu'à ce qu'ils atteignent l'âge adulte. Nous avons
+donc établi une taille à la naissance, une taille adulte et un temps de
+croissance. Afin de simplifier les calculs, nous avons établi que la taille
+entre ces deux âges était déterminée par une simple interpolation linéaire.
+
+\paragraph{}
+Cette légère modification a tout de même entraîné la nécessité de replacer les
+ogres sur le sol après chaque modification de taille, car lorsque le facteur
+de taille changeait, il était nécessaire de mettre à jour la position de
+l'ogre selon l'axe Y.
+
+\subsection{Maturité sexuelle}
+\paragraph{}
+Afin d'apporter un brin supplémentaire de réalisme et d'éviter une
+augmentation de la population trop rapide, nous avons décidé de définir un âge
+minimal pour la fertilité des mâles et des femelles. Sans cette limite,
+lorsqu'une femelle accouchait dans un lieu isolé, il était envisageable
+qu'elle souhaite rapidement se reproduire et que le mâle le plus proche soit
+son fils. Notre ajout permettait donc aussi d'éviter ce genre de situation,
+même si au vu de la faible population d'ogre que nous avions, la consanguinité
+resterait très difficile à éviter.
+
+\paragraph{}
+Puisque nous avions installé un âge minimum pour procréer, il nous a paru
+naturel d'inclure aussi une limite supérieure. Outre les aspects déjà
+mentionnés, ce paramètre permettait d'assurer que même si le nombre d'ogre
+devenait faible, ceux qui n'étaient pas aptes à procréer continuait à
+travailler. En revanche, cet ajout n'avait pas un effet positif en matière de
+stabilité de la population. Effectivement, il était possible d'avoir une
+densité d'ogre élevée sans qu'aucun n'ait la capacité de se reproduire, même
+si avec nos paramètres finaux ce cas n'apparaissait pas de manière flagrante.
+
 \subsection{Mort}
