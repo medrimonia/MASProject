@@ -50,7 +50,41 @@ de conserver les tonneaux dans les objets appartenant au monde, sans risquer
 pour autant qu'un agent cherche à s'emparer d'un objet qu'un autre agent s'est
 déjà approprié.
 
-\subsection{Gestion des entrées/sorties}
+\subsection{Gestion des entrées}
+% Nombre elevé d'actions possibles
+\paragraph{}
+La possibilité d'agir sur le monde et de contrôler différents facteurs a été
+offerte à l'utilisateur, lui permettant ainsi d'activer ou de désactiver le
+brouillard par exemple. Le nombre d'options offertes étant relativement
+élevé, nous avons pensé qu'il serait très difficile aussi bien pour
+l'utilisateur que pour le développeur de se retrouver dans ce monde si nous
+établissions une relation simple entre les commandes, nous avons donc décidé
+d'utiliser différents modes, chacun possédant sa propre relation entre les
+commandes et les touches utilisées. Nous avons tout de même choisi de partager
+certaines commandes entre tous les modes, par exemple le raccourci permettant
+de mettre le monde en pause.
+
+\paragraph{}
+Afin de pouvoir changer facilement de mode, nous avons utilisé une structure
+très simple avec un mode racine auquel on pouvait revenir à tout moment en
+pressant la touche \verb!Échap!, les autres modes étaient accessibles depuis
+celui-ci via des raccourcis. Afin de pouvoir facilement tester le mode
+d'entrée actuel, nous avons aussi créer un enum \verb!InputMode! listant les
+différents mode d'entrée.
+
+% CommandHelper + Database
+\paragraph{}
+Afin que l'utilisateur n'ait pas à aller explorer le code source ou à lire une
+notice pour pouvoir comprendre comment accéder aux fonctionnalités désirées,
+nous avons écrit une classe \verb!CommandHelper! Permettant de décrire
+facilement une commande à l'aide de son raccourci et d'une description de son
+effet. Pour conserver et pouvoir afficher ces aides facilement et de manière
+appropriée, nous avons aussi écrit une classe \verb!CommandDatabase! qui
+encapsulait un dictionnaire faisant correspondre à un \verb!InputMode! donné
+la liste des commandes associées. Il permettait aussi d'enregistrer les
+commandes accessibles depuis tous les modes et offrait grâce à une fonction
+l'accès à toutes les commandes\footnote{globales et spécifiques} disponibles
+dans un mode donné.
 
 \subsection{Les overlays}
 
