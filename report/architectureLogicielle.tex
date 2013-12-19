@@ -18,7 +18,7 @@ que nous souhaitons souligner et expliquer.
 Avec comme principal objectif la factorisation de code, nous avons passé aux
 cribles les différentes entités que nous souhaitions créer. Il y avait des
 ogres, des robots et des tonneaux. Nous avons tout d'abord établi une
-disctinction entre les objets qui allaient être manipulé et les agents.
+distinction entre les objets qui allaient être manipulés et les agents.
 Ceux-ci n'ayant très clairement pas le même contrat à remplir. Cependant, ils
 partageaient tout de même clairement une propriété, celle d'être des objets
 affichables et mobiles, pouvant être perçu par des agents afin qu'ils prennent
@@ -27,7 +27,7 @@ des décisions. C'est cette aspect qui nous a amené à la création de la class
 \verb!GraphicalAgent!,  la seconde regroupant les ogres et les robots.
 
 \paragraph{}
-Cette classe encapsulait l'ensemble composé de l'entité et du noeud Mogre
+Cette classe encapsulait l'ensemble composé de l'entité et du nœud Mogre
 correspondant à un objet affichable. Elle définissait des fonctions permettant
 de placer les objets sur le sol\footnote{En plaçant le bas de leur
 \verb!BoundingBox! sur le plan définis par les axes X et Z dans le repère
@@ -76,7 +76,7 @@ différents mode d'entrée.
 \paragraph{}
 Afin que l'utilisateur n'ait pas à aller explorer le code source ou à lire une
 notice pour pouvoir comprendre comment accéder aux fonctionnalités désirées,
-nous avons écrit une classe \verb!CommandHelper! Permettant de décrire
+nous avons écrit une classe \verb!CommandHelper! permettant de décrire
 facilement une commande à l'aide de son raccourci et d'une description de son
 effet. Pour conserver et pouvoir afficher ces aides facilement et de manière
 appropriée, nous avons aussi écrit une classe \verb!CommandDatabase! qui
@@ -144,7 +144,7 @@ souvent insuffisante pour un débogage efficace. Pour ces raisons, nous avons
 différents problèmes.
 
 \paragraph{}
-Nous souhaitions donc pouvoir afficher des messages pouvant être utilisé de
+Nous souhaitions donc pouvoir afficher des messages pouvant être utilisés de
 deux façons différentes. Soit au cours de l'animation pour mieux comprendre
 ce qui est en train de se passer, soit dans des logs pour pouvoir analyser le
 comportement à posteriori. Pour cette raison, nous dupliquions les messages à
